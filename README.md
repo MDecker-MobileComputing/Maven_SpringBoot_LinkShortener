@@ -3,9 +3,10 @@
 <br>
 
 This repository contains the source code for a [URL Shortener Service](https://en.wikipedia.org/wiki/URL_shortening) 
-implemented by several Java microservices.
+implemented by several Java microservices (Maven and Spring Boot) with an embedded [H2 database](https://www.h2database.com).
 
 <br>
+
 
 ----
 
