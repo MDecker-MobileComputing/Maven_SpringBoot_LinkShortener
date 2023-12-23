@@ -1,4 +1,8 @@
 
+-- Damit die SQL-Statements in dieser Datei beim Start der Anwendung ausgeführt werden, 
+-- muss in der Datei application.properties die folgende Zeile stehen:
+-- spring.sql.init.mode=always 
+
 CREATE TABLE IF NOT EXISTS urls (
 
     id                  INT /* AUTO_INCREMENT */ PRIMARY KEY,
