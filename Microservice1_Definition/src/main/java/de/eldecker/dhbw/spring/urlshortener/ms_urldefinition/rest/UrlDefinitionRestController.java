@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * REST-Controller mit den REST-Endpunkten für die URL-Definitionen.
+ */
 @RestController
 @RequestMapping("/urldef/v1")
 public class UrlDefinitionRestController {
@@ -29,6 +31,7 @@ public class UrlDefinitionRestController {
 
     /** Bean für Zugriff auf Datenbank */
     private Datenbank _datenbank;
+
 
     /**
      * Konstruktor für Dependency Injection
@@ -46,8 +49,6 @@ public class UrlDefinitionRestController {
      */
     @GetMapping("/anzahl")
     public ResponseEntity<RestAnzahlRecord> getAnzahl() {
-
-        LOG.info("Aufruf von getAnzahl()");
 
         int anzahl = _datenbank.holeAnzahl();
         RestAnzahlRecord ergebnisRecord = new RestAnzahlRecord(anzahl);
@@ -71,8 +72,7 @@ public class UrlDefinitionRestController {
      */
     @PostMapping("/anlegen")
     public ResponseEntity<RestAnlegenErgebnisRecord> neueKurzUrlAnlegen(@RequestParam String urlLang, 
-                                                                        @RequestParam String beschreibung) {
-                                                                        
+                                                                        @RequestParam String beschreibung) {                                                                        
         RestAnlegenErgebnisRecord ergebnisRecord = null;
 
         boolean warErfolgreich = _datenbank.neueKurzUrl(urlLang, "xx", beschreibung, "geheim-123", false );
