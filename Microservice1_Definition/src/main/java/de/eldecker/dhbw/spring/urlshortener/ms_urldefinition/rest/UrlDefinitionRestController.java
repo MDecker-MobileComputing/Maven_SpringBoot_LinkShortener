@@ -9,6 +9,11 @@ import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.db.Datenbank;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnlegenErgebnisRecord;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnzahlRecord;
 
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,12 +27,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * REST-Controller mit den REST-Endpunkten für die URL-Definitionen.
+ * <br><br>
+ * 
+ * Die REST-Methoden haben zusätzliche Annotationen (z.B. @Operation, @ApiResponses), 
+ * um zusätzliche Informationen für die automatische Generierung der API-Dokumentation 
+ * durch Swagger bereitzustellen.
  */
 @RestController
 @RequestMapping("/urldef/v1")
 public class UrlDefinitionRestController {
     
-    private static Logger LOG = LoggerFactory.getLogger(UrlDefinitionRestController.class);
+    //private static Logger LOG = LoggerFactory.getLogger(UrlDefinitionRestController.class);
 
     /** Bean für Zugriff auf Datenbank */
     private Datenbank _datenbank;
@@ -47,6 +57,12 @@ public class UrlDefinitionRestController {
      * @return Anzahl der in der Datenbank gespeicherten URL-Definitionen oder -1 bei Fehler;
      *         HTTP-Status 200 bei Erfolg, 500 bei Fehler.
      */
+    @Operation(summary = "Holt die Gesamtzahl der gespeicherten URL-Definitionen", 
+               description = "Auch inaktive oder abgelaufene URL-Definitionen werden gezählt (einfach alle Datensätze in der Tabelle).")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Anzahl erfolgreich ermittelt"),
+        @ApiResponse(responseCode = "500", description = "Fehler beim Ermitteln der Anzahl")
+    })              
     @GetMapping("/anzahl")
     public ResponseEntity<RestAnzahlRecord> getAnzahl() {
 
