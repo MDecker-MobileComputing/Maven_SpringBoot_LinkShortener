@@ -1,4 +1,4 @@
 /**
- * Dieses Paket enthält Klasse mit Hilfsfunktionen.
+ * Dieses Paket enthält Klassen mit Hilfsfunktionen.
  */
 package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein;
