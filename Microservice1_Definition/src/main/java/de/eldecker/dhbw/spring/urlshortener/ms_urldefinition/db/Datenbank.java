@@ -6,12 +6,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 /**
  * Bean-Klasse, die die Datenbankfunktionialität bereitstellt.
+ * <br><br>
+ *
+ * Die Klasse ist mit {@code @Repository} annotiert, weil sie Datenbankzugriffsfunktionen
+ * bereitstellt; diese Annotation ist eine rein semantische Spezialisierung von {@code @Component}.
  */
-@Component
+@Repository
 public class Datenbank {
 
     private static Logger LOG = LoggerFactory.getLogger( Datenbank.class );
