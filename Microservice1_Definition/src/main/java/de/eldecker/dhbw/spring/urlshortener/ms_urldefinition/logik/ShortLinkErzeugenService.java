@@ -49,13 +49,17 @@ private static Logger LOG = LoggerFactory.getLogger(ShortLinkErzeugenService.cla
      */
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public KuerzelUndPasswort shortlinkAnlegen(String urlLang,
-                                 String beschreibung) throws ShortLinkException {
+                                               String beschreibung) throws ShortLinkException {
 
         final String urlLangTrimmed      = urlLang.trim();
         final String beschreibungTrimmed = beschreibung.trim();
 
         if (urlLangTrimmed.isBlank()) {
             throw new ShortLinkException("Leere URL von Nutzer erhalten.", false);
+        }
+        if (urlLangTrimmed.length() > 999) {
+
+            throw new ShortLinkException("Zu lange URL von Nutzer erhalten: " + urlLangTrimmed, false);
         }
         if (_urlValidator.isValid(urlLangTrimmed) == false) {
 
@@ -78,7 +82,7 @@ private static Logger LOG = LoggerFactory.getLogger(ShortLinkErzeugenService.cla
 
         } else {
 
-            throw new ShortLinkException("Datenbankfehler beim Anlegen von URL-Definition für folgende URL-Definition: " + 
+            throw new ShortLinkException("Datenbankfehler beim Anlegen von URL-Definition für folgende URL-Definition: " +
                                          urlLangTrimmed, true);
         }
     }
