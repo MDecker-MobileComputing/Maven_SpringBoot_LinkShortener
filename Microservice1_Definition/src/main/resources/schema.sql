@@ -7,9 +7,10 @@ CREATE TABLE IF NOT EXISTS urls (
 
     id                  INT AUTO_INCREMENT PRIMARY KEY,
     url_original        VARCHAR(999) NOT NULL,
-    url_kuerzel         VARCHAR(255) NOT NULL,
+    url_kuerzel         VARCHAR(255) NOT NULL, -- reines Kürzel, z.B. "ab3", also ohne Domain des Resolver-Dienstes
     beschreibung        TEXT,
     zeitpunkt_erzeugung TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    zeitpunkt_aenderung TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- letzte Änderung
     ist_aktiv           BOOLEAN DEFAULT TRUE,
     passwort            VARCHAR(255)
 );

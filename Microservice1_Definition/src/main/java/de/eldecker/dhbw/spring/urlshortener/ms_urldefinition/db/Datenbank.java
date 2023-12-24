@@ -1,5 +1,7 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.db;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,19 +63,26 @@ public class Datenbank {
      * Eine neue URL-Definition in die Datenbank einfügen.
      *
      * @param urlOriginal Originale (lange) URL
+     *
      * @param urlKuerzel Kürzel für die URL, z.B. "ab2"
+     *
      * @param beschreibung Beschreibungstext
+     *
      * @param passwort Passwort, das für eine evtl. Änderung angegeben werden muss
+     *
+     * @param datumZeitJetzt Aktuelles Datum und Uhrzeit für Felder {@code zeitpunkt_erzeugung} und {@code zeitpunkt_aenderung}
      *
      * @return {@code true} wenn das Einfügen erfolgreich war, sonst {@code false}
      */
-    public boolean neueKurzUrl(String urlOriginal, String urlKuerzel, String beschreibung, String passwort) {
+    public boolean neueKurzUrl(String urlOriginal, String urlKuerzel, String beschreibung, String passwort, Date datumZeitJetzt) {
 
-        final String sql = "INSERT INTO urls (url_original, url_kuerzel, beschreibung, passwort) VALUES (?, ?, ?, ?)";
+        final String sql = "INSERT INTO urls " +
+                           "(url_original, url_kuerzel, beschreibung, passwort, zeitpunkt_erzeugung, zeitpunkt_aenderung) " +
+                           "VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
 
-            _jdbcTemplate.update(sql, urlOriginal, urlKuerzel, beschreibung, passwort);
+            _jdbcTemplate.update(sql, urlOriginal, urlKuerzel, beschreibung, passwort, datumZeitJetzt, datumZeitJetzt);
             return true;
         }
         catch (DataAccessException ex) {

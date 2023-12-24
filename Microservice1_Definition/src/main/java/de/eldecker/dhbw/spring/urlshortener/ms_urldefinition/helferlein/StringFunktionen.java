@@ -1,7 +1,5 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein;
 
-import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein.StringFunktionen.erzeugePasswort;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,8 +39,9 @@ public class StringFunktionen {
      * Methode wandelt {@code zahl} in eine Zeichenfolge um, die als Kürzel in Kurz-URL
      * verwendet werden kann.
      *
-     * @param zahl Zahl größer 0, die in Zeichenfolge umgewandelt werden soll;
+     * @param zahl Zahl echt-größer 0, die in Zeichenfolge umgewandelt werden soll;
      *             nächste ID aus Datenbank-Tabelle {@code URLS}.
+     *
      * @return String-Repräsentation von {@code zahl}; ist leerer String, falls {@code zahl <= 0}
      */
     public static String zahlZuString(int zahl) {

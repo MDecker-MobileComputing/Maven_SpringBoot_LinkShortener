@@ -3,16 +3,18 @@ package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.logik;
 import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein.StringFunktionen.erzeugePasswort;
 import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein.StringFunktionen.zahlZuString;
 
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.db.Datenbank;
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.kafka.KafkaSender;
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.KafkaUrlDefinition;
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.KuerzelUndPasswort;
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.ShortLinkException;
+
+import java.util.Date;
+
 import org.apache.commons.validator.routines.UrlValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-
-import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.db.Datenbank;
-import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.KuerzelUndPasswort;
-import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.ShortLinkException;
 
 
 /**
@@ -21,22 +23,25 @@ import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.ShortLinkExce
 @Service
 public class ShortLinkErzeugenService {
 
-private static Logger LOG = LoggerFactory.getLogger(ShortLinkErzeugenService.class);
-
         /** Bean für Zugriff auf Datenbank */
     private Datenbank _datenbank;
 
     /** Bean für Validierung der Lang/Original-URL. */
     private UrlValidator _urlValidator;
 
+    /** Bean für Versenden von Nachricht an andere Microservices via Kafka. */
+    private KafkaSender _kafkaSender;
+
 
     /**
      * Konstruktor für Dependency Injection.
      */
-    public ShortLinkErzeugenService(Datenbank db,
-                             UrlValidator urlValidator) {
+    public ShortLinkErzeugenService( Datenbank db,
+                                     UrlValidator urlValidator,
+                                     KafkaSender kafkaSender ) {
         _datenbank    = db;
         _urlValidator = urlValidator;
+        _kafkaSender  = kafkaSender;
     }
 
     /**
@@ -72,10 +77,23 @@ private static Logger LOG = LoggerFactory.getLogger(ShortLinkErzeugenService.cla
             throw new ShortLinkException("Datenbankfehler beim Ermitteln der maximalen ID.", true);
         }
 
-        final String kuerzel  = zahlZuString(maxId + 1);
-        final String passwort = erzeugePasswort();
+        final int    idNeu          = maxId + 1;
+        final String kuerzel        = zahlZuString(idNeu);
+        final String passwort       = erzeugePasswort();
+        final Date   datumZeitJetzt = new Date();
 
-        boolean warErfolgreich = _datenbank.neueKurzUrl(urlLangTrimmed, kuerzel, beschreibungTrimmed, passwort);
+        // URL-Definition über Kafka an andere Microservices verteilen
+        KafkaUrlDefinition kud = new KafkaUrlDefinition( idNeu,
+                                                         urlLangTrimmed,
+                                                         kuerzel,
+                                                         beschreibungTrimmed,
+                                                         datumZeitJetzt,
+                                                         datumZeitJetzt,
+                                                         true);
+        _kafkaSender.sendeUrlDefinition(kud);
+
+        // URL-Definition in eigener Datenbank anlegen
+        boolean warErfolgreich = _datenbank.neueKurzUrl( urlLangTrimmed, kuerzel, beschreibungTrimmed, passwort, datumZeitJetzt);
         if (warErfolgreich) {
 
             return new KuerzelUndPasswort(kuerzel, passwort);

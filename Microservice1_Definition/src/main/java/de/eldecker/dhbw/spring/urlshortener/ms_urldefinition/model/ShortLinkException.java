@@ -21,6 +21,7 @@ public class ShortLinkException extends Exception {
      * Ausnahme-Objekt mit Fehlerbeschreibung und extern/intern anlegen.
      *
      * @param message Fehlerbeschreibung
+     *
      * @param istInternerFehler {@code true}, wenn ein interner Fehler aufgetreten ist (z.B. DB-Fehler),
      *                          {@code false}, wenn der Fehler durch falsche Nutzereingaben
      *                          (z.B. ungültige URL) verursacht wurde. Interne Fehler sollten auf
