@@ -1,7 +1,7 @@
 
--- Damit die SQL-Statements in dieser Datei beim Start der Anwendung ausgeführt werden, 
+-- Damit die SQL-Statements in dieser Datei beim Start der Anwendung ausgeführt werden,
 -- muss in der Datei application.properties die folgende Zeile stehen:
--- spring.sql.init.mode=always 
+-- spring.sql.init.mode=always
 
 CREATE TABLE IF NOT EXISTS urls (
 
@@ -11,6 +11,5 @@ CREATE TABLE IF NOT EXISTS urls (
     beschreibung        TEXT,
     zeitpunkt_erzeugung TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     ist_aktiv           BOOLEAN DEFAULT TRUE,
-    passwort            VARCHAR(255),
-    ist_autogeneriert   BOOLEAN DEFAULT FALSE   
+    passwort            VARCHAR(255)
 );

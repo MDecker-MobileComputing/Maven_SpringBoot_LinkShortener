@@ -25,18 +25,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 /**
  * REST-Controller mit den REST-Endpunkten für die URL-Definitionen.
  * <br><br>
- * 
- * Die REST-Methoden haben zusätzliche Annotationen (z.B. @Operation, @ApiResponses), 
- * um zusätzliche Informationen für die automatische Generierung der API-Dokumentation 
+ *
+ * Die REST-Methoden haben zusätzliche Annotationen (z.B. @Operation, @ApiResponses),
+ * um zusätzliche Informationen für die automatische Generierung der API-Dokumentation
  * durch Swagger bereitzustellen.
  */
 @RestController
 @RequestMapping("/urldef/v1")
 public class UrlDefinitionRestController {
-    
+
     //private static Logger LOG = LoggerFactory.getLogger(UrlDefinitionRestController.class);
 
     /** Bean für Zugriff auf Datenbank */
@@ -47,22 +48,22 @@ public class UrlDefinitionRestController {
      * Konstruktor für Dependency Injection
      */
     public UrlDefinitionRestController(Datenbank db) {
-        
+
         _datenbank = db;
     }
 
     /**
      * REST-Endpunkt für HTTP-GET, um die Anzahl der in der Datenbank gespeicherten URL-Definitionen abzufragen.
-     * 
+     *
      * @return Anzahl der in der Datenbank gespeicherten URL-Definitionen oder -1 bei Fehler;
      *         HTTP-Status 200 bei Erfolg, 500 bei Fehler.
      */
-    @Operation(summary = "Holt die Gesamtzahl der gespeicherten URL-Definitionen", 
+    @Operation(summary = "Holt die Gesamtzahl der gespeicherten URL-Definitionen",
                description = "Auch inaktive oder abgelaufene URL-Definitionen werden gezählt (einfach alle Datensätze in der Tabelle).")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Anzahl erfolgreich ermittelt"),
         @ApiResponse(responseCode = "500", description = "Fehler beim Ermitteln der Anzahl")
-    })              
+    })
     @GetMapping("/anzahl")
     public ResponseEntity<RestAnzahlRecord> getAnzahl() {
 
@@ -80,15 +81,21 @@ public class UrlDefinitionRestController {
 
     /**
      * REST-Endpunkt für HTTP-Post, um eine neue URL-Definition anzulegen.
-     * 
+     *
      * @param urlLang Original-URL
      * @param beschreibung Beschreibungstext
      * @return Ergebnis des Anlegens einer URL-Definition, bei Erfolg mit Küzel und Passwort;
      *         HTTP-Status 201 bei Erfolg, 400 bei Fehler.
      */
+    @Operation(summary = "Neue URL-Definition anlegen",
+               description = "Die URL-Definition wird mit dem Status 'aktiv' angelegt.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "URL-Definition wurde erfolgreich angelegt"),
+        @ApiResponse(responseCode = "400", description = "URL-Definition konnte nicht angelegt werden")
+    })
     @PostMapping("/anlegen")
-    public ResponseEntity<RestAnlegenErgebnisRecord> neueKurzUrlAnlegen(@RequestParam String urlLang, 
-                                                                        @RequestParam String beschreibung) {                                                                        
+    public ResponseEntity<RestAnlegenErgebnisRecord> neueKurzUrlAnlegen(@RequestParam String urlLang,
+                                                                        @RequestParam String beschreibung) {
         RestAnlegenErgebnisRecord ergebnisRecord = null;
 
         boolean warErfolgreich = _datenbank.neueKurzUrl(urlLang, "xx", beschreibung, "geheim-123", false );
@@ -101,7 +108,7 @@ public class UrlDefinitionRestController {
 
             ergebnisRecord = new RestAnlegenErgebnisRecord(false, "", "");
             return ResponseEntity.status(BAD_REQUEST).body(ergebnisRecord);
-        }                
+        }
     }
 
 }
