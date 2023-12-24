@@ -79,10 +79,10 @@ public class Datenbank {
 
 
     /**
-     * Bestimmt die höchste ID in der Tabelle {@code urls}. Wird umd 1 erhöht
-     * für die Generierung des Kürzel verwendet.
+     * Bestimmt die höchste ID in der Tabelle {@code urls}. Wird umd 1 erhöht für die
+     * Generierung des nächsten Kürzel verwendet.
      *
-     * @return Die höchste ID in der Tabelle URLDEF oder -1 bei Fehler.
+     * @return Die höchste ID (Primärschlüssel) in der Tabelle {@code urls} oder -1 bei Fehler.
      */
     public int holeMaxId() {
 
