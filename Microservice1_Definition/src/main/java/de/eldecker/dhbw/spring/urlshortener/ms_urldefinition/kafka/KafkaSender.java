@@ -1,5 +1,7 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.kafka;
 
+import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.kafka.KafkaTopics.TOPIC_URL_DEFINITION;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,9 +22,6 @@ import org.springframework.stereotype.Component;
 public class KafkaSender {
 
     private static Logger LOG = LoggerFactory.getLogger( KafkaSender.class );
-
-    /** Name Kafka-Topic, an die dieser Erzeuger Nachrichten schickt. */
-    public static final String TOPIC_URL_DEFINITION = "url_definition";
 
     /**
      * Bean zum Versenden von Kafka-Nachrichten; sowohl der Schlüssel (Kürzel)

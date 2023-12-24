@@ -36,3 +36,4 @@ build/
 # Eigene Definitionen #
 *.db
 *.log
+*.gz # gepackte Log-Dateien
