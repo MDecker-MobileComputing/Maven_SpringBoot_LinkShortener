@@ -26,6 +26,8 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -104,6 +106,7 @@ public class UrlDefinitionRestController {
         @ApiResponse(responseCode = "400", description = "URL-Definition konnte nicht angelegt werden"),
         @ApiResponse(responseCode = "500", description = "Interner Fehler"),
     })
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     @PostMapping("/anlegen")
     public ResponseEntity<RestAnlegenErgebnisRecord> neueKurzUrlAnlegen(@RequestParam String urlLang,
                                                                         @RequestParam String beschreibung) {

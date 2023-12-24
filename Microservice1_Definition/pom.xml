@@ -51,6 +51,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -91,15 +92,15 @@
             <version>2.3.0</version>
         </dependency>
 
-        <!-- nach Buch von Ullenboom, S. 434:
-             JDBC-Zugriff loggen mit P6Spy;
+        <!-- nach Buch von Ullenboom, S. 434: JDBC-Zugriff loggen mit P6Spy;
              P6Spy hängt sich zwischen JdbcTemplate und HikariCP
-         -->
+
         <dependency>
             <groupId>com.github.gavlyukovskiy</groupId>
             <artifactId>p6spy-spring-boot-starter</artifactId>
             <version>1.9.1</version>
         </dependency>
+		-->
 
         <!-- Wird für Validierung von URLs benötigt, siehe Klasse UrlValidator -->
         <dependency>

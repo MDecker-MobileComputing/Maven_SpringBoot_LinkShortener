@@ -13,3 +13,7 @@ CREATE TABLE IF NOT EXISTS urls (
     ist_aktiv           BOOLEAN DEFAULT TRUE,
     passwort            VARCHAR(255)
 );
+
+-- In der Spalte "passwort" wird das Passwort im Klartext gespeichert.
+-- Das ist natürlich nicht sicher, aber für diese Beispielanwendung ausreichend.
+-- In einer echten Anwendung sollte das Passwort gehasht und gesalzen werden.
