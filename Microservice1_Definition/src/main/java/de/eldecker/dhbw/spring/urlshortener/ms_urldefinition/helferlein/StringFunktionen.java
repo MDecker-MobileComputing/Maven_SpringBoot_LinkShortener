@@ -2,11 +2,16 @@ package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein;
 
 import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein.StringFunktionen.erzeugePasswort;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Klasse mit statischen Funktionen zur Arbeit mit Strings.
  */
 public class StringFunktionen {
+
+    private static Logger LOG = LoggerFactory.getLogger(StringFunktionen.class);
 
     /**
      * Methode zum Erzeugen eines zufälligen Passwortes.
@@ -38,29 +43,31 @@ public class StringFunktionen {
      *
      * @param zahl Zahl größer 0, die in Zeichenfolge umgewandelt werden soll;
      *             nächste ID aus Datenbank-Tabelle {@code URLS}.
-     * @return String-Repräsentation von {@code zahl}
+     * @return String-Repräsentation von {@code zahl}; ist leerer String, falls {@code zahl <= 0}
      */
     public static String zahlZuString(int zahl) {
 
         // Zeichenvorrat ohne "0"/"O", "l"/"1" und "5"/"S" (wegen Verwechslungsgefahr)
         final String ZEICHENVORRAT = "abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ23456789";
+        final int    ZEICHENVORRAT_LAENGE = ZEICHENVORRAT.length();
 
         if (zahl <= 0) {
 
+            LOG.warn("Funktion zahlZuString() aufgerufen mit zahl kleiner-gleich 0, nämlich: " + zahl);
             return "";
 
-        } else if (zahl <= ZEICHENVORRAT.length()) {
+        } else if (zahl <= ZEICHENVORRAT_LAENGE) {
 
             return String.valueOf(ZEICHENVORRAT.charAt(zahl - 1));
 
         } else {
 
-            int quotient  = zahl / ZEICHENVORRAT.length();
-            int rest      = zahl % ZEICHENVORRAT.length();
+            int quotient  = zahl / ZEICHENVORRAT_LAENGE;
+            int rest      = zahl % ZEICHENVORRAT_LAENGE;
             if (rest == 0) {
 
                 quotient--;
-                rest = ZEICHENVORRAT.length();
+                rest = ZEICHENVORRAT_LAENGE;
             }
 
             return zahlZuString(quotient) + zahlZuString(rest); // Rekursion!

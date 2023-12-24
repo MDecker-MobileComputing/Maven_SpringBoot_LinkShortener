@@ -8,6 +8,6 @@ Von diesem Microservice sollten mehrere Instanzen gleichzeitig laufen, weil
 es sich um die am häufigsten von Endnutzern verwendete Funktion der
 Anwendung handelt.
 Jede Microservice-Instanz hat eine eigene Datenbank, die sie anhand der vom
-Microservice 1 erhaltenen Nachrichten befüllt.
+Microservice 1 erhaltenen Kafka-Nachrichten befüllt.
 
 <br>
