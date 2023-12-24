@@ -14,7 +14,7 @@ Microservice 1 erhaltenen Kafka-Nachrichten befüllt.
 
 Die verschiedenen Microservice-Instanzen werden über Spring-Profile auseinandergesteuert:
 
-| Profil-Name | Log-Datei                | Datenbankdatei                  | Port-Nummer                   |
+| Profil-Name | Log-Datei                | Datenbankdatei in Ordner `db/`  | Port-Nummer                   |
 | ----------- | ------------------------ | ------------------------------- | ----------------------------- |
 | `instanz1`  | `logdatei_instanz1.log`  | `h2_datenbank_ms2_instanz1.mv`  | [8000](http://localhost:8000) |
 | `instanz2`  | `logdatei_instanz2.log`  | `h2_datenbank_ms2_instanz2.mv`  | [8010](http://localhost:8010) |
