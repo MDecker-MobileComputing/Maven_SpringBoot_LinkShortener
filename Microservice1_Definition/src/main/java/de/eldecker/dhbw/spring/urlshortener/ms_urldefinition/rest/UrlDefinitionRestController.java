@@ -1,6 +1,7 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.rest;
 
 import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein.StringFunktionen.erzeugePasswort;
+import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein.StringFunktionen.zahlZuString;
 import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnlegenErgebnisRecord.baueErfolgRecord;
 import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnlegenErgebnisRecord.baueFehlerRecord;
 
@@ -118,7 +119,7 @@ public class UrlDefinitionRestController {
             return ResponseEntity.status(BAD_REQUEST).body(ergebnisRecord);
         }
 
-        final String kuerzel = "xx";
+        final String kuerzel = zahlZuString(1000);
         final String passwort = erzeugePasswort();
 
         boolean warErfolgreich = _datenbank.neueKurzUrl(urlLangTrimmed, kuerzel, beschreibungTrimmed, passwort);
