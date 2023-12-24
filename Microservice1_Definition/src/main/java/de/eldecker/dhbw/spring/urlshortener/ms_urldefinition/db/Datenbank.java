@@ -17,7 +17,10 @@ public class Datenbank {
     private static Logger LOG = LoggerFactory.getLogger( Datenbank.class );
 
 
-    /** Bean für Datenbankzugriffe. */
+    /**
+     * Bean für Datenbankzugriffe: {@code JdbcTemplate} von Spring bietet
+     * eine höhere Abstraktion als JDBC und vereinfacht die Verwendung von JDBC.
+     */
     private final JdbcTemplate _jdbcTemplate;
 
 

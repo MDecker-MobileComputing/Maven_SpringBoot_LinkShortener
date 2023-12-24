@@ -53,24 +53,27 @@ public class StringFunktionen {
 
         if (zahl <= 0) {
 
-            LOG.warn("Funktion zahlZuString() aufgerufen mit zahl kleiner-gleich 0, nämlich: " + zahl);
+            LOG.warn("Methode zahlZuString() aufgerufen mit Zahl <= 0 als Argument: " + zahl);
             return "";
-
-        } else if (zahl <= ZEICHENVORRAT_LAENGE) {
-
-            return String.valueOf(ZEICHENVORRAT.charAt(zahl - 1));
 
         } else {
 
-            int quotient  = zahl / ZEICHENVORRAT_LAENGE;
-            int rest      = zahl % ZEICHENVORRAT_LAENGE;
-            if (rest == 0) {
+            StringBuilder result = new StringBuilder();
 
-                quotient--;
-                rest = ZEICHENVORRAT_LAENGE;
+            while (zahl > 0) {
+
+                int rest = zahl % ZEICHENVORRAT_LAENGE;
+                if (rest == 0) {
+
+                    rest = ZEICHENVORRAT_LAENGE;
+                    zahl--;
+                }
+
+                result.insert(0, ZEICHENVORRAT.charAt(rest - 1));
+                zahl /= ZEICHENVORRAT_LAENGE;
             }
 
-            return zahlZuString(quotient) + zahlZuString(rest); // Rekursion!
+            return result.toString();
         }
     }
 
