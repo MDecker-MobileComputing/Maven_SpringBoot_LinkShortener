@@ -98,7 +98,7 @@ public class UrlDefinitionRestController {
                                                                         @RequestParam String beschreibung) {
         RestAnlegenErgebnisRecord ergebnisRecord = null;
 
-        boolean warErfolgreich = _datenbank.neueKurzUrl(urlLang, "xx", beschreibung, "geheim-123", false );
+        boolean warErfolgreich = _datenbank.neueKurzUrl(urlLang, "xx", beschreibung, "geheim-123");
         if (warErfolgreich) {
 
             ergebnisRecord = new RestAnlegenErgebnisRecord(true, "kuerzel", "passwort");
