@@ -1,5 +1,8 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.rest;
 
+import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnlegenErgebnisRecord.baueErfolgRecord;
+import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnlegenErgebnisRecord.baueFehlerRecord;
+
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -9,13 +12,14 @@ import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.db.Datenbank;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnlegenErgebnisRecord;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnzahlRecord;
 
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.commons.validator.routines.UrlValidator;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,18 +42,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/urldef/v1")
 public class UrlDefinitionRestController {
 
-    //private static Logger LOG = LoggerFactory.getLogger(UrlDefinitionRestController.class);
+    private static Logger LOG = LoggerFactory.getLogger(UrlDefinitionRestController.class);
 
     /** Bean für Zugriff auf Datenbank */
     private Datenbank _datenbank;
 
+    /** Bean für Validierung der Lang/Original-URL. */
+    private UrlValidator _urlValidator;
+
 
     /**
-     * Konstruktor für Dependency Injection
+     * Konstruktor für Dependency Injection.
      */
-    public UrlDefinitionRestController(Datenbank db) {
-
-        _datenbank = db;
+    public UrlDefinitionRestController(Datenbank db,
+                                       UrlValidator urlValidator) {
+        _datenbank    = db;
+        _urlValidator = urlValidator;
     }
 
     /**
@@ -98,15 +106,34 @@ public class UrlDefinitionRestController {
                                                                         @RequestParam String beschreibung) {
         RestAnlegenErgebnisRecord ergebnisRecord = null;
 
-        boolean warErfolgreich = _datenbank.neueKurzUrl(urlLang, "xx", beschreibung, "geheim-123");
+        final String urlLangTrimmed = urlLang.trim();
+        final String beschreibungTrimmed = beschreibung.trim();
+
+        if (_urlValidator.isValid(urlLangTrimmed) == false) {
+
+            final String fehlermeldung = "Ungültige Lang/Original-URL eingegeben: " + urlLangTrimmed;
+            LOG.error(fehlermeldung);
+            ergebnisRecord = baueFehlerRecord(fehlermeldung);
+            return ResponseEntity.status(BAD_REQUEST).body(ergebnisRecord);
+        }
+
+        final String kuerzel = "xx";
+        final String passwort = "abc-123";
+
+        boolean warErfolgreich = _datenbank.neueKurzUrl(urlLangTrimmed, kuerzel, beschreibungTrimmed, passwort);
         if (warErfolgreich) {
 
-            ergebnisRecord = new RestAnlegenErgebnisRecord(true, "kuerzel", "passwort");
+            ergebnisRecord = baueErfolgRecord(kuerzel, passwort);
             return ResponseEntity.status(CREATED).body(ergebnisRecord);
 
         } else {
 
-            ergebnisRecord = new RestAnlegenErgebnisRecord(false, "", "");
+            LOG.error("Datenbankfehler beim Anlegen von URL-Definition für folgende URL-Definition: " + urlLangTrimmed);
+
+            final String fehlermeldung = "URL-Definition für folgende URL konnte wegen DB-Fehler nicht angelegt werden: " +
+                                         urlLangTrimmed;
+            LOG.error(fehlermeldung);
+            ergebnisRecord = baueFehlerRecord(fehlermeldung);
             return ResponseEntity.status(BAD_REQUEST).body(ergebnisRecord);
         }
     }

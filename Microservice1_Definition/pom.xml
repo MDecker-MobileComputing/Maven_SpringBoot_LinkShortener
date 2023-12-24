@@ -101,6 +101,13 @@
             <version>1.9.1</version>
         </dependency>
 
+        <!-- Wird für Validierung von URLs benötigt, siehe Klasse UrlValidator -->
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+
 	</dependencies>
 
 	<build>
