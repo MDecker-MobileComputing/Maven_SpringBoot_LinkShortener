@@ -84,15 +84,12 @@ public class UrlDefinitionRestController {
 
         int anzahl = _datenbank.holeAnzahl();
         RestAnzahlRecord ergebnisRecord = new RestAnzahlRecord(anzahl);
-        if (anzahl >= 0) {
+        
+        HttpStatusCode status = anzahl >= 0 ? OK : INTERNAL_SERVER_ERROR;
 
-            return ResponseEntity.status(OK).body(ergebnisRecord);
-
-        } else {
-
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(ergebnisRecord);
-        }
+        return ResponseEntity.status(status).body(ergebnisRecord);
     }
+
 
     /**
      * REST-Endpunkt für HTTP-Post, um eine neue URL-Definition anzulegen.

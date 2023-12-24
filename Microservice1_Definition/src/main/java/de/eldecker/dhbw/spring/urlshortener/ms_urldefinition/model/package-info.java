@@ -1,5 +1,5 @@
 /**
- * Dieses Paket enthält Datenmodellklassen.
+ * Dieses Paket enthält Datenmodellklassen inkl. Exception-Klassen.
  * <br><br>
  *
  * Alle Klassen, die mit {@code Rest} anfangen, werden für HTTP-Antworten
