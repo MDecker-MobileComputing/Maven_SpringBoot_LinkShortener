@@ -9,10 +9,10 @@ package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model;
  *                 (nur gefüllt, wenn {@code erfolgreich == true})
  * @param fehler Fehlermeldung, wenn das Anlegen nicht erfolgreich war (nur gefüllt, wenn {@code erfolgreich == false})
  */
-public record RestAnlegenErgebnisRecord(boolean erfolgreich,
-                                        String kuerzel,
-                                        String passwort,
-                                        String fehler) {
+public record RestAnlegenErgebnisRecord( boolean erfolgreich,
+                                         String kuerzel,
+                                         String passwort,
+                                         String fehler ) {
 
     /**
      * Methode zum Erzeugen eines Objekts, wenn das Anlegen einer URL-Definition erfolgreich war.

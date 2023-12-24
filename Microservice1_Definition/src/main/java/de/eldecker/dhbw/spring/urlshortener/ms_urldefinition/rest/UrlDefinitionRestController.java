@@ -11,9 +11,11 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.OK;
 
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.db.Datenbank;
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.logik.ShortLinkErzeugenService;
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.KuerzelUndPasswort;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnlegenErgebnisRecord;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnzahlRecord;
-
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.ShortLinkException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -24,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.apache.commons.validator.routines.UrlValidator;
 
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,20 +50,21 @@ public class UrlDefinitionRestController {
 
     private static Logger LOG = LoggerFactory.getLogger(UrlDefinitionRestController.class);
 
+
     /** Bean für Zugriff auf Datenbank */
     private Datenbank _datenbank;
 
-    /** Bean für Validierung der Lang/Original-URL. */
-    private UrlValidator _urlValidator;
-
+    /** Bean mit Logik für das Anlegen eines neuen Short-Links */
+    private ShortLinkErzeugenService _shortLinkErzeugenService;
 
     /**
      * Konstruktor für Dependency Injection.
      */
     public UrlDefinitionRestController(Datenbank db,
-                                       UrlValidator urlValidator) {
-        _datenbank    = db;
-        _urlValidator = urlValidator;
+                                       ShortLinkErzeugenService shortLinkErzeugenService) {
+
+        _datenbank = db;
+        _shortLinkErzeugenService = shortLinkErzeugenService;
     }
 
     /**
@@ -106,48 +109,30 @@ public class UrlDefinitionRestController {
         @ApiResponse(responseCode = "400", description = "URL-Definition konnte nicht angelegt werden"),
         @ApiResponse(responseCode = "500", description = "Interner Fehler"),
     })
-    @Transactional(isolation = Isolation.SERIALIZABLE)
     @PostMapping("/anlegen")
     public ResponseEntity<RestAnlegenErgebnisRecord> neueKurzUrlAnlegen(@RequestParam String urlLang,
                                                                         @RequestParam String beschreibung) {
+
         RestAnlegenErgebnisRecord ergebnisRecord = null;
 
-        final String urlLangTrimmed      = urlLang.trim();
-        final String beschreibungTrimmed = beschreibung.trim();
+        try {
 
-        if (_urlValidator.isValid(urlLangTrimmed) == false) {
+            KuerzelUndPasswort kuerzelUndPasswort =
+                               _shortLinkErzeugenService.shortlinkAnlegen(urlLang, beschreibung); // throws ShortLinkException
 
-            final String fehlermeldung = "Ungültige Lang/Original-URL eingegeben: " + urlLangTrimmed;
-            LOG.error(fehlermeldung);
-            ergebnisRecord = baueFehlerRecord(fehlermeldung);
-            return ResponseEntity.status(BAD_REQUEST).body(ergebnisRecord);
+            ergebnisRecord = baueErfolgRecord( kuerzelUndPasswort.kuerzel(),
+                                               kuerzelUndPasswort.passwort() );
+
+            LOG.info("Neue URL-Definition angelegt für URL: {}", urlLang);
+
+            return ResponseEntity.status(OK).body(ergebnisRecord);
         }
+        catch (ShortLinkException ex) {
 
-        final int maxId = _datenbank.holeMaxId();
-        if (maxId == -1) {
-
-            final String fehlermeldung = "Datenbankfehler bei Bestimmung der höchsten ID.";
-            LOG.error(fehlermeldung);
-            ergebnisRecord = baueFehlerRecord(fehlermeldung);
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(ergebnisRecord);
-        }
-
-        final String kuerzel  = zahlZuString(maxId + 1);
-        final String passwort = erzeugePasswort();
-
-        boolean warErfolgreich = _datenbank.neueKurzUrl(urlLangTrimmed, kuerzel, beschreibungTrimmed, passwort);
-        if (warErfolgreich) {
-
-            ergebnisRecord = baueErfolgRecord(kuerzel, passwort);
-            return ResponseEntity.status(CREATED).body(ergebnisRecord);
-
-        } else {
-
-            final String fehlermeldung = "Datenbankfehler beim Anlegen von URL-Definition für folgende URL-Definition: " + urlLangTrimmed;
-            LOG.error(fehlermeldung);
-            ergebnisRecord = baueFehlerRecord(fehlermeldung);
-
-            return ResponseEntity.status(BAD_REQUEST).body(ergebnisRecord);
+                LOG.error("Fehler beim Anlegen einer neuen URL-Definition: {}", ex.getMessage());
+                HttpStatusCode status = ex.istInternerFehler() ? INTERNAL_SERVER_ERROR : BAD_REQUEST;
+                ergebnisRecord = baueFehlerRecord( ex.getMessage() );
+                return ResponseEntity.status(status).body(ergebnisRecord);
         }
     }
 
