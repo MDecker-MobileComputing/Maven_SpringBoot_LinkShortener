@@ -5,6 +5,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
 /**
  * Die Klasse ist mit {@code Configuration} annotiert, weil sie mit {@code @Bean}
  * annotierte Methoden hat, die Objekte für Dependency Injection bereitstellen.

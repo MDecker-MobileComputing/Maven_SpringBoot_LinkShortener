@@ -13,17 +13,6 @@ public record RestAnlegenErgebnisRecord(boolean erfolgreich,
                                         String kuerzel,
                                         String passwort,
                                         String fehler) {
-    /**
-     * Methode zum Erzeugen eines Objekts, wenn das Anlegen einer URL-Definition
-     * nicht erfolgreich war.
-     *
-     * @param fehler Beschreibung des Fehlers
-     * @return Objekt mit Fehlermeldung un {@code erfolgreich=false}
-     */
-    public static RestAnlegenErgebnisRecord baueFehlerRecord(String fehler) {
-
-        return new RestAnlegenErgebnisRecord(false, "", "", fehler);
-    }
 
     /**
      * Methode zum Erzeugen eines Objekts, wenn das Anlegen einer URL-Definition
@@ -38,4 +27,17 @@ public record RestAnlegenErgebnisRecord(boolean erfolgreich,
 
         return new RestAnlegenErgebnisRecord(true, kuerzel, passwort, "");
     }
+
+    /**
+     * Methode zum Erzeugen eines Objekts, wenn das Anlegen einer URL-Definition
+     * nicht erfolgreich war.
+     *
+     * @param fehler Beschreibung des Fehlers
+     * @return Objekt mit Fehlermeldung un {@code erfolgreich=false}
+     */
+    public static RestAnlegenErgebnisRecord baueFehlerRecord(String fehler) {
+
+        return new RestAnlegenErgebnisRecord(false, "", "", fehler);
+    }
+
 }

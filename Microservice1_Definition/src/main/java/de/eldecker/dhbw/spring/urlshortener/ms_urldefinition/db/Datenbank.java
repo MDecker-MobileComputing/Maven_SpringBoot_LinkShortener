@@ -62,7 +62,7 @@ public class Datenbank {
      */
     public boolean neueKurzUrl(String urlOriginal, String urlKuerzel, String beschreibung, String passwort) {
 
-        String sql = "INSERT INTO urls (url_original, url_kuerzel, beschreibung, passwort) VALUES (?, ?, ?, ?)";
+        final String sql = "INSERT INTO urls (url_original, url_kuerzel, beschreibung, passwort) VALUES (?, ?, ?, ?)";
 
         try {
 
@@ -74,6 +74,26 @@ public class Datenbank {
             LOG.error("Fehler beim Einfügen eines neuen Datensatzes in Tabelle URLDEF für die folgende Original-URL: {}",
                       urlOriginal, ex);
             return false;
+        }
+    }
+
+
+    /**
+     * Bestimmt die höchste ID in der Tabelle {@code urls}. Wird umd 1 erhöht
+     * für die Generierung des Kürzel verwendet.
+     *
+     * @return Die höchste ID in der Tabelle URLDEF oder -1 bei Fehler.
+     */
+    public int holeMaxId() {
+
+        try {
+
+            return _jdbcTemplate.queryForObject("SELECT MAX(id) FROM urls", Integer.class);
+        }
+        catch (DataAccessException ex) {
+
+            LOG.error("Datenbankfehler bei MAX(id).", ex);
+            return -1;
         }
     }
 

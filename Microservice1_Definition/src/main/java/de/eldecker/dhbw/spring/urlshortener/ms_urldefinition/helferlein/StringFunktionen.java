@@ -31,6 +31,7 @@ public class StringFunktionen {
         return passwort.toString();
     }
 
+
     /**
      * Methode wandelt {@code zahl} in eine Zeichenfolge um, die als Kürzel in Kurz-URL
      * verwendet werden kann.

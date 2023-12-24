@@ -101,7 +101,8 @@ public class UrlDefinitionRestController {
                description = "Die URL-Definition wird mit dem Status 'aktiv' angelegt.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "URL-Definition wurde erfolgreich angelegt"),
-        @ApiResponse(responseCode = "400", description = "URL-Definition konnte nicht angelegt werden")
+        @ApiResponse(responseCode = "400", description = "URL-Definition konnte nicht angelegt werden"),
+        @ApiResponse(responseCode = "500", description = "Interner Fehler"),
     })
     @PostMapping("/anlegen")
     public ResponseEntity<RestAnlegenErgebnisRecord> neueKurzUrlAnlegen(@RequestParam String urlLang,
@@ -119,7 +120,16 @@ public class UrlDefinitionRestController {
             return ResponseEntity.status(BAD_REQUEST).body(ergebnisRecord);
         }
 
-        final String kuerzel = zahlZuString(1000);
+        final int maxId = _datenbank.holeMaxId();
+        if (maxId == -1) {
+
+            final String fehlermeldung = "Datenbankfehler bei Bestimmung der höchsten ID.";
+            LOG.error(fehlermeldung);
+            ergebnisRecord = baueFehlerRecord(fehlermeldung);
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(ergebnisRecord);
+        }
+
+        final String kuerzel  = zahlZuString(maxId + 1);
         final String passwort = erzeugePasswort();
 
         boolean warErfolgreich = _datenbank.neueKurzUrl(urlLangTrimmed, kuerzel, beschreibungTrimmed, passwort);
@@ -130,12 +140,10 @@ public class UrlDefinitionRestController {
 
         } else {
 
-            LOG.error("Datenbankfehler beim Anlegen von URL-Definition für folgende URL-Definition: " + urlLangTrimmed);
-
-            final String fehlermeldung = "URL-Definition für folgende URL konnte wegen DB-Fehler nicht angelegt werden: " +
-                                         urlLangTrimmed;
+            final String fehlermeldung = "Datenbankfehler beim Anlegen von URL-Definition für folgende URL-Definition: " + urlLangTrimmed;
             LOG.error(fehlermeldung);
             ergebnisRecord = baueFehlerRecord(fehlermeldung);
+
             return ResponseEntity.status(BAD_REQUEST).body(ergebnisRecord);
         }
     }
