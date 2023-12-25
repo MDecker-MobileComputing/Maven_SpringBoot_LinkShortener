@@ -1,5 +1,6 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.logik;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.apache.commons.validator.routines.UrlValidator;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.db.Datenbank;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.kafka.KafkaSender;
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.KafkaUrlDefinition;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.ShortLinkException;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.UrlDefinition;
 
@@ -55,12 +57,17 @@ public class ShortLinkAendernService {
      *
      * @param istAktiv Evtl. neuer Aktiv-Status
      *
-     * @throws ShortLinkException Fehler bei Änderung
+     * @throws ShortLinkException Fehler bei Änderung wegen ungültiger Daten oder internem Fehler
      */
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void shortLinkAendern( String kuerzel, String passwort,
                                   String urlLangNeu, String beschreibungNeu, boolean istAktivNeu
                                 ) throws ShortLinkException {
+
+        if (_urlValidator.isValid(urlLangNeu) == false) {
+
+            throw new ShortLinkException("Ungültige URL: " + urlLangNeu, false); // false=externerFehler
+        }
 
         Optional<UrlDefinition> ergebnisOptional = _datenbank.holeDatensatz(kuerzel);
 
@@ -74,6 +81,18 @@ public class ShortLinkAendernService {
 
             throw new ShortLinkException("Passwort falsch", false); // false=externerFehler
         }
+
+        // Änderung der URL-Definition über Kafka an andere Microservices verteilen
+        Date jetztDate = new Date();
+
+        KafkaUrlDefinition kud = new KafkaUrlDefinition( urlDefinitionAlt.id(),
+                                                         urlLangNeu,
+                                                         kuerzel,
+                                                         beschreibungNeu.trim(),
+                                                         urlDefinitionAlt.erzeugtAm(),
+                                                         jetztDate,
+                                                         istAktivNeu );
+        _kafkaSender.sendeUrlDefinition(kud);
 
         boolean aendernErfolgreich = _datenbank.aendereUrlDefinition(kuerzel, urlLangNeu, beschreibungNeu, istAktivNeu);
         if (aendernErfolgreich == false) {

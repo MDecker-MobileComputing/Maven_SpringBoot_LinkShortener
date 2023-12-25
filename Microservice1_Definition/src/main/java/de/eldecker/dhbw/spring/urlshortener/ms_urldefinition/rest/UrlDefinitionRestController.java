@@ -152,6 +152,8 @@ public class UrlDefinitionRestController {
      *
      * @param istAktivNeu Evtl. neuer Aktiv-Status
      */
+    @Operation(summary = "Bestehende URL-Definition ändern",
+               description = "Wenn Kürzel und Passwort stimmen, dann kann der Beschreibungstext, die Lang-URL und/oder der Aktiv-Status geändert werden.")
     @PutMapping("/aendern")
     public ResponseEntity<RestAenderungErgebnis> aendern(@RequestParam String kuerzel,
                                                          @RequestParam String passwort,
