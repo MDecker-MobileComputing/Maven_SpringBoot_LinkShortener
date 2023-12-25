@@ -11,6 +11,8 @@ public class App {
 
     /**
      * Einstiegsmethode der Anwendung.
+     *
+     * @param args Kommandozeilenargumente, werden an Spring Boot weitergegeben.
      */
 	public static void main(String[] args) {
 

@@ -2,11 +2,11 @@ package de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.kafka;
 
 import static de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.kafka.KafkaTopics.TOPIC_URL_DEFINITION;
 
+import de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.db.Datenbank;
 import de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.model.KafkaShortLink;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +27,19 @@ public class KafkaEmpfaenger {
     /** Bean für Deserialisierung von JSON nach Java-Objekt.  */
     private ObjectMapper _objectMapper;
 
+    /** Bean für Datenbankzugriffe, z.B. Einfügen/Aktualisierungen */
+    private Datenbank _datenbank;
+
 
     /**
      * Konstruktor für Dependency Injection.
      */
     @Autowired
-    public KafkaEmpfaenger(ObjectMapper objectMapper) {
+    public KafkaEmpfaenger(ObjectMapper objectMapper,
+                           Datenbank datenbank       ) {
 
         _objectMapper = objectMapper;
+        _datenbank    = datenbank;
     }
 
 
@@ -51,7 +56,16 @@ public class KafkaEmpfaenger {
 
             KafkaShortLink shortLinkReceived = _objectMapper.readValue(jsonString, KafkaShortLink.class);
 
-            LOG.info("Kafka-Listener hat aktuelle Nachricht empfangen: \"{}\"", shortLinkReceived);
+            boolean erfolg = _datenbank.shortLinkEinfuegenOderAktualisieren(shortLinkReceived);
+            if (erfolg) {
+
+                LOG.info("Kafka-Listener hat aktuelle Nachricht empfangen, wurde in DB eingefügt/aktualisiert: \"{}\"",
+                         shortLinkReceived);
+            } else {
+
+                LOG.error("Kafka-Listener hat aktuelle Nachricht empfangen, konnte aber nicht in DB eingefügt/aktualisiert werden: \"{}\"",
+                          shortLinkReceived);
+            }
         }
         catch (JsonProcessingException ex) {
 
