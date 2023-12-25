@@ -1,12 +1,9 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.rest;
 
-import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein.StringFunktionen.erzeugePasswort;
-import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein.StringFunktionen.zahlZuString;
 import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnlegenErgebnisRecord.baueErfolgRecord;
 import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnlegenErgebnisRecord.baueFehlerRecord;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -23,13 +20,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.commons.validator.routines.UrlValidator;
-
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,6 +60,7 @@ public class UrlDefinitionRestController {
         _shortLinkErzeugenService = shortLinkErzeugenService;
     }
 
+
     /**
      * REST-Endpunkt für HTTP-GET, um die Anzahl der in der Datenbank gespeicherten URL-Definitionen abzufragen.
      *
@@ -84,7 +78,7 @@ public class UrlDefinitionRestController {
 
         int anzahl = _datenbank.holeAnzahl();
         RestAnzahlRecord ergebnisRecord = new RestAnzahlRecord(anzahl);
-        
+
         HttpStatusCode status = anzahl >= 0 ? OK : INTERNAL_SERVER_ERROR;
 
         return ResponseEntity.status(status).body(ergebnisRecord);
