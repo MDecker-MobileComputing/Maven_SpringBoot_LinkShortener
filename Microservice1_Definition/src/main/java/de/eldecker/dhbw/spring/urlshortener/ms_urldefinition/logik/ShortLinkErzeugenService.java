@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ShortLinkErzeugenService {
 
-        /** Bean für Zugriff auf Datenbank */
+    /** Bean für Zugriff auf Datenbank */
     private Datenbank _datenbank;
 
     /** Bean für Validierung der Lang/Original-URL. */

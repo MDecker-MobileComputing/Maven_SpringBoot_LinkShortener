@@ -8,6 +8,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.OK;
 
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.db.Datenbank;
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.logik.ShortLinkAendernService;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.logik.ShortLinkErzeugenService;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.KuerzelUndPasswort;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAenderungErgebnis;
@@ -52,14 +53,20 @@ public class UrlDefinitionRestController {
     /** Bean mit Logik für das Anlegen eines neuen Short-Links */
     private ShortLinkErzeugenService _shortLinkErzeugenService;
 
+    /** Bean mit Logik für das Anlegen eines neuen Short-Links */
+    private ShortLinkAendernService _shortLinkAendernService;
+
     /**
      * Konstruktor für Dependency Injection.
      */
-    public UrlDefinitionRestController(Datenbank db,
-                                       ShortLinkErzeugenService shortLinkErzeugenService) {
+    public UrlDefinitionRestController( Datenbank db,
+                                        ShortLinkErzeugenService shortLinkErzeugenService,
+                                        ShortLinkAendernService shortLinkAendernService
+                                      ) {
 
-        _datenbank = db;
+        _datenbank                = db;
         _shortLinkErzeugenService = shortLinkErzeugenService;
+        _shortLinkAendernService  = shortLinkAendernService;
     }
 
 
@@ -130,34 +137,38 @@ public class UrlDefinitionRestController {
     }
 
     /**
-     * REST-Endpunkt für HTTP-PUT, um die Beschreibung einer URL-Definition zu ändern.
+     * REST-Endpunkt für HTTP-PUT, um eines oder mehrere der folgenden Attribute
+     * eines bestehenden URL-Definition-Datensatzes in der DB zu ändern:
+     * Beschreibungstext, Lang-URL, Aktiv-Status.
+     * Es müssen hierfür das Kürzel und das Passwort angegeben werden.
      *
-     * @param beschreibung Neuer Beschreibungstext
-     *
-     * @param kuerzel Kürzel, für das die Beschreibung geändert werden soll
+     * @param kuerzel Kürzel der URL-Definition, die geändert werden soll
      *
      * @param passwort Passwort für Berechtigungsprüfung
      *
-     * @return HTTP-Status 200 bei Erfolg, 400 bei Fehler.
+     * @param langUrlNeu Evtl. neue Lang-URL
+     *
+     * @param beschreibungNeu Evtl. neuer Beschreibungstext
+     *
+     * @param istAktivNeu Evtl. neuer Aktiv-Status
      */
-    @Operation(summary = "Beschreibungstext einer URL-Definition ändern",
-               description = "Neuen Text für Beschreibung einer URL-Definition, Passwort muss angegeben werden.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Beschreibungstext wurde geändert"),
-        @ApiResponse(responseCode = "400", description = "Beschreibungstext konnte nicht geändert werden"),
-    })
-    @PutMapping("/beschreibungAendern")
-    public ResponseEntity<RestAenderungErgebnis> aendereBeschreibung(@RequestParam String beschreibung,
-                                                                     @RequestParam String kuerzel,
-                                                                     @RequestParam String passwort) {
+    @PutMapping("/aendern")
+    public ResponseEntity<RestAenderungErgebnis> aendern(@RequestParam String kuerzel,
+                                                         @RequestParam String passwort,
+                                                         @RequestParam String langUrlNeu,
+                                                         @RequestParam String beschreibungNeu,
+                                                         @RequestParam boolean istAktivNeu) {
+        try {
 
-        boolean erfolgreich = _datenbank.setzeBeschreibung(beschreibung.trim(), kuerzel, passwort);
+                _shortLinkAendernService.shortLinkAendern(kuerzel, passwort, langUrlNeu, beschreibungNeu, istAktivNeu);
+                return ResponseEntity.status(OK).body(new RestAenderungErgebnis(true, ""));
+            }
+            catch (ShortLinkException ex) {
 
-        RestAenderungErgebnis ergebnis = new RestAenderungErgebnis(erfolgreich, "");
-
-        HttpStatusCode httpStatusCode = erfolgreich ? OK : BAD_REQUEST;
-
-        return ResponseEntity.status(httpStatusCode).body(ergebnis);
+                LOG.error("Fehler beim Ändern einer URL-Definition: {}", ex.getMessage());
+                HttpStatusCode status = ex.istInternerFehler() ? INTERNAL_SERVER_ERROR : BAD_REQUEST;
+                return ResponseEntity.status(status).body(new RestAenderungErgebnis(false, ex.getMessage()));
+        }
     }
 
 }

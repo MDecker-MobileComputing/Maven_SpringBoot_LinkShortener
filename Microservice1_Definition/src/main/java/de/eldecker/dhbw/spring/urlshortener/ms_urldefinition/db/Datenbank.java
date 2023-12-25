@@ -1,6 +1,12 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.db;
 
+import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein.DatumFunktionen.timestamp2Date;
+
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.UrlDefinition;
+
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
 
 /**
  * Bean-Klasse, die die Datenbankfunktionialität bereitstellt.
@@ -94,23 +101,31 @@ public class Datenbank {
     }
 
     /**
-     * Beschreibungstext für eine URL ändern.
+     * URL-Definition mit {@code kuerzel} ändern.
      *
-     * @param beschreibungNeu Neuer Beschreibungstext
+     * @param kuerzel Kürzel der URL-Definition, die geändert werden soll
      *
-     * @param kuerzel Kürzel der URL-Definition, für die die Beschreibung zu ändern ist
+     * @param langUrlNeu Lang-URL, die gesetzt werden soll
      *
-     * @param passwort Passwort für Authentifizierung
+     * @param beschreibungNeu Beschreibungstext, der gesetzt werden soll
      *
-     * @return {@code true} wenn das Ändern erfolgreich war (also genau eine Zeile geändert wurde), sonst {@code false}
+     * @param istAktivNeu Aktiv-Status, der gesetzt werden soll
+     *
+     * @return {@code true} wenn das Ändern erfolgreich war, sonst {@code false}
      */
-    public boolean setzeBeschreibung(String beschreibungNeu, String kuerzel, String passwort) {
+    public boolean aendereUrlDefinition(String kuerzel, String langUrlNeu, String beschreibungNeu, boolean istAktivNeu) {
 
-            final String sql = "UPDATE urls SET beschreibung = ?, zeitpunkt_aenderung = ? WHERE url_kuerzel = ? AND passwort = ?";
+            final String sql =
+                "UPDATE urls " +
+                "SET url_original = ?, beschreibung = ?, ist_aktiv = ?, zeitpunkt_aenderung = ? " +
+                "WHERE url_kuerzel = ?";
+
+            Date datumZeitJetzt = new Date();
 
             try {
 
-                int anzZeilenGaendert = _jdbcTemplate.update(sql, beschreibungNeu, new Date(), kuerzel, passwort);
+                int anzZeilenGaendert = _jdbcTemplate.update(sql,
+                                                             langUrlNeu, beschreibungNeu, istAktivNeu, datumZeitJetzt, kuerzel);
 
                 return anzZeilenGaendert == 1;
             }
@@ -123,10 +138,10 @@ public class Datenbank {
 
 
     /**
-     * Bestimmt die höchste ID in der Tabelle {@code urls}. Wird umd 1 erhöht für die
+     * Bestimmt die höchste ID in der Tabelle {@code URLS}. Wird umd 1 erhöht für die
      * Generierung des nächsten Kürzel verwendet.
      *
-     * @return Die höchste ID (Primärschlüssel) in der Tabelle {@code urls} oder -1 bei Fehler.
+     * @return Die höchste ID (Primärschlüssel) in der Tabelle {@code URLS} oder -1 bei Fehler.
      */
     public int holeMaxId() {
 
@@ -138,6 +153,52 @@ public class Datenbank {
 
             LOG.error("Datenbankfehler bei MAX(id).", ex);
             return -1;
+        }
+    }
+
+
+    /**
+     * URL-Definition mit {@code kuerzel} holen.
+     *
+     * @param kuerzel Kürzel für Datensatz, der geholt werden soll
+     *
+     * @return {@code Optional} mit Objekt, das alle Felder enthält (wenn gefunden),
+     *         sonst leeres {@code Optional}
+     */
+    public Optional<UrlDefinition> holeDatensatz(String kuerzel) {
+
+        String sql = "SELECT id, url_original, url_kuerzel, beschreibung, zeitpunkt_erzeugung, zeitpunkt_aenderung, ist_aktiv, passwort " +
+                     "FROM urls " +
+                     "WHERE url_kuerzel = ?";
+
+        List<UrlDefinition> ergebnisListe = _jdbcTemplate.query(
+            sql,
+            (resultRecord, zeilenNummer) -> new UrlDefinition(
+                resultRecord.getInt("id"),
+                resultRecord.getString("url_original"),
+                resultRecord.getString("url_kuerzel"),
+                resultRecord.getString("beschreibung"),
+                timestamp2Date(resultRecord.getTimestamp("zeitpunkt_erzeugung")),
+                timestamp2Date(resultRecord.getTimestamp("zeitpunkt_aenderung")),
+                resultRecord.getBoolean("ist_aktiv"),
+                resultRecord.getString("passwort")
+            ),
+            kuerzel
+        );
+
+        if (ergebnisListe.size() > 1) {
+
+            LOG.warn("Mehr als ein Datensatz mit Kuerzel \"{}\" gefunden.", kuerzel);
+            return Optional.empty();
+        }
+
+        if (ergebnisListe.size() == 1) {
+
+            return Optional.of(ergebnisListe.get(0));
+        }
+        else {
+
+            return Optional.empty();
         }
     }
 
