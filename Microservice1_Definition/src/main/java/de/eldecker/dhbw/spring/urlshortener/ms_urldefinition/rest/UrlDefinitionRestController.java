@@ -154,6 +154,11 @@ public class UrlDefinitionRestController {
      */
     @Operation(summary = "Bestehende URL-Definition ändern",
                description = "Wenn Kürzel und Passwort stimmen, dann kann der Beschreibungstext, die Lang-URL und/oder der Aktiv-Status geändert werden.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "URL-Definition wurde erfolgreich geändert"),
+        @ApiResponse(responseCode = "400", description = "URL-Definition konnte wegen ungültigen Daten nicht geändert werden"),
+        @ApiResponse(responseCode = "500", description = "URL-Definition konnte wegen internen Fehlers nicht geändert werden"),
+    })
     @PutMapping("/aendern")
     public ResponseEntity<RestAenderungErgebnis> aendern(@RequestParam String kuerzel,
                                                          @RequestParam String passwort,
