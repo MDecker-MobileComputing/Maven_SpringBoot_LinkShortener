@@ -49,9 +49,9 @@ public class Datenbank {
      */
     public boolean shortLinkEinfuegenOderAktualisieren(KafkaShortLink kafkaShortLink) {
 
-        String sql = "MERGE INTO kurzlinks(key(id), url_original, url_kuerzel, beschreibung, zeitpunkt_erzeugung, ist_aktiv) " +
+        String sql = "MERGE INTO kurzlinks(id, url_original, url_kuerzel, beschreibung, zeitpunkt_erzeugung, zeitpunkt_aktualisierung, ist_aktiv) " +
                      "KEY(id) " +
-                     "VALUES(:id, :urlOriginal, :urlKuerzel, :beschreibung, :zeitpunktErzeugung, :istAktiv)";
+                     "VALUES(:id, :urlOriginal, :urlKuerzel, :beschreibung, :zeitpunktErzeugung, :zeitpunktAktualisierung, :istAktiv)";
 
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("id", kafkaShortLink.id());
@@ -61,6 +61,7 @@ public class Datenbank {
         parameters.addValue("zeitpunktErzeugung", kafkaShortLink.zeitpunktErzeugt());
         parameters.addValue("zeitpunktAktualisierung", kafkaShortLink.zeitpunktGeaendert());
         parameters.addValue("istAktiv", kafkaShortLink.istAktiv());
+
 
         try {
 
