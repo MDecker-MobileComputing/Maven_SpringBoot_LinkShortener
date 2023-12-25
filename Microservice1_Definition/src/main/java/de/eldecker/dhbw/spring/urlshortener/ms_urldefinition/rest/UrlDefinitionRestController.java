@@ -10,6 +10,7 @@ import static org.springframework.http.HttpStatus.OK;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.db.Datenbank;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.logik.ShortLinkErzeugenService;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.KuerzelUndPasswort;
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAenderungErgebnis;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnlegenErgebnisRecord;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.RestAnzahlRecord;
 import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.ShortLinkException;
@@ -25,6 +26,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -125,6 +127,37 @@ public class UrlDefinitionRestController {
                 ergebnisRecord = baueFehlerRecord( ex.getMessage() );
                 return ResponseEntity.status(status).body(ergebnisRecord);
         }
+    }
+
+    /**
+     * REST-Endpunkt für HTTP-PUT, um die Beschreibung einer URL-Definition zu ändern.
+     *
+     * @param beschreibung Neuer Beschreibungstext
+     *
+     * @param kuerzel Kürzel, für das die Beschreibung geändert werden soll
+     *
+     * @param passwort Passwort für Berechtigungsprüfung
+     *
+     * @return HTTP-Status 200 bei Erfolg, 400 bei Fehler.
+     */
+    @Operation(summary = "Beschreibungstext einer URL-Definition ändern",
+               description = "Neuen Text für Beschreibung einer URL-Definition, Passwort muss angegeben werden.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Beschreibungstext wurde geändert"),
+        @ApiResponse(responseCode = "400", description = "Beschreibungstext konnte nicht geändert werden"),
+    })
+    @PutMapping("/beschreibungAendern")
+    public ResponseEntity<RestAenderungErgebnis> aendereBeschreibung(@RequestParam String beschreibung,
+                                                                     @RequestParam String kuerzel,
+                                                                     @RequestParam String passwort) {
+
+        boolean erfolgreich = _datenbank.setzeBeschreibung(beschreibung.trim(), kuerzel, passwort);
+
+        RestAenderungErgebnis ergebnis = new RestAenderungErgebnis(erfolgreich, "");
+
+        HttpStatusCode httpStatusCode = erfolgreich ? OK : BAD_REQUEST;
+
+        return ResponseEntity.status(httpStatusCode).body(ergebnis);
     }
 
 }

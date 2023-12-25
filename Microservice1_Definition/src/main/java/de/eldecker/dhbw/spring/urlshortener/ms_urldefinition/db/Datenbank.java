@@ -93,6 +93,34 @@ public class Datenbank {
         }
     }
 
+    /**
+     * Beschreibungstext für eine URL ändern.
+     *
+     * @param beschreibungNeu Neuer Beschreibungstext
+     *
+     * @param kuerzel Kürzel der URL-Definition, für die die Beschreibung zu ändern ist
+     *
+     * @param passwort Passwort für Authentifizierung
+     *
+     * @return {@code true} wenn das Ändern erfolgreich war (also genau eine Zeile geändert wurde), sonst {@code false}
+     */
+    public boolean setzeBeschreibung(String beschreibungNeu, String kuerzel, String passwort) {
+
+            final String sql = "UPDATE urls SET beschreibung = ?, zeitpunkt_aenderung = ? WHERE url_kuerzel = ? AND passwort = ?";
+
+            try {
+
+                int anzZeilenGaendert = _jdbcTemplate.update(sql, beschreibungNeu, new Date(), kuerzel, passwort);
+
+                return anzZeilenGaendert == 1;
+            }
+            catch (DataAccessException ex) {
+
+                LOG.error("Fehler beim Ändern der Beschreibung der URL-Definition mit Kuerzel \"{}\".", kuerzel, ex);
+                return false;
+            }
+    }
+
 
     /**
      * Bestimmt die höchste ID in der Tabelle {@code urls}. Wird umd 1 erhöht für die
