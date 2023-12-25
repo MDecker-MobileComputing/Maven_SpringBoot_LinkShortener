@@ -44,8 +44,7 @@ kafka-topics --list --bootstrap-server localhost:9092
 
 Mit dem folgenden Befehl kann man sich die Details zum Topic `url_definition` anzeigen lassen:
 ```
-kafka-configs --bootstrap-server localhost:9092 --entity-type topics --entity-name
- url_definition --describe
+kafka-configs --bootstrap-server localhost:9092 --entity-type topics --entity-name url_definition --describe
 ```
 
 <br>

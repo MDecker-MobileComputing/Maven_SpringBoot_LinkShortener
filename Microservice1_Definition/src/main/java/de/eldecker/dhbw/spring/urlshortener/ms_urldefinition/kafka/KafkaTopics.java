@@ -20,9 +20,10 @@ public class KafkaTopics {
      */
     public static final String TOPIC_URL_DEFINITION = "url_definition";
 
+
     /**
-     * Diese Methode liefert eine Bean, die das Kafka-Topic für URL-Definitionen
-     * bei Bedarf erzeugt.
+     * Diese Methode liefert eine Bean, die das Kafka-Topic für URL-Definitionen bei Bedarf
+     * erzeugt.
      *
      * @return Topic {@link TOPIC_URL_DEFINITION} mit unbegrenzter Lebenszeit der Nachrichten
      *         (unlimited retention period), vier Partitionen (für Parallelität) und 1 "Replikat"
