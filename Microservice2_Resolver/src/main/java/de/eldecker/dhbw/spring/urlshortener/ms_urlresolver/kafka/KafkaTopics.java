@@ -1,4 +1,4 @@
-package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.kafka;
+package de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.kafka;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.common.config.TopicConfig;
@@ -7,18 +7,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 
 /**
- * Diese Klasse enthält die Namen der Kafka-Topics, die in diesem Microservice
- * verwendet werden. Außerdem sorgt sie dafür, dass dieses Topic bei Bedarf
- * erzeugt wird.
+ * Klasse mit Topics, die von Microservice 2 für Kommunikation mit anderen
+ * Microservices über Kafka benötigt wird.
  */
 @Configuration
 public class KafkaTopics {
 
     /**
      * Name Kafka-Topic, an die Nachrichten über neu erzeugte URL-Definitionen
-     * verschickt werden.
+     * vom Microservice 1 verschickt werden.
      */
     public static final String TOPIC_URL_DEFINITION = "url_definition";
+
 
     /**
      * Diese Methode liefert eine Bean, die das Kafka-Topic für URL-Definitionen
