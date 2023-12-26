@@ -93,6 +93,7 @@
             <version>2.3.0</version>
         </dependency>
 
+        <!-- Bibliothek für Logging von SQL-Statements -->
         <dependency>
             <groupId>com.github.gavlyukovskiy</groupId>
             <artifactId>p6spy-spring-boot-starter</artifactId>
@@ -104,6 +105,12 @@
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
             <version>1.8.0</version>
+        </dependency>
+
+        <!-- Bibliothek für Thymeleaf-Templates -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
 	</dependencies>
