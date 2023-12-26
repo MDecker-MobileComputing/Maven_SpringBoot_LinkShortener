@@ -10,6 +10,11 @@ import org.springframework.kafka.config.TopicBuilder;
  * Klasse mit Topics, die von Microservice 2 für Kommunikation mit anderen
  * Microservices über Kafka benötigt werden. Die Topics werden bei Bedarf
  * automatisch erzeugt.
+ * <br><br>
+ *
+ * Bei der Definition der Anzahl der Replikate muss man beachten, dass
+ * die Anzahl der Replikate nicht größer sein darf als die Anzahl der
+ * Kafka-Server.
  */
 @Configuration
 public class KafkaTopics {
@@ -53,11 +58,20 @@ public class KafkaTopics {
                 .build();
     }
 
+
+    /**
+     * Diese Methode liefert eine Bean, die das Kafka-Topic für die Weiterleitung
+     * von Usage-Statistiken bei Bedarf zu erzeugen.
+     *
+     * @return Topic {@link TOPIC_USAGE_STATISTIKEN} mit unbegrenzter Lebenszeit der Nachrichten
+     *         (unlimited retention period), zwei Partitionen (für Parallelität) und 1 "Replikat"
+     *         (damit ein Kafka-Server ausreicht).
+     */
     @Bean
     public NewTopic topicUsageStatistiken() {
 
         return TopicBuilder.name(TOPIC_USAGE_STATISTIKEN)
-                .partitions(4)
+                .partitions(2)
                 .replicas(1)
                 .config(TopicConfig.RETENTION_MS_CONFIG, LEBENSDAUER_UNBEGRENZT)
                 .build();

@@ -23,6 +23,11 @@ import org.springframework.stereotype.Repository;
  *
  * Die Klasse ist mit {@code @Repository} annotiert, weil sie Datenbankzugriffsfunktionen
  * bereitstellt; diese Annotation ist eine rein semantische Spezialisierung von {@code @Component}.
+ * <br><br>
+ *
+ * Zu Verwendung von SQL-Strings mit Prepared Statements:
+ * Laut Buch von Ullenboom (S. 456, https://amzn.to/48qYPA8) werden die SQL-Anweisungen mit den
+ * Prepared Statements im Cache vorgehalten, sie müssen also nicht jedes Mal neu kompiliert werden.
  */
 @Repository
 public class Datenbank {
