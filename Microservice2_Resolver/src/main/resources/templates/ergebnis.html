@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
 <head>
     <title>Kurz-URL aufgelöst</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,8 +10,8 @@
     <p th:if="${gefunden == false}">FEHLER: URL-Kürzel "<span th:text="${kuerzel}"></span>" konnte nicht aufgelöst werden.</p>
 
     <div th:if="${gefunden == true}">
-        <p>Nicht gefunden 1</p>
-        <p>Nicht gefunden 2</p>
+        <a th:href="${urlLang}" target="_blank"><span th:text="${urlLang}"></span></a>
+        <p><strong>Beschreibung:</strong> <span th:text="${beschreibung}"></span></p>
     </div>
 
     <br>

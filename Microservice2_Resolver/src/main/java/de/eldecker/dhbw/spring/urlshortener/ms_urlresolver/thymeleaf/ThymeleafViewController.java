@@ -42,9 +42,11 @@ public class ThymeleafViewController {
 
         final String kuerzelTrimmed = kuerzel.trim();
 
-        model.addAttribute("instanzname", _instanzname   );
-        model.addAttribute("kuerzel"    , kuerzelTrimmed );
-        model.addAttribute("gefunden"   , false          );
+        model.addAttribute("instanzname" , _instanzname           );
+        model.addAttribute("kuerzel"     , kuerzelTrimmed         );
+        model.addAttribute("gefunden"    , true                  );
+        model.addAttribute("urlLang"     , "https://www.heise.de" );
+        model.addAttribute("beschreibung", "Lorem Ipsum tralala"  );
 
         return "ergebnis";
     }

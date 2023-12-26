@@ -8,7 +8,8 @@ import org.springframework.kafka.config.TopicBuilder;
 
 /**
  * Klasse mit Topics, die von Microservice 2 für Kommunikation mit anderen
- * Microservices über Kafka benötigt wird.
+ * Microservices über Kafka benötigt werden. Die Topics werden bei Bedarf
+ * automatisch erzeugt.
  */
 @Configuration
 public class KafkaTopics {
@@ -18,6 +19,20 @@ public class KafkaTopics {
      * vom Microservice 1 verschickt werden.
      */
     public static final String TOPIC_URL_DEFINITION = "url_definition";
+
+    /**
+     * Name Kafka-Topic, an die Nachrichten über Aufrufe von URL-Kürzeln
+     * von Microservice 2 verschickt werden.
+     */
+    public static final String TOPIC_USAGE_STATISTIKEN = "usage_statistiken";
+
+    /**
+     * Die Default-Lebensdauer einer Nachricht auf einem Kafka-Topic ist 7 Tage.
+     * Man kann beim Anlegen eines Topics eine andere Lebensdauer angeben.
+     * Wenn dabei der Wert "-1" angegeben wird, dann ist die Lebensdauer unbegrenzt
+     * (unlimited retention period).
+     */
+    private static final String LEBENSDAUER_UNBEGRENZT = "-1";
 
 
     /**
@@ -34,7 +49,17 @@ public class KafkaTopics {
         return TopicBuilder.name(TOPIC_URL_DEFINITION)
                 .partitions(4)
                 .replicas(1)
-                .config(TopicConfig.RETENTION_MS_CONFIG, "-1") // -1=unbegrenzte Lebensdauer der Nachrichten
+                .config(TopicConfig.RETENTION_MS_CONFIG, LEBENSDAUER_UNBEGRENZT)
+                .build();
+    }
+
+    @Bean
+    public NewTopic topicUsageStatistiken() {
+
+        return TopicBuilder.name(TOPIC_USAGE_STATISTIKEN)
+                .partitions(4)
+                .replicas(1)
+                .config(TopicConfig.RETENTION_MS_CONFIG, LEBENSDAUER_UNBEGRENZT)
                 .build();
     }
 
