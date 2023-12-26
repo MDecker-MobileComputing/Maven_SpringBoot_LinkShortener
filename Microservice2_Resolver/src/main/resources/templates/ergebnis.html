@@ -7,11 +7,31 @@
 </head>
 <body>
 
-    <p th:if="${gefunden == false}">FEHLER: URL-Kürzel "<span th:text="${kuerzel}"></span>" konnte nicht aufgelöst werden.</p>
+    <p th:if="${gefunden == false}">
+        FEHLER: URL-Kürzel "<span th:text="${kuerzel}"></span>" konnte nicht aufgelöst werden.
+    </p>
 
     <div th:if="${gefunden == true}">
-        <a th:href="${urlLang}" target="_blank"><span th:text="${urlLang}"></span></a>
-        <p><strong>Beschreibung:</strong> <span th:text="${beschreibung}"></span></p>
+        <p>
+            <strong>Aufgelöste URL:</strong>
+            <a th:href="${urlLang}" target="_blank">
+                <span th:text="${urlLang}"></span>
+            </a>
+        </p>
+        <p>
+            <strong>Beschreibung:</strong>
+            <span th:text="${beschreibung}"></span>
+        </p>
+        <br>
+        <p>
+            <strong>Link angelegt am:</strong>
+            <span th:text="${zeitpunkt_erzeugung}"></span>
+        </p>
+        <p>
+            <strong>Letzte Änderung:</strong>
+            <span th:text="${zeitpunkt_aenderung}"></span>
+        </p>
+
     </div>
 
     <br>

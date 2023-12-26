@@ -14,7 +14,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 
@@ -26,6 +25,10 @@ public class Datenbank {
 
     private Logger LOG = LoggerFactory.getLogger(Datenbank.class);
 
+    /**
+     * Bean für Zugriffe auf Datenbanktabellen; die Parameter in den Prepared Statements
+     * werden mit "?" gesetzt.
+     */
     private JdbcTemplate _jdbcTemplate;
 
     /**
@@ -40,10 +43,10 @@ public class Datenbank {
      * Konstruktor für Dependency Injection.
      */
     public Datenbank(NamedParameterJdbcTemplate namedParameterJdbcTemplate,
-                     JdbcTemplate JdbcTemplate) {
+                     JdbcTemplate               jdbcTemplate) {
 
         _namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        _jdbcTemplate               = JdbcTemplate;
+        _jdbcTemplate               = jdbcTemplate;
     }
 
 
@@ -88,6 +91,7 @@ public class Datenbank {
         }
     }
 
+
     /**
      * Liefert die Original-URL (und einige anderen Daten) zu einem URL-Kürzel zurück.
      *
@@ -97,26 +101,23 @@ public class Datenbank {
      *         sonst ein Optional mit einem Objekt vom Typ {@code AufgeloesterLink},
      *         das die für die Anzeige des aufgelösten Links benötigten Daten enthält.
      */
-    public Optional<AufgeloesterLink> linkAufloesen(String kuerzel) {
+    public Optional<AufgeloesterLink> kuerzelAufloesen(String kuerzel) {
 
         // Damit der DataClassRowMapper die Spaltennamen in der Datenbanktabelle abbilden kann,
-        // werden mit "AS" die Spaltennamen in der SQL-Abfrage umbenannt.
+        // werden mit "AS" die Spaltennamen in der SQL-Abfrage umbenannt;
         // siehe auch Seite 453 in Buch von Ullenboom ( https://amzn.to/48qYPA8 )
         String sql = "SELECT url_original AS urlOriginal, "                         +
                             "beschreibung, "                                        +
                             "zeitpunkt_erzeugung AS zeitpunktErzeugung, "           +
                             "zeitpunkt_aktualisierung AS zeitpunktAktualisierung, " +
-                            "ist_aktiv AS istAktiv"                                 +
+                            "ist_aktiv AS istAktiv "                                +
                      "FROM kurzlinks "                                              +
-                     "WHERE url_kuerzel = :kuerzel";
-
-        SqlParameterSource parameters = new MapSqlParameterSource("kuerzel", kuerzel);
+                     "WHERE url_kuerzel = ?";
 
         DataClassRowMapper<AufgeloesterLink> rowMapper = new DataClassRowMapper<>(AufgeloesterLink.class);
         try {
 
             List<AufgeloesterLink> ergebnisListe = _jdbcTemplate.query(sql, rowMapper, kuerzel);
-
             if (ergebnisListe.isEmpty()) {
 
                 return Optional.empty();
@@ -128,8 +129,7 @@ public class Datenbank {
         }
         catch (DataAccessException ex) {
 
-            LOG.error("Fehler beim Auflösen eines Kuerzels: {}", ex.getMessage());
-
+            LOG.error("Fehler beim Auflösen des Kuerzels \"{}\": {}", kuerzel, ex.getMessage());
             return Optional.empty();
         }
     }
