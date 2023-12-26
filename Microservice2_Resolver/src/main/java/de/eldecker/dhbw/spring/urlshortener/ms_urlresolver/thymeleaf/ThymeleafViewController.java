@@ -38,6 +38,7 @@ public class ThymeleafViewController {
     /** Bean für Zugriff auf Datenbank. */
     private Datenbank _datenbank;
 
+
     /**
      * Konstruktor für Dependency Injection.
      */
@@ -77,19 +78,29 @@ public class ThymeleafViewController {
 
             AufgeloesterLink al = ergebnisOptional.get();
 
-            model.addAttribute("gefunden"    , true );
-            model.addAttribute("urlLang"     , al.urlOriginal()    );
-            model.addAttribute("beschreibung", al.beschreibung()   );
+            if (al.istAktiv()) {
 
-            model.addAttribute("zeitpunkt_erzeugung", al.zeitpunktErzeugung() );
+                model.addAttribute("gefunden"           , true );
+                model.addAttribute("urlLang"            , al.urlOriginal()    );
+                model.addAttribute("beschreibung"       , al.beschreibung()   );
+                model.addAttribute("zeitpunkt_erzeugung", al.zeitpunktErzeugung() );
 
-            String letzteAenderung = "–";
-            if (!al.zeitpunktAktualisierung().equals(al.zeitpunktErzeugung())) {
+                String letzteAenderung = "–";
+                if (!al.zeitpunktAktualisierung().equals(al.zeitpunktErzeugung())) {
 
-                letzteAenderung = al.zeitpunktAktualisierung();
+                    letzteAenderung = al.zeitpunktAktualisierung();
+                }
+
+                model.addAttribute("zeitpunkt_aenderung", letzteAenderung );
+
+            } else {
+
+                // Link wurde gefunden, ist aber nicht aktiv, also tun wir so, als wäre er nicht da.
+                model.addAttribute("gefunden", false );
+
+                LOG.info("Link fuer Kuerzel \"{}\" gefunden, aber ist nicht aktiv, also nicht anzeigen.",
+                                kuerzelTrimmed);
             }
-
-            model.addAttribute("zeitpunkt_aenderung", letzteAenderung );
         }
 
         return "ergebnis";
