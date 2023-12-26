@@ -45,11 +45,15 @@ public class KafkaEmpfaenger {
 
     /**
      * Diese Methode wird aufgerufen, wenn eine Kafka-Nachricht über eine neue
-     * oder aktualisierte URL-Definition empfangen wurde.
+     * oder aktualisierte URL-Definition empfangen wurde.<br><br>
+     *
+     * Achtung: Ohne Zuweisung zu einer eigenen GroupId würde jede Nachricht
+     * nur einer Instanz des Microservices zugestellt werden, was aber für
+     * den Anwendungsfall nicht sinnvoll wäre.
      *
      * @param jsonString JSON-String mit URL-Definition
      */
-    @KafkaListener(id = "mein-kafka-listener-1", topics = TOPIC_URL_DEFINITION)
+    @KafkaListener(id = "mein-kafka-listener-1", topics = TOPIC_URL_DEFINITION, groupId = "${de.eldecker.linkshortener.ms2.instanzname}")
     public void onNachrichtEmpfangen(String jsonString) {
 
         try {
