@@ -1,12 +1,18 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.db;
 
+import de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.model.AufgeloesterLink;
 import de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.model.KafkaShortLink;
+
+import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.DataClassRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -20,6 +26,8 @@ public class Datenbank {
 
     private Logger LOG = LoggerFactory.getLogger(Datenbank.class);
 
+    private JdbcTemplate _jdbcTemplate;
+
     /**
      * Bean für Zugriffe auf Datenbanktabellen; die Parameter in den Prepared Statements
      * haben Namen, die mit ":" beginnen, z.B. ":feldname". Die Parameterwerte werden dann
@@ -31,9 +39,11 @@ public class Datenbank {
     /**
      * Konstruktor für Dependency Injection.
      */
-    public Datenbank(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public Datenbank(NamedParameterJdbcTemplate namedParameterJdbcTemplate,
+                     JdbcTemplate JdbcTemplate) {
 
         _namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        _jdbcTemplate               = JdbcTemplate;
     }
 
 
@@ -75,6 +85,52 @@ public class Datenbank {
                       ex.getMessage());
 
             return false;
+        }
+    }
+
+    /**
+     * Liefert die Original-URL (und einige anderen Daten) zu einem URL-Kürzel zurück.
+     *
+     * @param kuerzel URL-Kürzel, zu dem die Original-URL gesucht wird.
+     *
+     * @return Leeres Optional, wenn für {@code kuerzel} kein Datensatz gefunden wurde,
+     *         sonst ein Optional mit einem Objekt vom Typ {@code AufgeloesterLink},
+     *         das die für die Anzeige des aufgelösten Links benötigten Daten enthält.
+     */
+    public Optional<AufgeloesterLink> linkAufloesen(String kuerzel) {
+
+        // Damit der DataClassRowMapper die Spaltennamen in der Datenbanktabelle abbilden kann,
+        // werden mit "AS" die Spaltennamen in der SQL-Abfrage umbenannt.
+        // siehe auch Seite 453 in Buch von Ullenboom ( https://amzn.to/48qYPA8 )
+        String sql = "SELECT url_original AS urlOriginal, "                         +
+                            "beschreibung, "                                        +
+                            "zeitpunkt_erzeugung AS zeitpunktErzeugung, "           +
+                            "zeitpunkt_aktualisierung AS zeitpunktAktualisierung, " +
+                            "ist_aktiv AS istAktiv"                                 +
+                     "FROM kurzlinks "                                              +
+                     "WHERE url_kuerzel = :kuerzel";
+
+        SqlParameterSource parameters = new MapSqlParameterSource("kuerzel", kuerzel);
+
+        DataClassRowMapper<AufgeloesterLink> rowMapper = new DataClassRowMapper<>(AufgeloesterLink.class);
+        try {
+
+            List<AufgeloesterLink> ergebnisListe = _jdbcTemplate.query(sql, rowMapper, kuerzel);
+
+            if (ergebnisListe.isEmpty()) {
+
+                return Optional.empty();
+
+            } else {
+
+                return Optional.of(ergebnisListe.get(0));
+            }
+        }
+        catch (DataAccessException ex) {
+
+            LOG.error("Fehler beim Auflösen eines Kuerzels: {}", ex.getMessage());
+
+            return Optional.empty();
         }
     }
 
