@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <h1 th:text="${message}"></h1>
+
+    <th:if test="${!gefunden}">
+        <p>FEHLER: Aufruf für unbekannte Kurz-URL</p>
+    </th:if>
+    <th:if test="${gefunden}">
+        <p>URL gefunden</p>
+    </th:if>
+
+    <p th:text="${instanzname}"></p>
+
 </body>
 </html>
