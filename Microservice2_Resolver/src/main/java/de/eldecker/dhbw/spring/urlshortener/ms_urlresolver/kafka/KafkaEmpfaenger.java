@@ -35,8 +35,8 @@ public class KafkaEmpfaenger {
      * Konstruktor für Dependency Injection.
      */
     @Autowired
-    public KafkaEmpfaenger(ObjectMapper objectMapper,
-                           Datenbank datenbank       ) {
+    public KafkaEmpfaenger( ObjectMapper objectMapper,
+                            Datenbank datenbank       ) {
 
         _objectMapper = objectMapper;
         _datenbank    = datenbank;

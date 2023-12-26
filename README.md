@@ -13,11 +13,19 @@ implemented by several Java microservices (Maven and Spring Boot) with an embedd
 
 <br>
 
-| Microservice | Local URL / Port Number |
-| -- | -- |
-| [Microservice 1: Short Link Definition](Microservice1_Definition/) | [The only Instance: 8080](http://localhost:8080) |
-| [Microservice 2: Short Link Definition](Microservice2_Resolver/) | [Instance 1: 8000](http://localhost:8000) |
-|  | [Instance 2:8010](http://localhost:8010) |
+Before starting the microservices the Kafka server must be started using the `docker-compose.yml`
+in [this folder](./Kafka/).
+
+<br>
+
+**[Microservice 1 (Short Link Definition)](Microservice1_Definition/):** [The only Instance: `localhost:8080`](http://localhost:8080)
+
+<br>
+
+**[Microservice 2: (Link Resolver)](Microservice2_Resolver/):**
+* [Instance 1: `localhost:8000`](http://localhost:8000)
+* [Instance 2: `localhost:8010`](http://localhost:8010)
+* [Load Balancer (nginx): `localhost:8123`](http://localhost:8123)
 
 <br>
 
