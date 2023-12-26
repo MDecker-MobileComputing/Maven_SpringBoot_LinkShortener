@@ -6,6 +6,8 @@ Dieses Verzeichnis enthält die Datei [docker-compose.yml](./docker-compose.yml)
 mit der ein lokaler Kafka-Server in einem Docker-Container gestartet werden kann.
 Auch ein einzelner Kafka-Server benötigt eine laufende ZooKeeper-Instanz, welche
 auch in dieser Datei definiert ist.
+Zusätzlich zum Kafka-Server wird auch noch ein Container mit einem als *Load Balancer*
+für Microservice 2 (Resolver) konfigurierten Web-Server "nginx" gestartet.
 
 <br>
 

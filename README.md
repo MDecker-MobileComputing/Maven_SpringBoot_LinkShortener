@@ -15,6 +15,8 @@ implemented by several Java microservices (Maven and Spring Boot) with an embedd
 
 Before starting the microservices the Kafka server must be started using the `docker-compose.yml`
 in [this folder](./Kafka/).
+This file will also start a container with a simple load balancer for the two instances
+of microservice 2 (resolver).
 
 <br>
 
