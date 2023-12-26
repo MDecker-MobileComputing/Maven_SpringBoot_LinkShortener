@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kurz-URL aufgelöst</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../styles.css">
+</head>
+<body>
+
+    <div class="klein">
+        <p th:text="'Diese Anfrage wurde beantwortet von: ' + ${instanzname}"></p>
+        <p th:text="'Zeitpunkt Erzeugung dieser Antwortseite: ' + ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}"></p>
+    </div>
+
+</body>
+</html>

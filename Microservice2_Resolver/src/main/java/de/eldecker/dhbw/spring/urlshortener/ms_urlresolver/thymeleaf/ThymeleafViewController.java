@@ -25,19 +25,19 @@ public class ThymeleafViewController {
     /**
      * HTTP-Get-Methode für das Auflösen eines URL-Kürzels.
      *
-     * @param model Model-Objekt, das an das Template übergeben wird
-     *
      * @param kuerzel Pfadvariable aus der URL, enthält das aufzulösende Kürzel
+     *
+     * @param model Model-Objekt, das an das Template übergeben wird
      *
      * @return Name der aufzurufenden Template-Datei
      */
-    @RequestMapping("/k/{kuerzel}")
-    public String kuerzelAufloesen(Model model, @PathVariable String kuerzel) {
+    @GetMapping("/k/{kuerzel}")
+    public String kuerzelAufloesen(@PathVariable String kuerzel, Model model) {
 
         model.addAttribute("instanzname", _instanzname);
         model.addAttribute("gefunden", false);
 
-        return "aufgeloest"; // Template-Datei aufgeloest.html
+        return "ergebnis"; // Template-Datei ergebnis.html
     }
 
 }

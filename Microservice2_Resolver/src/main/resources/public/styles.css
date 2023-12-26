@@ -17,5 +17,10 @@ tt {
 }
 
 ul li {
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
+}
+
+/* Regeln speziell für ThymeLeaf-Template */
+.klein {
+    font-size: 75%;
 }

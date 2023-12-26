@@ -56,6 +56,7 @@ public class UrlDefinitionRestController {
     /** Bean mit Logik für das Anlegen eines neuen Short-Links */
     private ShortLinkAendernService _shortLinkAendernService;
 
+
     /**
      * Konstruktor für Dependency Injection.
      */
@@ -135,6 +136,7 @@ public class UrlDefinitionRestController {
                 return ResponseEntity.status(status).body(ergebnisRecord);
         }
     }
+
 
     /**
      * REST-Endpunkt für HTTP-PUT, um eines oder mehrere der folgenden Attribute
