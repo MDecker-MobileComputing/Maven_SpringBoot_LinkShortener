@@ -7,9 +7,18 @@
 </head>
 <body>
 
+    <p th:if="${gefunden == false}">FEHLER: URL-Kürzel "<span th:text="${kuerzel}"></span>" konnte nicht aufgelöst werden.</p>
+
+    <div th:if="${gefunden == true}">
+        <p>Nicht gefunden 1</p>
+        <p>Nicht gefunden 2</p>
+    </div>
+
+    <br>
+
     <div class="klein">
         <p th:text="'Diese Anfrage wurde beantwortet von: ' + ${instanzname}"></p>
-        <p th:text="'Zeitpunkt Erzeugung dieser Antwortseite: ' + ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}"></p>
+        <p th:text="'Zeitpunkt Erzeugung dieser Antwortseite: ' + ${#dates.format(#dates.createNow(), 'HH:mm:ss')} + ' Uhr, ' + ${#dates.format(#dates.createNow(), 'yyyy-MM-dd (EEEE)')}"></p>
     </div>
 
 </body>
