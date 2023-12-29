@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Neue Kurz-URL anlegen</title>
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+
+    <h1>Neue Kurz-URL anlegen</h1>
+
+    <form action="http://localhost:8080/urldef/v1/anlegen" method="post">
+
+        <label for="urlLang">Ziel-URL:</label>
+        <input type="text" id="urlLang" name="urlLang">
+
+        <label for="beschreibung">Beschreibung:</label>
+        <input type="text" id="beschreibung" name="beschreibung">
+
+        <input type="submit" value="Anlegen">
+        <input type="reset"  value="Eingaben zurücksetzen">
+
+    </form>
+
+</body>
+</html>
