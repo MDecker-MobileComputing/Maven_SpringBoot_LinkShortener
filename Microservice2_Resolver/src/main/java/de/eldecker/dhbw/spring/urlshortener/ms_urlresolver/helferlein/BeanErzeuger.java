@@ -1,4 +1,4 @@
-package de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.kafka;
+package de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.helferlein;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT;
