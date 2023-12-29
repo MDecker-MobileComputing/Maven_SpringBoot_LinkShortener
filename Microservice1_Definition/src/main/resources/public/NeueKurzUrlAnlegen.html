@@ -13,7 +13,7 @@
     <form name="dasFormular"
           action="urldef/v1/anlegen"
           method="post"
-          onsubmit="return formularPruefen()">
+          onsubmit="formularAbsenden(event)">
 
         <label for="urlLang">Ziel-URL:</label>
         <input type="text" id="urlLang" name="urlLang">
@@ -28,7 +28,9 @@
 
     <br><br>
 
-    <div id="resultBox"></div>
+    <div id="ergebnisBox">
+
+    </div>
 
     <!-- Als letztes JavaScript laden, damit sich Seite schnell aufbaut. -->
     <script src="script.js"></script>

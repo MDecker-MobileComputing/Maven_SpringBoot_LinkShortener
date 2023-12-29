@@ -20,3 +20,46 @@ function formularPruefen() {
 
     return true;
 }
+
+/**
+ * Formluar mit HTTP-Post absenden und Ergebnis in selber Seite anzeigen.
+ */
+function formularAbsenden(event) {
+
+    // Verhindern, dass die JSON-Response im Browser angezeigt wird
+    event.preventDefault();
+
+    if (!formularPruefen()) {
+
+        return;
+    }
+
+    const form = document.forms["dasFormular"];
+    const url  = form.action;
+
+    const formData = new FormData(form);
+
+    fetch(url, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        const resultBox = document.getElementById("ergebnisBox");
+        if (data.erfolgreich) {
+
+            resultBox.textContent = "Erfolg: " + data.kuerzel;
+            resultBox.style.color = "green";
+
+        } else {
+
+            resultBox.textContent = "Fehler: " + data.fehler;
+            resultBox.style.color = "red";
+        }
+    })
+    .catch((error) => {
+
+         alert("FEHLER: " + error);
+    });
+}
