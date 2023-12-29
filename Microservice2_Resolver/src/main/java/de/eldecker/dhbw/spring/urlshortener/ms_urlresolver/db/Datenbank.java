@@ -111,8 +111,8 @@ public class Datenbank {
                             "zeitpunkt_erzeugung AS zeitpunktErzeugung, "           +
                             "zeitpunkt_aktualisierung AS zeitpunktAktualisierung, " +
                             "ist_aktiv AS istAktiv "                                +
-                     "FROM kurzlinks "                                              +
-                     "WHERE url_kuerzel = ?";
+                     "  FROM kurzlinks "                                            +
+                     "  WHERE url_kuerzel = ?";
 
         DataClassRowMapper<AufgeloesterLink> rowMapper = new DataClassRowMapper<>(AufgeloesterLink.class);
         try {
