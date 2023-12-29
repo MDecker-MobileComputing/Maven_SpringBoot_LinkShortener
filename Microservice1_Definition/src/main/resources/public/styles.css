@@ -42,3 +42,9 @@ input[type="submit"], input[type="reset"] {
 form[name="dasFormular"] label, form[name="dasFormular"] input {
     font-size: 125%;
 }
+
+#ergebnisBox {
+    display: hidden;
+    font-weight: bold;
+    font-size: 125%;
+}

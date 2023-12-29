@@ -46,15 +46,32 @@ function formularAbsenden(event) {
     .then(response => response.json())
     .then(data => {
 
-        const resultBox = document.getElementById("ergebnisBox");
+        ergebnisBox.style.display = "block"; // Ergebnis-Box auf "sichtbar" schalten
+
+        const resultBox         = document.getElementById("ergebnisBox");
+        const ergebnisNachricht = document.getElementById("ergebnisNachricht");
+        const ergebnisUrl       = document.getElementById("ergebnisUrl");
+
+        /*
+        ergebnisUrl.href              = "";
+        ergebnisUrl.textContent       = "";
+        ergebnisNachricht.textContent = "";
+        */
+
         if (data.erfolgreich) {
 
-            resultBox.textContent = "Erfolg: " + data.kuerzel;
+            ergebnisNachricht.textContent = "Kurz-URL wurde angelegt:";
+
+            const neueKurzUrl = `http://localhost:8123/k/${data.kuerzel}`;
+
+            ergebnisUrl.href        = neueKurzUrl;
+            ergebnisUrl.textContent = neueKurzUrl;
+
             resultBox.style.color = "green";
 
         } else {
 
-            resultBox.textContent = "Fehler: " + data.fehler;
+            ergebnisNachricht.textContent = "FEHLER: " + data.fehler;
             resultBox.style.color = "red";
         }
     })

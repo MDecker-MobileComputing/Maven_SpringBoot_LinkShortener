@@ -17,3 +17,9 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_BROKER_ID: 1
 
+  loadbalancer:
+    image: mide76/loadbalancer-linkshortener
+    depends_on:
+      - kafka
+    ports:
+      - 8123:80
