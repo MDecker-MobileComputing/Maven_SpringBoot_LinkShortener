@@ -99,7 +99,9 @@ public class UrlDefinitionRestController {
      * REST-Endpunkt für HTTP-Post, um eine neue URL-Definition anzulegen.
      *
      * @param urlLang Original-URL
+     *
      * @param beschreibung Beschreibungstext
+     *
      * @return Ergebnis des Anlegens einer URL-Definition, bei Erfolg mit Küzel und Passwort;
      *         HTTP-Status 201 bei Erfolg, 400 bei Fehler.
      */
