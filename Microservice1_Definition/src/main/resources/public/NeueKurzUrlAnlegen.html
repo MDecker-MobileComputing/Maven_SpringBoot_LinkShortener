@@ -11,9 +11,9 @@
     <h1>Neue Kurz-URL anlegen</h1>
 
     <form name="dasFormular"
-          action="http://localhost:8080/urldef/v1/anlegen"
+          action="urldef/v1/anlegen"
           method="post"
-            onsubmit="return formularPruefen()">
+          onsubmit="return formularPruefen()">
 
         <label for="urlLang">Ziel-URL:</label>
         <input type="text" id="urlLang" name="urlLang">
@@ -25,6 +25,10 @@
         <input type="reset"  value="Eingaben zurücksetzen">
 
     </form>
+
+    <br><br>
+
+    <div id="resultBox"></div>
 
     <!-- Als letztes JavaScript laden, damit sich Seite schnell aufbaut. -->
     <script src="script.js"></script>
