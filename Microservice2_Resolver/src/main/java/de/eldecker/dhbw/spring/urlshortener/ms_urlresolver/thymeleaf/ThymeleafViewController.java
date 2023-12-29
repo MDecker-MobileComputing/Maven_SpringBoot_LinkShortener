@@ -2,8 +2,10 @@ package de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.thymeleaf;
 
 import de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.db.Datenbank;
 import de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.model.AufgeloesterLink;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +31,7 @@ public class ThymeleafViewController {
     private Logger LOG = LoggerFactory.getLogger(ThymeleafViewController.class);
 
     /**
-     * Instanzname aus Konfigurationsdatei {@code application-XXX.properties};
+     * Instanzname aus Konfigurationsdatei {@code application-PROFILNAME.properties};
      * wird auf Ergebnis-Seiten angezeigt, damit man Load-Balancing nachvollziehen kann.
      */
     @Value("${de.eldecker.linkshortener.ms2.instanzname}")
@@ -56,11 +58,18 @@ public class ThymeleafViewController {
      *
      * @param model Model-Objekt, das an das Template übergeben wird
      *
+     * @param httpRequest Objekt, um HTTP-Request-Feld "User-Agent" auszulesen
+     *
      * @return Name der aufzurufenden Template-Datei "ergebnis.html" aus
      *         Verzeichnis {@code src/main/resources/templates}
      */
     @GetMapping("/k/{kuerzel}")
-    public String kuerzelAufloesen(@PathVariable String kuerzel, Model model) {
+    public String kuerzelAufloesen( @PathVariable String kuerzel,
+                                    Model model,
+                                    HttpServletRequest httpRequest ) {
+
+        String userAgent = httpRequest.getHeader("User-Agent");
+        LOG.info("User-Agent von Browser: {}", userAgent);
 
         final String kuerzelTrimmed = kuerzel.trim();
 
