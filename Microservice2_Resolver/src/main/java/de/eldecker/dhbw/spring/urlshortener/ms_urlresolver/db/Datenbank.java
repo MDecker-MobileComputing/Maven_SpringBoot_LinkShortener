@@ -106,9 +106,9 @@ public class Datenbank {
         // Damit der DataClassRowMapper die Spaltennamen in der Datenbanktabelle abbilden kann,
         // werden mit "AS" die Spaltennamen in der SQL-Abfrage umbenannt;
         // siehe auch Seite 453 in Buch von Ullenboom ( https://amzn.to/48qYPA8 )
-        String sql = "SELECT url_original AS urlOriginal, "                         +
+        String sql = "SELECT url_original             AS urlOriginal, "             +
                             "beschreibung, "                                        +
-                            "zeitpunkt_erzeugung AS zeitpunktErzeugung, "           +
+                            "zeitpunkt_erzeugung      AS zeitpunktErzeugung, "      +
                             "zeitpunkt_aktualisierung AS zeitpunktAktualisierung, " +
                             "ist_aktiv AS istAktiv "                                +
                      "  FROM kurzlinks "                                            +
