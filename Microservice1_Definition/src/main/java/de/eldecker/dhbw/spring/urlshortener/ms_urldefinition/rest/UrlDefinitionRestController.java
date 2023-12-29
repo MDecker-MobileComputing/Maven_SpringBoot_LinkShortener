@@ -171,8 +171,8 @@ public class UrlDefinitionRestController {
 
                 _shortLinkAendernService.shortLinkAendern(kuerzel, passwort, langUrlNeu, beschreibungNeu, istAktivNeu);
                 return ResponseEntity.status(OK).body(new RestAenderungErgebnis(true, ""));
-            }
-            catch (ShortLinkException ex) {
+        }
+        catch (ShortLinkException ex) {
 
                 LOG.error("Fehler beim Ändern einer URL-Definition: {}", ex.getMessage());
                 HttpStatusCode status = ex.istInternerFehler() ? INTERNAL_SERVER_ERROR : BAD_REQUEST;
