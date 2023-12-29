@@ -52,12 +52,6 @@ function formularAbsenden(event) {
         const ergebnisNachricht = document.getElementById("ergebnisNachricht");
         const ergebnisUrl       = document.getElementById("ergebnisUrl");
 
-        /*
-        ergebnisUrl.href              = "";
-        ergebnisUrl.textContent       = "";
-        ergebnisNachricht.textContent = "";
-        */
-
         if (data.erfolgreich) {
 
             ergebnisNachricht.textContent = "Kurz-URL wurde angelegt:";
@@ -79,4 +73,15 @@ function formularAbsenden(event) {
 
          alert("FEHLER: " + error);
     });
+}
+
+
+/**
+ * Bei Klick auf Button "Eingaben zurücksetzen" wird hiermit auch die
+ * "ergebnisBox" ausgeblendet.
+ */
+function hideErgebnisBox() {
+
+    const ergebnisBox = document.getElementById("ergebnisBox");
+    ergebnisBox.style.display = "none";
 }
