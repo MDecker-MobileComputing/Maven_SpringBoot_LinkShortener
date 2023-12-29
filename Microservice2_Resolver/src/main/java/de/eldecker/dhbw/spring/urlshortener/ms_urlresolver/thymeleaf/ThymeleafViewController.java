@@ -1,11 +1,13 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.thymeleaf;
 
 import de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.db.Datenbank;
+import de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.kafka.KafkaSender;
 import de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.model.AufgeloesterLink;
+import de.eldecker.dhbw.spring.urlshortener.ms_urlresolver.model.KafkaUsageRecord;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.Date;
 import java.util.Optional;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,14 +42,19 @@ public class ThymeleafViewController {
     /** Bean für Zugriff auf Datenbank. */
     private Datenbank _datenbank;
 
+    /** Bean für Versenden von Usage-Records. */
+    private KafkaSender _kafkaSender;
+
 
     /**
      * Konstruktor für Dependency Injection.
      */
     @Autowired
-    public ThymeleafViewController(Datenbank datenbank) {
+    public ThymeleafViewController(Datenbank datenbank,
+                                   KafkaSender kafkaSender) {
 
-        _datenbank = datenbank;
+        _datenbank   = datenbank;
+        _kafkaSender = kafkaSender;
     }
 
 
@@ -67,9 +74,6 @@ public class ThymeleafViewController {
     public String kuerzelAufloesen( @PathVariable String kuerzel,
                                     Model model,
                                     HttpServletRequest httpRequest ) {
-
-        String userAgent = httpRequest.getHeader("User-Agent");
-        LOG.info("User-Agent von Browser: {}", userAgent);
 
         final String kuerzelTrimmed = kuerzel.trim();
 
@@ -111,6 +115,15 @@ public class ThymeleafViewController {
                                 kuerzelTrimmed);
             }
         }
+
+        // noch Usage-Record abschicken
+        String userAgentString = httpRequest.getHeader("User-Agent");
+
+        KafkaUsageRecord usageRecord = new KafkaUsageRecord( new Date(),
+                                                             kuerzelTrimmed,
+                                                             userAgentString,
+                                                             ergebnisOptional.isPresent() );
+        _kafkaSender.sendeUsageRecord(usageRecord);
 
         return "ergebnis";
     }

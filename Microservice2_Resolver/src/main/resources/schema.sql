@@ -19,4 +19,5 @@ CREATE TABLE IF NOT EXISTS kurzlinks (
 
 -- Index für die Spalte url_kuerzel, damit für die Query zum Auflösen eines Kürzels
 -- die Datenbank nicht die ganze Tabelle durchsuchen muss (Vermeidung "Full Table Scan")
-CREATE INDEX idx_kurzlinks_url_kuerzel ON kurzlinks(url_kuerzel);
+CREATE INDEX IF NOT EXISTS idx_kurzlinks_url_kuerzel ON kurzlinks(url_kuerzel);
+

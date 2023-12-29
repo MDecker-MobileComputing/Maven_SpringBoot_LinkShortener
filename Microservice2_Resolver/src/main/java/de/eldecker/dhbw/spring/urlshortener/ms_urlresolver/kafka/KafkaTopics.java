@@ -41,8 +41,8 @@ public class KafkaTopics {
 
 
     /**
-     * Diese Methode liefert eine Bean, die das Kafka-Topic für URL-Definitionen
-     * bei Bedarf erzeugt.
+     * Diese Methode liefert eine Bean, die das Kafka-Topic für URL-Definitionen bei Bedarf
+     * erzeugt.
      *
      * @return Topic {@link TOPIC_URL_DEFINITION} mit unbegrenzter Lebenszeit der Nachrichten
      *         (unlimited retention period), vier Partitionen (für Parallelität) und 1 "Replikat"
@@ -60,8 +60,8 @@ public class KafkaTopics {
 
 
     /**
-     * Diese Methode liefert eine Bean, die das Kafka-Topic für die Weiterleitung
-     * von Usage-Statistiken bei Bedarf zu erzeugen.
+     * Diese Methode liefert eine Bean, die das Kafka-Topic für die Weiterleitung von
+     * Usage-Statistiken bei Bedarf zu erzeugen.
      *
      * @return Topic {@link TOPIC_USAGE_STATISTIKEN} mit unbegrenzter Lebenszeit der Nachrichten
      *         (unlimited retention period), zwei Partitionen (für Parallelität) und 1 "Replikat"

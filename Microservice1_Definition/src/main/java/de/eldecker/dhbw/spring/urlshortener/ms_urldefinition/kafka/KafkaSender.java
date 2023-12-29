@@ -44,6 +44,7 @@ public class KafkaSender {
         _objectMapper  = objecMapper;
     }
 
+
     /**
      * URL-Definition über Kafka an andere Microservices verteilen.
      *

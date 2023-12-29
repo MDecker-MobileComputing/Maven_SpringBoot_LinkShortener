@@ -21,8 +21,13 @@ function formularPruefen() {
     return true;
 }
 
+
 /**
  * Formluar mit HTTP-Post absenden und Ergebnis in selber Seite anzeigen.
+ *
+ * @param {Event} event - Event-Objekt, das das Event ausgelöst hat; wird benötigt,
+ *                        um Default-Verhalten des Browsers zu unterdrücken (nämlich
+                          JSON-Response im Browser anzuzeigen).
  */
 function formularAbsenden(event) {
 
