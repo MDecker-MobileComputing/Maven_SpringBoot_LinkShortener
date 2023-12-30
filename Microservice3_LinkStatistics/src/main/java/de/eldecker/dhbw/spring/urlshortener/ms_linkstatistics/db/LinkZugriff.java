@@ -26,7 +26,7 @@ import jakarta.persistence.Index;
        indexes = { @Index(name = "IDX_KUERZEL"          , columnList = "kuerzel"           ),
                    @Index(name = "IDX_ZEITPUNKT"        , columnList = "zeitpunkt"         ), 
                    @Index(name = "IDX_KUERZEL_ZEITPUNKT", columnList = "kuerzel, zeitpunkt")
-                }
+                 }
       )
 public class LinkZugriff {
     
