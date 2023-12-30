@@ -1,20 +1,20 @@
-# Microservice 2: URL-Resolver #
+# Microservice 2: URL Resolver #
 
 <br>
 
-Dieser Unterordner enthält den Quellcode für eine Spring-Boot-Anwendung als
-Maven-Projekt, das den Microservice zum Auflösen der Kurz-URLs enthält.
-Von diesem Microservice sollten mehrere Instanzen gleichzeitig laufen, weil
-es sich um die am häufigsten von Endnutzern verwendete Funktion der
-Anwendung handelt.
-Jede Microservice-Instanz hat eine eigene Datenbank, die sie anhand der vom
-Microservice 1 erhaltenen Kafka-Nachrichten befüllt.
+This subfolder contains the source code for a Spring Boot application as a
+Maven project, which contains the microservice for resolving the short URLs.
+Several instances of this microservice should run simultaneously because
+it is the function of the application most frequently used by end users.
+application by end users.
+Each microservice instance has its own database, which it can update using the
+Kafka messages received from Microservice 1.
 
 <br>
 
-Die verschiedenen Microservice-Instanzen werden über Spring-Profile auseinandergesteuert:
+The various microservice instances are controlled separately via Spring profiles:
 
-| Profil-Name | Log-Datei                | Datenbankdatei in Ordner `db/`  | Port-Nummer                   |
+| Profile     | Log File                 | DB file in folder `db/`         | Port Number                   |
 | ----------- | ------------------------ | ------------------------------- | ----------------------------- |
 | `instanz1`  | `logdatei_instanz1.log`  | `h2_datenbank_ms2_instanz1.mv`  | [8000](http://localhost:8000) |
 | `instanz2`  | `logdatei_instanz2.log`  | `h2_datenbank_ms2_instanz2.mv`  | [8010](http://localhost:8010) |
