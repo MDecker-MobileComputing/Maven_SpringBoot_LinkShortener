@@ -31,6 +31,8 @@ of microservice 2 (resolver).
 
 <br>
 
+**[Microservice 3: (Usage Statistics)](Microservice3_LinkStatistics/):** [The only Instance: `localhost:8050`](http://localhost:8050)
+
 ----
 
 ## License ##
