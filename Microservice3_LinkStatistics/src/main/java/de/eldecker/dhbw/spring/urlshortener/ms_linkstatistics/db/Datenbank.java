@@ -53,7 +53,7 @@ public class Datenbank {
     @Transactional
     public void speichereLinkZugriff(String kuerzel, boolean erfolgreich, Date zeitpunkt) {
 
-        LinkZugriff linkZugriff = new LinkZugriff(kuerzel, zeitpunkt, erfolgreich);
+        LinkZugriffEntity linkZugriff = new LinkZugriffEntity(kuerzel, zeitpunkt, erfolgreich);
 
         try {
 

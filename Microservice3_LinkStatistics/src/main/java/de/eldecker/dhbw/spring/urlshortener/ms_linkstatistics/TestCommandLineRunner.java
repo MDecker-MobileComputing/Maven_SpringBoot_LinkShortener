@@ -18,8 +18,10 @@ public class TestCommandLineRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        _db.speichereLinkZugriff("test1", false, new Date());
-        _db.speichereLinkZugriff("test2", true,  new Date());
+        Date jetztDate = new Date();
+
+        _db.speichereLinkZugriff("test1", false, jetztDate);
+        _db.speichereLinkZugriff("test2", true,  jetztDate);
     }
 
 }

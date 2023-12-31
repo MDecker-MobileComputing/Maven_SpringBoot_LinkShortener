@@ -10,6 +10,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Index;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 
 
 /**
@@ -20,6 +22,12 @@ import jakarta.persistence.Index;
  * Es werden Klassen aus dem Paket {@code jakarta.persistence} verwendet, weil mit der Übergabe der
  * <i>Java Enterprise Edition (Java EE)</i> an die <i>Eclipse Foundation</i> durch Oracle das Paket
  * {@code javax.persistence} nicht mehr verwendet werden durfte.
+ * <br><br>
+ *
+ * Achtung: In den <i>Named Queries</i> (JPQL) müssen die Klassennamen und Attribut-Namen verwendet
+ * werden, die in der Entity-Klasse definiert sind, nicht die Namen der Tabellen und Spalten in der
+ * Datenbank, also z.B. {@code LinkZugriffEntity} statt {@code LINK_ZUGRIFFE} oder {@code _kuerzel}
+ * statt {@code KUERZEL}.
  */
 @Entity
 @Table(name = "LINK_ZUGRIFFE",
@@ -28,7 +36,13 @@ import jakarta.persistence.Index;
                    @Index(name = "IDX_KUERZEL_ZEITPUNKT", columnList = "kuerzel, zeitpunkt")
                  }
       )
-public class LinkZugriff {
+@NamedQueries({
+    @NamedQuery(name = "LinkZugriff.countByKuerzel",
+                query = "SELECT COUNT(lz) FROM LinkZugriffEntity lz WHERE lz._kuerzel = :kuerzel"),
+    @NamedQuery(name = "LinkZugriff.countByKuerzelAndErfolgreich",
+                query = "SELECT lz._erfolgreich, COUNT(lz) FROM LinkZugriffEntity lz WHERE lz._kuerzel = :kuerzel GROUP BY lz._erfolgreich")
+})
+public class LinkZugriffEntity {
 
     /** Primärschlüssel, ist verpflichtend bei Verwendung von JPA. */
     @Id
@@ -52,7 +66,7 @@ public class LinkZugriff {
     /**
      * Default-Konstruktor, der für JPA benötigt wird.
      */
-    public LinkZugriff() {}
+    public LinkZugriffEntity() {}
 
 
     /**
@@ -64,7 +78,7 @@ public class LinkZugriff {
      *
      * @param erfolgreich {@code true} genau dann, wenn die Kurz-URL aufgelöst werden konnte.
      */
-    public LinkZugriff(String kuerzel, Date zeitpunkt, boolean erfolgreich) {
+    public LinkZugriffEntity(String kuerzel, Date zeitpunkt, boolean erfolgreich) {
 
         _kuerzel     = kuerzel;
         _zeitpunkt   = zeitpunkt;
@@ -170,15 +184,16 @@ public class LinkZugriff {
 
             return true;
         }
-        if (!(obj instanceof LinkZugriff)) {
+        if (obj instanceof LinkZugriffEntity that) {
+
+            return Objects.equals(_kuerzel  , that._kuerzel  ) &&
+                   Objects.equals(_zeitpunkt, that._zeitpunkt) &&
+                  _erfolgreich == that._erfolgreich;
+
+        } else {
 
             return false;
         }
-
-        LinkZugriff that = (LinkZugriff) obj;
-        return Objects.equals(_kuerzel  , that._kuerzel  ) &&
-               Objects.equals(_zeitpunkt, that._zeitpunkt) &&
-               _erfolgreich == that._erfolgreich;
     }
 
 
