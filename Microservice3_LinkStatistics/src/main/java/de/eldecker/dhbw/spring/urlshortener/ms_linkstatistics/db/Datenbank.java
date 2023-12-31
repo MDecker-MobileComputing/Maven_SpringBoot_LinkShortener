@@ -71,6 +71,15 @@ public class Datenbank {
         }
     }
 
+
+    /**
+     * Ermittelt die Anzahl der erfolgreichen und nicht-erfolgreichen Zugriffe
+     * für ein bestimmtes Kürzel.
+     *
+     * @param kuerzel Kürzel, z.B. "ab3"
+     *
+     * @return Anzahl der erfolgreichen und nicht-erfolgreichen Zugriffe für {@code kuerzel}
+     */
     public ErfolgStatsFuerKuerzel calcErfolgStatsFuerKuerzel(String kuerzel) {
 
         TypedQuery<Object[]> query =
@@ -100,4 +109,5 @@ public class Datenbank {
 
         return new ErfolgStatsFuerKuerzel(kuerzel, anzahlErfolg, anzahlKeinErfolg);
     }
+
 }
