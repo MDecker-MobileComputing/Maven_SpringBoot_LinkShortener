@@ -1,5 +1,7 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db;
 
+import static de.eldecker.dhbw.spring.urlshortener.helferlein.DatumHelferlein.berechneHeuteMinusStunden;
+
 import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db.LinkZugriffEntity;
 import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model.ErfolgStatsFuerKuerzel;
 import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model.StatFuerMehrereZeitraeume;
@@ -10,8 +12,6 @@ import jakarta.persistence.TypedQuery;
 
 import java.util.Date;
 import java.util.List;
-import java.time.LocalDate;
-import java.time.ZoneId;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,6 +113,13 @@ public class Datenbank {
         return new ErfolgStatsFuerKuerzel(kuerzel, anzahlErfolg, anzahlKeinErfolg);
     }
 
+
+     /**
+      * Ermittelt die Anzahl Zugriffe für {@code kuerzel} für verschiedene
+      * Zeiträume.
+      *
+      * @param kuerzel URL-Kürzel, z.B. "ab3"
+      */
     public StatFuerMehrereZeitraeume calcStatsFuerZeitraeume(String kuerzel) {
 
         TypedQuery<StatFuerMehrereZeitraeume> query =
@@ -120,19 +127,11 @@ public class Datenbank {
                                                 StatFuerMehrereZeitraeume.class);
 
         query.setParameter("kuerzel"      , kuerzel);
-        query.setParameter("oneDayAgo"    , berechneHeuteMinusTage( 1));
-        query.setParameter("sevenDaysAgo" , berechneHeuteMinusTage( 7));
-        query.setParameter("thirtyDaysAgo", berechneHeuteMinusTage(30));
+        query.setParameter("oneDayAgo"    , berechneHeuteMinusStunden(  1*24 ));
+        query.setParameter("sevenDaysAgo" , berechneHeuteMinusStunden(  7*24 ));
+        query.setParameter("thirtyDaysAgo", berechneHeuteMinusStunden( 30*24 ));
 
         return query.getSingleResult();
     }
 
-
-    public static Date berechneHeuteMinusTage(int tage) {
-
-        LocalDate localDate = LocalDate.now().minusDays(tage);
-        ZoneId defaultZoneId = ZoneId.systemDefault();
-        long epochMillis = localDate.atStartOfDay(defaultZoneId).toInstant().toEpochMilli();
-        return new Date(epochMillis);
-    }
 }
