@@ -47,12 +47,13 @@ public class Datenbank {
      *
      * @param erfolgreich {@code true} genau dann, wenn die Kurz-URL aufgelöst
      *                    werden konnte.
+     *
+     * @param zeitpunkt Zeitpunkt (Datum+Uhrzeit) des Zugriffs
      */
     @Transactional
-    public void speichereLinkZugriff(String kuerzel, boolean erfolgreich) {
+    public void speichereLinkZugriff(String kuerzel, boolean erfolgreich, Date zeitpunkt) {
 
-        Date        jetztDate   = new Date();
-        LinkZugriff linkZugriff = new LinkZugriff(kuerzel, jetztDate, erfolgreich);
+        LinkZugriff linkZugriff = new LinkZugriff(kuerzel, zeitpunkt, erfolgreich);
 
         try {
 
@@ -60,7 +61,7 @@ public class Datenbank {
         }
         catch (PersistenceException | IllegalArgumentException ex) {
 
-            LOG.error("Fehler beim Speichern der folgenden Entity:  {}",
+            LOG.error("Fehler beim Speichern der folgenden Entity: {}",
                       linkZugriff, ex);
         }
     }
