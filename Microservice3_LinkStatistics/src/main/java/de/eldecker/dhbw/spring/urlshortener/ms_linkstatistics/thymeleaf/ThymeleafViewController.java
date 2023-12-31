@@ -1,8 +1,12 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.thymeleaf;
 
+import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db.Datenbank;
+import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model.ErfolgStatsFuerKuerzel;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -14,6 +18,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class ThymeleafViewController {
 
     private Logger LOG = LoggerFactory.getLogger( ThymeleafViewController.class );
+
+    private Datenbank _datenbank;
+
+    /**
+     * Konstruktor, der die Abhängigkeiten injiziert.
+     */
+    @Autowired
+    public ThymeleafViewController(Datenbank db) {
+
+        _datenbank = db;
+    }
+
 
     /**
      * Seite mit Link-Statistiken für ein bestimmtes URL-Kürzel anzeigen.
@@ -31,12 +47,18 @@ public class ThymeleafViewController {
                                     Model model ) {
 
         final String kuerzelTrimmed = kuerzel.trim();
+        model.addAttribute("kuerzel", kuerzelTrimmed);
 
         LOG.info( "Versuche Usage-Stats fuer Kuerzel \"{}\" zu finden.", kuerzelTrimmed );
 
-        model.addAttribute("kuerzel", kuerzelTrimmed);
+        ErfolgStatsFuerKuerzel erfolgStats = _datenbank.calcErfolgStatsFuerKuerzel(kuerzelTrimmed);
+        if (erfolgStats.istLeer()) {
 
-        return "nicht_gefunden";
+            LOG.warn( "Keine Usage-Stats fuer Kuerzel \"{}\" gefunden.", kuerzelTrimmed );
+            return "nicht_gefunden";
+        }
+
+        return "link_stats";
     }
 
 }

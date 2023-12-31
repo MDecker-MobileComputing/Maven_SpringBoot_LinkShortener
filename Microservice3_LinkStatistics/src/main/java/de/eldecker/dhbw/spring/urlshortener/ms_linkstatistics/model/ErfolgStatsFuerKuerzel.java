@@ -13,4 +13,15 @@ package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model;
 public record ErfolgStatsFuerKuerzel ( String kuerzel,
                                        long anzahlErfolg,
                                        long anzahlKeinErfolg ) {
+
+    /**
+     * Gibt {@code true} zurück, wenn die Statistik leer ist, d.h. wenn
+     * {@link #anzahlErfolg()} und {@link #anzahlKeinErfolg()} beide {@code 0} sind.
+     *
+     * @return {@code true} genau dann, wenn beiden Zahlen 0 sind.
+     */
+    public boolean istLeer() {
+
+        return anzahlErfolg == 0 && anzahlKeinErfolg == 0;
+    }
 }

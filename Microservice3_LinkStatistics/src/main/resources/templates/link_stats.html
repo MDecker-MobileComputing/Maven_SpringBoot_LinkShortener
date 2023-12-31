@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+    <title>Statistiken für unbekannte URL-Kürzel aufgerufen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../styles.css">
+</head>
+<body>
+
+    <h1>Link-Statistiken für URL-Kürzel "<tt th:text="${kuerzel}"></tt>"</h1>
+
+
+    <div class="klein">
+      <p th:text="${#dates.format(#dates.createNow(), 'HH:mm:ss')} + ' Uhr, ' + ${#dates.format(#dates.createNow(), 'yyyy-MM-dd (EEEE)')}"></p>
+  </div>
+
+</body>
+</html>
