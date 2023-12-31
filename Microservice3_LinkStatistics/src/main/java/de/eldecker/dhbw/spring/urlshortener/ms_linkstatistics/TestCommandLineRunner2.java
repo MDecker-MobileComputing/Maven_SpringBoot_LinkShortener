@@ -1,7 +1,8 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics;
 
 import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db.Datenbank;
-import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db.ErfolgStatsFuerKuerzel;
+import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model.ErfolgStatsFuerKuerzel;
+import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model.StatFuerMehrereZeitraeume;
 
 import java.util.Date;
 
@@ -27,8 +28,10 @@ public class TestCommandLineRunner2 implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         ErfolgStatsFuerKuerzel ergebnis = _db.calcErfolgStatsFuerKuerzel("test1");
+        LOG.info("Gesamtzahl erfolgreicher Kuerzelaufloesungen: " + ergebnis);
 
-        LOG.info("Zweiter CLI-Runner ausgefuehrt: " + ergebnis);
+        StatFuerMehrereZeitraeume statsZeitraeume = _db.calcStatsFuerZeitraeume("test1");
+        LOG.info("Statistik für mehrere Zeiträume: " + statsZeitraeume);
     }
 
 }

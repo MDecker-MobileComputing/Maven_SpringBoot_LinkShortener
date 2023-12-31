@@ -1,7 +1,8 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db;
 
 import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db.LinkZugriffEntity;
-import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db.ErfolgStatsFuerKuerzel;
+import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model.ErfolgStatsFuerKuerzel;
+import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model.StatFuerMehrereZeitraeume;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
@@ -9,6 +10,8 @@ import jakarta.persistence.TypedQuery;
 
 import java.util.Date;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,4 +113,26 @@ public class Datenbank {
         return new ErfolgStatsFuerKuerzel(kuerzel, anzahlErfolg, anzahlKeinErfolg);
     }
 
+    public StatFuerMehrereZeitraeume calcStatsFuerZeitraeume(String kuerzel) {
+
+        TypedQuery<StatFuerMehrereZeitraeume> query =
+                _entityManager.createNamedQuery("LinkZugriff.countByKuerzelAndPeriod",
+                                                StatFuerMehrereZeitraeume.class);
+
+        query.setParameter("kuerzel"      , kuerzel);
+        query.setParameter("oneDayAgo"    , berechneHeuteMinusTage( 1));
+        query.setParameter("sevenDaysAgo" , berechneHeuteMinusTage( 7));
+        query.setParameter("thirtyDaysAgo", berechneHeuteMinusTage(30));
+
+        return query.getSingleResult();
+    }
+
+
+    public static Date berechneHeuteMinusTage(int tage) {
+
+        LocalDate localDate = LocalDate.now().minusDays(tage);
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        long epochMillis = localDate.atStartOfDay(defaultZoneId).toInstant().toEpochMilli();
+        return new Date(epochMillis);
+    }
 }
