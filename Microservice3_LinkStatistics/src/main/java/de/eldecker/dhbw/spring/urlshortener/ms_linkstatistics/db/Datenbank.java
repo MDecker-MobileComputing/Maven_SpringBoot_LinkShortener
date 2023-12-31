@@ -48,8 +48,8 @@ public class Datenbank {
 
 
     /**
-     * Speichert einen Link-Zugriff in der Datenbank. Als Zeitpunkt wird
-     * die aktuelle Systemzeit verwendet.
+     * Speichert einen Link-Zugriff in der Datenbank. Als Zeitpunkt wird die aktuelle
+     * Systemzeit verwendet.
      *
      * @param kuerzel Das Kürzel, das beim Zugriff aufgelöst werden sollte.
      *

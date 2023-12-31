@@ -9,10 +9,26 @@
 
     <h1>Link-Statistiken für URL-Kürzel "<tt th:text="${kuerzel}"></tt>"</h1>
 
+    <p>
+      Aufrufe insgesamt: [[${anzahl_erfolg}]]</span>
+      (davon [[${anzahl_kein_erfolg}]] erfolglos)
+    </p>
+
+    <br>
+
+    <p>
+      <ul>
+        <li>Aufrufe in den letzten 24 Stunden: [[${anzahl_letzte_24h}]]</li>
+        <li>Aufrufe in den letzten  7 Tagen  : [[${anzahl_letzte_7T}]]</li>
+        <li>Aufrufe in den letzten 30 Tagen  : [[${anzahl_letzte_30T}]]</li>
+      </ul>
+    </p>
 
     <div class="klein">
-      <p th:text="${#dates.format(#dates.createNow(), 'HH:mm:ss')} + ' Uhr, ' + ${#dates.format(#dates.createNow(), 'yyyy-MM-dd (EEEE)')}"></p>
-  </div>
+      <p>[[${#dates.format(#dates.createNow(), 'HH:mm:ss')}]] Uhr,
+         [[${#dates.format(#dates.createNow(), 'dd MMM yyyy (E)')}]]
+      </p>
+    </div>
 
 </body>
 </html>

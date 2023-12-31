@@ -7,15 +7,15 @@
 </head>
 <body>
 
-    <h1>
-      Link-Statistiken für unbekanntes URL-Kürzel
-      "<tt th:text="${kuerzel}"></tt>"
-      angefordert
-    </h1>
+    <h1>Link-Statistiken für unbekanntes URL-Kürzel "[[${kuerzel}]]" angefordert</h1>
+
+    <br>
 
     <div class="klein">
-      <p th:text="${#dates.format(#dates.createNow(), 'HH:mm:ss')} + ' Uhr, ' + ${#dates.format(#dates.createNow(), 'yyyy-MM-dd (EEEE)')}"></p>
-  </div>
+      <p>[[${#dates.format(#dates.createNow(), 'HH:mm:ss')}]] Uhr,
+         [[${#dates.format(#dates.createNow(), 'dd MMM yyyy (E)')}]]
+      </p>
+    </div>
 
 </body>
 </html>
