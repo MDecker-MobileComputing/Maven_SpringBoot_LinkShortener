@@ -1,9 +1,14 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db;
 
+import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db.LinkZugriffEntity;
+import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db.ErfolgStatsFuerKuerzel;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
+import jakarta.persistence.TypedQuery;
 
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +27,7 @@ public class Datenbank {
     private Logger LOG = LoggerFactory.getLogger( Datenbank.class );
 
     /**
-     * Bean mit API für JPA.
+     * Bean mit API für JPA; wird bei Verwendung von JPA anstelle von {@code JDBCTemplate} benötigt.
      * <br>
      * <a href="https://jakarta.ee/specifications/platform/9/apidocs/jakarta/persistence/entitymanager">Offizielle Doku</a>
      */
@@ -66,4 +71,33 @@ public class Datenbank {
         }
     }
 
+    public ErfolgStatsFuerKuerzel calcErfolgStatsFuerKuerzel(String kuerzel) {
+
+        TypedQuery<Object[]> query =
+            _entityManager.createNamedQuery("LinkZugriff.countErfolgByKuerzel", Object[].class);
+
+        query.setParameter("kuerzel", kuerzel);
+
+        int anzahlErfolg     = 0;
+        int anzahlKeinErfolg = 0;
+
+        List<Object[]> results = query.getResultList();
+
+        for (Object[] result : results) {
+
+            Boolean erfolgreich = (Boolean) result[0];
+            Long    count       = (Long)    result[1];
+
+            if (erfolgreich) {
+
+                anzahlErfolg = count.intValue();
+
+            } else {
+
+                anzahlKeinErfolg = count.intValue();
+            }
+        }
+
+        return new ErfolgStatsFuerKuerzel(kuerzel, anzahlErfolg, anzahlKeinErfolg);
+    }
 }

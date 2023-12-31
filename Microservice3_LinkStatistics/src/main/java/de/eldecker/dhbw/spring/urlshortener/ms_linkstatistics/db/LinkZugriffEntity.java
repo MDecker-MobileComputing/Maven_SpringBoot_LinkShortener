@@ -39,7 +39,7 @@ import jakarta.persistence.NamedQuery;
 @NamedQueries({
     @NamedQuery(name = "LinkZugriff.countByKuerzel",
                 query = "SELECT COUNT(lz) FROM LinkZugriffEntity lz WHERE lz._kuerzel = :kuerzel"),
-    @NamedQuery(name = "LinkZugriff.countByKuerzelAndErfolgreich",
+    @NamedQuery(name = "LinkZugriff.countErfolgByKuerzel",
                 query = "SELECT lz._erfolgreich, COUNT(lz) FROM LinkZugriffEntity lz WHERE lz._kuerzel = :kuerzel GROUP BY lz._erfolgreich")
 })
 public class LinkZugriffEntity {
