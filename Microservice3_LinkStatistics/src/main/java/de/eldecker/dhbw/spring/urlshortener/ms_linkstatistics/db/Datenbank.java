@@ -18,13 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 public class Datenbank {
-    
+
     private Logger LOG = LoggerFactory.getLogger( Datenbank.class );
 
-    /** 
-     * Bean mit API für JPA. 
+    /**
+     * Bean mit API für JPA.
      * <br>
-     * Doku: https://jakarta.ee/specifications/platform/9/apidocs/jakarta/persistence/entitymanager
+     * <a href="https://jakarta.ee/specifications/platform/9/apidocs/jakarta/persistence/entitymanager">Offizielle Doku</a>
      */
     private EntityManager _entityManager;
 
@@ -42,10 +42,10 @@ public class Datenbank {
     /**
      * Speichert einen Link-Zugriff in der Datenbank. Als Zeitpunkt wird
      * die aktuelle Systemzeit verwendet.
-     * 
+     *
      * @param kuerzel Das Kürzel, das beim Zugriff aufgelöst werden sollte.
-     * 
-     * @param erfolgreich {@code true} genau dann, wenn die Kurz-URL aufgelöst 
+     *
+     * @param erfolgreich {@code true} genau dann, wenn die Kurz-URL aufgelöst
      *                    werden konnte.
      */
     @Transactional
@@ -55,12 +55,12 @@ public class Datenbank {
         LinkZugriff linkZugriff = new LinkZugriff(kuerzel, jetztDate, erfolgreich);
 
         try {
-            
+
             _entityManager.persist(linkZugriff);
-        } 
+        }
         catch (PersistenceException | IllegalArgumentException ex) {
 
-            LOG.error("Fehler beim Speichern der folgenden Entity:  {}", 
+            LOG.error("Fehler beim Speichern der folgenden Entity:  {}",
                       linkZugriff, ex);
         }
     }
