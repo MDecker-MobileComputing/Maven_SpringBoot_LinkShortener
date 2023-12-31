@@ -59,7 +59,7 @@ public class ThymeleafViewController {
 
 
     /**
-     * HTTP-Get-Methode für das Auflösen eines URL-Kürzels.
+     * HTTP-GET-Methode für das Auflösen eines URL-Kürzels.
      *
      * @param kuerzel Pfadvariable aus der URL, enthält das aufzulösende URL-Kürzel
      *

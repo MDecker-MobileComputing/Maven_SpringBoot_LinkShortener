@@ -1,73 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.1</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
     <!-- GAV-Koordinaten für dieses Programm (Microservice) -->
-	<groupId>de.eldecker.dhbw.spring.urlshortener</groupId>
-	<artifactId>ms_urlresolver</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+    <groupId>de.eldecker.dhbw.spring.urlshortener</groupId>
+    <artifactId>ms_urlresolver</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
-	<name>Link-Shortener: Microservice URL-Resolver</name>
-	<description>Microservice für URL-Shortener zum Auflösen einer Kurz-URL</description>
+    <name>Link-Shortener: Microservice URL-Resolver</name>
+    <description>Microservice für URL-Shortener zum Auflösen einer Kurz-URL</description>
     <url>https://github.com/MDecker-MobileComputing/Maven_SpringBoot_LinkShortener</url>
     <inceptionYear>2023</inceptionYear>
     <licenses>
-      <license>
-        <name>BSD 3-Clause License</name>
-        <url>https://opensource.org/license/BSD-3-clause/</url>
-      </license>
+        <license>
+            <name>BSD 3-Clause License</name>
+            <url>https://opensource.org/license/BSD-3-clause/</url>
+        </license>
     </licenses>
 
-	<properties>
-		<java.version>17</java.version>
-		<jackson.version>2.16.0</jackson.version>
-	</properties>
+    <properties>
+        <java.version>17</java.version>
+        <jackson.version>2.16.0</jackson.version>
+    </properties>
 
-	<dependencies>
+    <dependencies>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope><!-- wird erst zur Laufzeit der Applikation (nach Kompilierung) benötigt -->
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope><!-- wird erst zur Laufzeit der Applikation (nach Kompilierung) benötigt -->
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -106,15 +106,15 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-	</dependencies>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

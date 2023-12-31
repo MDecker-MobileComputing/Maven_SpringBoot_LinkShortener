@@ -42,9 +42,9 @@ import jakarta.persistence.NamedQuery;
     @NamedQuery(name = "LinkZugriff.countErfolgByKuerzel",
                 query = "SELECT lz._erfolgreich, COUNT(lz) FROM LinkZugriffEntity lz WHERE lz._kuerzel = :kuerzel GROUP BY lz._erfolgreich"),
     @NamedQuery(name = "LinkZugriff.countByKuerzelAndPeriod",
-                query = "SELECT SUM(CASE WHEN lz._zeitpunkt >= :oneDayAgo THEN 1 ELSE 0 END) AS anzahl1Tag, " +
-                          "SUM(CASE WHEN lz._zeitpunkt >= :sevenDaysAgo THEN 1 ELSE 0 END) AS anzahl7Tage, " +
-                          "SUM(CASE WHEN lz._zeitpunkt >= :thirtyDaysAgo THEN 1 ELSE 0 END) AS anzahl30Tage " +
+                query = "SELECT SUM(CASE WHEN lz._zeitpunkt >= :oneDayAgo     THEN 1 ELSE 0 END) AS anzahl1Tag, " +
+                               "SUM(CASE WHEN lz._zeitpunkt >= :sevenDaysAgo  THEN 1 ELSE 0 END) AS anzahl7Tage, " +
+                               "SUM(CASE WHEN lz._zeitpunkt >= :thirtyDaysAgo THEN 1 ELSE 0 END) AS anzahl30Tage " +
                             "FROM LinkZugriffEntity lz WHERE lz._kuerzel = :kuerzel")
 })
 public class LinkZugriffEntity {
