@@ -20,18 +20,26 @@ of microservice 2 (resolver).
 
 <br>
 
-**[Microservice 1 (Short Link Definition)](Microservice1_Definition/):** [The only Instance: `localhost:8080`](http://localhost:8080)
+**[Microservice 1 (Short Link Definition)](Microservice1_Definition/):**
+* [The only Instance: `localhost:8080`](http://localhost:8080)
+* Database Access Object (DAO): `JdbcTemplate`
 
 <br>
 
 **[Microservice 2: (Link Resolver)](Microservice2_Resolver/):**
-* [Instance 1: `localhost:8000`](http://localhost:8000)
-* [Instance 2: `localhost:8010`](http://localhost:8010)
-* [Load Balancer (nginx): `localhost:8123`](http://localhost:8123)
+* Instances:
+    * [Instance 1: `localhost:8000`](http://localhost:8000)
+    * [Instance 2: `localhost:8010`](http://localhost:8010)
+    * [Load Balancer (nginx): `localhost:8123`](http://localhost:8123)
+* Database Access Object (DAO): `JdbcTemplate` and `NamedParameterJdbcTemplate`
 
 <br>
 
-**[Microservice 3: (Usage Statistics)](Microservice3_LinkStatistics/):** [The only Instance: `localhost:8050`](http://localhost:8050)
+**[Microservice 3: (Usage Statistics)](Microservice3_LinkStatistics/):**
+* [The only Instance: `localhost:8050`](http://localhost:8050)
+* Database Access Object (DAO): `EntityManager` of *Jakarta Persistence API (JPA)*
+
+<br>
 
 ----
 
