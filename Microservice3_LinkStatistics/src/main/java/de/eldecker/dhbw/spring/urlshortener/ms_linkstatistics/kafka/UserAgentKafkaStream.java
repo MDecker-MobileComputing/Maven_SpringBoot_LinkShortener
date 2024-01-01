@@ -41,6 +41,14 @@ public class UserAgentKafkaStream {
     /** Kafka-Streams-Objekt, das den Stream ausführt */
     private KafkaStreams _kafkaStreams;
 
+    /**
+     * Definiert die Topologie des Kafka-Streams:
+     * <pre>
+     * TOPIC_USAGE_STATISTIKEN -> Mapping-Operation -> TOPIC_USER_AGENT_STRING
+     * </pre>
+     *
+     * @param streamConfig Konfiguration für den Kafka-Stream
+     */
     @Autowired
     public UserAgentKafkaStream(KafkaStreamsConfiguration streamConfig) {
 
@@ -54,10 +62,10 @@ public class UserAgentKafkaStream {
 
         // stream mapping: extract user agent string from KafkaBrowserUserAgentString object
         _kstream.mapValues( (key, wert) -> {
+
                 LOG.info("User-Agent-String im Stream erhalten: {}", wert.userAgentString());
                 return wert.userAgentString();
             })
-        //.to(TOPIC_USER_AGENT_STRING);
         .to(TOPIC_USER_AGENT_STRING, outputSerde); // Output-Topic
 
         _kafkaStreams = new KafkaStreams( streamsBuilder.build(),
