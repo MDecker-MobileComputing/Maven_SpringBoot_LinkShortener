@@ -49,7 +49,7 @@ public class KafkaEmpfaenger {
      *
      * @param jsonString Payload der Nachricht
      */
-    @KafkaListener(id = "ustat-listener", topics = TOPIC_USAGE_STATISTIKEN)
+    @KafkaListener(id = "ustat-listener", topics = TOPIC_USAGE_STATISTIKEN, groupId = "group-fuer-receiver")
     public void onNachrichtEmpfangen(String jsonString) {
 
         try {
