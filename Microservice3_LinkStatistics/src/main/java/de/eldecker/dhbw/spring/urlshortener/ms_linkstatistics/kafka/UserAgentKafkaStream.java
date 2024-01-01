@@ -1,17 +1,21 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.kafka;
 
+import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.kafka.serde.MeinSerde;
+
 import static de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.kafka.KafkaTopics.TOPIC_USER_AGENT_STRING;
 import static de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.kafka.KafkaTopics.TOPIC_USAGE_STATISTIKEN;
 
 import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model.KafkaBrowserUserAgentString;
 
 import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Produced;
+import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -37,13 +41,24 @@ public class UserAgentKafkaStream {
     /** Kafka-Streams-Objekt, das den Stream ausführt */
     private KafkaStreams _kafkaStreams;
 
-
     @Autowired
     public UserAgentKafkaStream(KafkaStreamsConfiguration streamConfig) {
 
         StreamsBuilder streamsBuilder = new StreamsBuilder();
 
-        _kstream = streamsBuilder.stream(TOPIC_USAGE_STATISTIKEN); // input topic
+        // Input- und Output-Serdes für den Stream
+        Consumed<String, KafkaBrowserUserAgentString> inputSerde  = Consumed.with(Serdes.String(), new MeinSerde() );
+        Produced<String, String>                      outputSerde = Produced.with(Serdes.String(), Serdes.String() );
+
+        _kstream = streamsBuilder.stream(TOPIC_USAGE_STATISTIKEN, inputSerde); // Input-Topic
+
+        // stream mapping: extract user agent string from KafkaBrowserUserAgentString object
+        _kstream.mapValues( (key, wert) -> {
+                LOG.info("User-Agent-String im Stream erhalten: {}", wert.userAgentString());
+                return wert.userAgentString();
+            })
+        //.to(TOPIC_USER_AGENT_STRING);
+        .to(TOPIC_USER_AGENT_STRING, outputSerde); // Output-Topic
 
         _kafkaStreams = new KafkaStreams( streamsBuilder.build(),
                                           streamConfig.asProperties() );
@@ -53,15 +68,7 @@ public class UserAgentKafkaStream {
     @EventListener(ApplicationReadyEvent.class)
     public void start() {
 
-        // stream mapping: extract user agent string from KafkaBrowserUserAgentString object
-        _kstream.mapValues( (key, wert) -> {
-                LOG.info("User-Agent-String im Stream erhalten: {}", wert.userAgentString());
-                return wert.userAgentString();
-            })
-        .to(TOPIC_USER_AGENT_STRING); // output topic
-
         _kafkaStreams.start();
-
         LOG.info("Kafka-Stream gestartet");
     }
 
@@ -72,5 +79,4 @@ public class UserAgentKafkaStream {
         LOG.info("Kafka-Stream wird geschlossen.");
         _kafkaStreams.close();
     }
-
 }

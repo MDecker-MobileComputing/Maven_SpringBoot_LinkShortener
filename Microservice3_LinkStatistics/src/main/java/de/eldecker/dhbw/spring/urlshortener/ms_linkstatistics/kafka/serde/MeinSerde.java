@@ -17,59 +17,60 @@ import org.apache.kafka.common.serialization.Serializer;
 public class MeinSerde
        implements Serde<KafkaBrowserUserAgentString> {
 
-       private final Serde<KafkaBrowserUserAgentString> _serde;
+    /** Object with matching pair of serializer and deserializer. */
+    private final Serde<KafkaBrowserUserAgentString> _serde;
 
 
-       /**
-        * Konstruktor Serialisierer/Deserialisierer für Kafka für Objekte
-        * vom Typ {@link KafkaBrowserUserAgentString}.
-        */
-       public MeinSerde() {
+    /**
+    * Konstruktor Serialisierer/Deserialisierer für Kafka für Objekte
+    * vom Typ {@link KafkaBrowserUserAgentString}.
+    */
+    public MeinSerde() {
 
-              _serde = Serdes.serdeFrom(
-                            new BrowserKennungSerializer(),
-                            new BrowserKennungDeserialisierer()
-              );
-       }
-
-
-       /**
-        * Getter für den Serialisierer.
-        */
-       @Override
-       public Serializer<KafkaBrowserUserAgentString> serializer() {
-
-           return _serde.serializer();
-       }
+            _serde = Serdes.serdeFrom(
+                        new BrowserKennungSerializer(),
+                        new BrowserKennungDeserialisierer()
+            );
+    }
 
 
-       /**
-        * Getter für den Deserialisierer.
-        */
-       @Override
-       public Deserializer<KafkaBrowserUserAgentString> deserializer() {
+    /**
+    * Getter für den Serialisierer.
+    */
+    @Override
+    public Serializer<KafkaBrowserUserAgentString> serializer() {
 
-           return _serde.deserializer();
-       }
-
-
-       /**
-        * Konfiguriert den Serialisierer/Deserialisierer.
-        */
-       @Override
-       public void configure(Map<String, ?> configs, boolean isKey) {
-
-           _serde.configure(configs, isKey);
-       }
+        return _serde.serializer();
+    }
 
 
-       /**
-        * Schließt den Serialisierer/Deserialisierer.
-        */
-       @Override
-       public void close() {
+    /**
+    * Getter für den Deserialisierer.
+    */
+    @Override
+    public Deserializer<KafkaBrowserUserAgentString> deserializer() {
 
-           _serde.close();
-       }
+        return _serde.deserializer();
+    }
+
+
+    /**
+    * Konfiguriert den Serialisierer/Deserialisierer.
+    */
+    @Override
+    public void configure(Map<String, ?> configs, boolean isKey) {
+
+        _serde.configure(configs, isKey);
+    }
+
+
+    /**
+    * Schließt den Serialisierer/Deserialisierer.
+    */
+    @Override
+    public void close() {
+
+        _serde.close();
+    }
 
 }

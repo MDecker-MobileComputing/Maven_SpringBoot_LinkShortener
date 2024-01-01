@@ -1,5 +1,6 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.helferlein;
 
+
 import static org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG;
 import static org.apache.kafka.streams.StreamsConfig.APPLICATION_ID_CONFIG;
 import static org.apache.kafka.streams.StreamsConfig.BOOTSTRAP_SERVERS_CONFIG;
@@ -17,6 +18,8 @@ import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+
+import org.apache.kafka.common.serialization.Serdes;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,9 +65,11 @@ public class BeanErzeuger {
 
         props.put(APPLICATION_ID_CONFIG           , "linkstat-to-useragent-stream");
         props.put(BOOTSTRAP_SERVERS_CONFIG        , "localhost:9092");
+        props.put(GROUP_ID_CONFIG                 , "die-streaming-gruppe"); // andere Gruppe als Receiver, damit beide parallel laufen können
+        /*
         props.put(DEFAULT_KEY_SERDE_CLASS_CONFIG  , MeinSerde.class.getName());
-        props.put(DEFAULT_VALUE_SERDE_CLASS_CONFIG, MeinSerde.class.getName());
-        props.put(GROUP_ID_CONFIG                 , "die-streaming-gruppe");
+        props.put(DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        */
 
         return new KafkaStreamsConfiguration(props);
     }

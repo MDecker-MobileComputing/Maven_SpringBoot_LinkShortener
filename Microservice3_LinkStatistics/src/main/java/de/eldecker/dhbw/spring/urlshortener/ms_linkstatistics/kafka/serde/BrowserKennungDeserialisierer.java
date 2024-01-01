@@ -39,6 +39,15 @@ public class BrowserKennungDeserialisierer
     }
 
 
+    /**
+     * Methode deserialisiert von Input-Topic gelesene Daten in ein Objekt
+     * vom Typ {@link KafkaBrowserUserAgentString}.
+     *
+     * @param topic Name des Topics, aus dem gelesen wird (wird nicht ausgewertet)
+     * @param data Daten, die deserialisiert werden sollen
+     * @return Deserialisiertes Objekt vom Typ {@link KafkaBrowserUserAgentString}
+     *         oder {@code null}, wenn {@code data} {@code null} oder leer ist
+     */
     @Override
     public KafkaBrowserUserAgentString deserialize(String topic, byte[] data) {
 
@@ -58,7 +67,8 @@ public class BrowserKennungDeserialisierer
         }
         catch (IOException ex) {
 
-            throw new RuntimeException("Fehler beim Deserialisieren von KafkaBrowserUserAgentString-Objekt", ex);
+            LOG.error("Fehler beim Deserialisieren von Input-Topic: " + data);
+            return null;
         }
     }
 
