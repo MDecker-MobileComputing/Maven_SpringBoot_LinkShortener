@@ -1,4 +1,4 @@
-package de.eldecker.dhbw.spring.urlshortener.helferlein;
+package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.helferlein;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

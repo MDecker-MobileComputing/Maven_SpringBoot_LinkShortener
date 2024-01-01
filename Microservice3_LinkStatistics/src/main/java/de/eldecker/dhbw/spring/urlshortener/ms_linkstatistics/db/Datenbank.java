@@ -1,8 +1,7 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db;
 
-import static de.eldecker.dhbw.spring.urlshortener.helferlein.DatumHelferlein.berechneHeuteMinusStunden;
+import static de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.helferlein.DatumHelferlein.berechneHeuteMinusStunden;
 
-import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db.LinkZugriffEntity;
 import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model.ErfolgStatsFuerKuerzel;
 import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model.StatFuerMehrereZeitraeume;
 
