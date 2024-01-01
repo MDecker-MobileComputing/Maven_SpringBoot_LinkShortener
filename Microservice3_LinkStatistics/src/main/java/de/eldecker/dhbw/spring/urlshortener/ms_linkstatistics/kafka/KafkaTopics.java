@@ -23,6 +23,12 @@ public class KafkaTopics {
     public static final String TOPIC_USAGE_STATISTIKEN = "usage_statistiken";
 
     /**
+     * Name von Kafka-Topic, an die Nachrichten mit dem User-Agent-String
+     * geschrieben werden.
+     */
+    public static final String TOPIC_USER_AGENT_STRING = "browser_string";
+
+    /**
      * Die Default-Lebensdauer einer Nachricht auf einem Kafka-Topic ist 7 Tage.
      * Man kann beim Anlegen eines Topics eine andere Lebensdauer angeben.
      * Wenn dabei der Wert "-1" angegeben wird, dann ist die Lebensdauer unbegrenzt
@@ -35,12 +41,29 @@ public class KafkaTopics {
      * Erzeugt bei Bedarf Topic für Usage-Statistiken.
      *
      * @return Topic für Usage-Statistiken mit unbegrenzter Lebensdauer,
-     *         2 Partitions und 1 Replica.
+     *         2 Partitionen und 1 Replica.
      */
     @Bean
     public NewTopic topicUsageStatistiken() {
 
         return TopicBuilder.name(TOPIC_USAGE_STATISTIKEN)
+                .partitions(2)
+                .replicas(1)
+                .config(TopicConfig.RETENTION_MS_CONFIG, LEBENSDAUER_UNBEGRENZT)
+                .build();
+    }
+
+
+    /**
+     * Erzeugt bei Bedarf Topic für User-Agent-String (Browser-Kennung),
+     * auf das mit Kafka-Stream geschrieben wird.
+     *
+     * @return Topic mit unbegrenzter Lebensdauer, 2 Partitionen und 1 Replica.
+     */
+    @Bean
+    public NewTopic topicUserAgentString() {
+
+        return TopicBuilder.name(TOPIC_USER_AGENT_STRING)
                 .partitions(2)
                 .replicas(1)
                 .config(TopicConfig.RETENTION_MS_CONFIG, LEBENSDAUER_UNBEGRENZT)
