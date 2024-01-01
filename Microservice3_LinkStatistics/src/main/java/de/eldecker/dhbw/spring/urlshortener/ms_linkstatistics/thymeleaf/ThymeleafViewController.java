@@ -15,12 +15,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
+/**
+ * Controller, der die Anfragen für die Thymeleaf-Views bearbeitet.
+ */
 @Controller
 public class ThymeleafViewController {
 
     private Logger LOG = LoggerFactory.getLogger( ThymeleafViewController.class );
 
+    /** Datenbank-Bean, das die DB-Abfragen ausführt. */
     private Datenbank _datenbank;
+
 
     /**
      * Konstruktor, der die Abhängigkeiten injiziert.
