@@ -1,8 +1,9 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model;
 
+import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db.Datenbank;
 
 /**
- * Ergebnis der DB-Abfrage in Method {@link Datenbank#ermittleErfolgStatsFuerKuerzel(String)}.
+ * Ergebnis der DB-Abfrage in Method {@link Datenbank#calcErfolgStatsFuerKuerzel(String)}.
  *
  * @param kuerzel Das URL-Kürzel, für das die Statistik ermittelt wurde.
  *
