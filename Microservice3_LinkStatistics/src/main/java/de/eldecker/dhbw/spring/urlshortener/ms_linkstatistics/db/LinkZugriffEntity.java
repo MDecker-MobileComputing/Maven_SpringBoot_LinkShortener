@@ -224,6 +224,7 @@ public class LinkZugriffEntity {
         return sb.toString();
     }
 
+
     /**
      * Hash-Code für das Objekt, berücksichtigt die Attribute {@code _kuerzel}, {@code _zeitpunkt} und
      * {@code _erfolgreich}.

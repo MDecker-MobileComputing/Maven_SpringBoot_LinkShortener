@@ -1,7 +1,8 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.kafka;
 
+import static org.apache.kafka.common.config.TopicConfig.RETENTION_MS_CONFIG;
+
 import org.apache.kafka.clients.admin.NewTopic;
-import org.apache.kafka.common.config.TopicConfig;
 
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.context.annotation.Bean;
@@ -47,10 +48,10 @@ public class KafkaTopics {
     public NewTopic topicUsageStatistiken() {
 
         return TopicBuilder.name(TOPIC_USAGE_STATISTIKEN)
-                .partitions(2)
-                .replicas(1)
-                .config(TopicConfig.RETENTION_MS_CONFIG, LEBENSDAUER_UNBEGRENZT)
-                .build();
+                           .partitions(2)
+                           .replicas(1)
+                           .config(RETENTION_MS_CONFIG, LEBENSDAUER_UNBEGRENZT)
+                           .build();
     }
 
 
@@ -64,10 +65,10 @@ public class KafkaTopics {
     public NewTopic topicUserAgentString() {
 
         return TopicBuilder.name(TOPIC_USER_AGENT_STRING)
-                .partitions(2)
-                .replicas(1)
-                .config(TopicConfig.RETENTION_MS_CONFIG, LEBENSDAUER_UNBEGRENZT)
-                .build();
+                           .partitions(2)
+                           .replicas(1)
+                           .config(RETENTION_MS_CONFIG, LEBENSDAUER_UNBEGRENZT)
+                           .build();
     }
 
 }

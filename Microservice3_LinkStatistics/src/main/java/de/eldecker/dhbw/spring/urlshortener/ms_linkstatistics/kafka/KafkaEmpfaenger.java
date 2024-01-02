@@ -66,7 +66,6 @@ public class KafkaEmpfaenger {
 
             LOG.error("Fehler beim Deserialisieren einer Kafka-Nachricht mit LinkStat: {}", jsonString, ex);
         }
-
     }
 
 }

@@ -41,6 +41,7 @@ public class UserAgentKafkaStream {
     /** Kafka-Streams-Objekt, das den Stream ausführt */
     private KafkaStreams _kafkaStreams;
 
+    
     /**
      * Definiert die Topologie des Kafka-Streams:
      * <pre>
@@ -73,6 +74,9 @@ public class UserAgentKafkaStream {
     }
 
 
+    /**
+     * Startet den Kafka-Stream, sobald die Applikation hochgefahren ist.
+     */
     @EventListener(ApplicationReadyEvent.class)
     public void start() {
 
@@ -81,10 +85,14 @@ public class UserAgentKafkaStream {
     }
 
 
+    /**
+     * Stoppt den Kafka-Stream, wenn die Applikation herunterfährt.
+     */
     @EventListener(ContextClosedEvent.class)
     public void stop() {
 
         LOG.info("Kafka-Stream wird geschlossen.");
         _kafkaStreams.close();
     }
+    
 }

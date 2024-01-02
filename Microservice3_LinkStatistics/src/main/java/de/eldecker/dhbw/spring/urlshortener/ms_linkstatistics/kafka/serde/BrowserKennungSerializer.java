@@ -48,6 +48,7 @@ public class BrowserKennungSerializer implements Serializer<KafkaBrowserUserAgen
 
             LOG.error("Fehler beim Serialisieren von KafkaBrowserUserAgentString-Objekt: {}",
                       objekt, ex);
+            
             return new byte[0];
         }
     }

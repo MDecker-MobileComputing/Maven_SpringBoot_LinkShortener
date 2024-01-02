@@ -27,10 +27,10 @@ public class MeinSerde
     */
     public MeinSerde() {
 
-            _serde = Serdes.serdeFrom(
-                        new BrowserKennungSerializer(),
-                        new BrowserKennungDeserialisierer()
-            );
+        _serde = Serdes.serdeFrom(
+                    new BrowserKennungSerializer(),
+                    new BrowserKennungDeserialisierer()
+        );
     }
 
 

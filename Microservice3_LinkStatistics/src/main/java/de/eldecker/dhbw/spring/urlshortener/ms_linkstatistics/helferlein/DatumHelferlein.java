@@ -15,7 +15,8 @@ public class DatumHelferlein {
      * Berechnet ein {@code Date}-Objekt, das {@code stunden} Stunden vor der aktuellen
      * Systemzeit liegt.
      *
-     * @param stunden Anzahl der Stunden, die von der aktuellen Systemzeit abgezogen werden sollen.
+     * @param stunden Anzahl der Stunden, die von der aktuellen Systemzeit abgezogen werden 
+     *                sollen.
      */
     public static Date berechneHeuteMinusStunden(int stunden) {
 

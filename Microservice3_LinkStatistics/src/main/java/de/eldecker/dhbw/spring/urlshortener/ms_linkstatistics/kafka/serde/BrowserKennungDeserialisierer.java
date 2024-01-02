@@ -15,8 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+/**
+ * Deserialiserer für byte-Array nach {@link KafkaBrowserUserAgentString}.
+ */
 public class BrowserKennungDeserialisierer
-       implements Deserializer<KafkaBrowserUserAgentString> {
+                             implements Deserializer<KafkaBrowserUserAgentString> {
 
     private static Logger LOG = LoggerFactory.getLogger(BrowserKennungDeserialisierer.class);
 
@@ -59,7 +62,8 @@ public class BrowserKennungDeserialisierer
 
         try {
 
-            KafkaBrowserUserAgentString result = _objectMapper.readValue(data, KafkaBrowserUserAgentString.class);
+            KafkaBrowserUserAgentString result = _objectMapper.readValue(data, 
+                                                                         KafkaBrowserUserAgentString.class);
 
             LOG.info("Deserialisiertes KafkaBrowserUserAgentString-Objekt: {}", result);
 
