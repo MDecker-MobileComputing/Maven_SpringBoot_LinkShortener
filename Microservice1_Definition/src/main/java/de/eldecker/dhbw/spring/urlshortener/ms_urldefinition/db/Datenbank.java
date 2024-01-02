@@ -122,9 +122,9 @@ public class Datenbank {
     public boolean aendereUrlDefinition(String kuerzel, String langUrlNeu, String beschreibungNeu, boolean istAktivNeu) {
 
             final String sql =
-                "UPDATE urls " +
-                "SET url_original = ?, beschreibung = ?, ist_aktiv = ?, zeitpunkt_aenderung = ? " +
-                "WHERE url_kuerzel = ?";
+                    "UPDATE urls " +
+                    "SET url_original = ?, beschreibung = ?, ist_aktiv = ?, zeitpunkt_aenderung = ? " +
+                    "WHERE url_kuerzel = ?";
 
             Date datumZeitJetzt = new Date();
 

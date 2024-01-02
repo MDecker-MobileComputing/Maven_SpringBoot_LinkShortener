@@ -11,6 +11,7 @@ public class StringFunktionen {
 
     private static Logger LOG = LoggerFactory.getLogger(StringFunktionen.class);
 
+
     /**
      * Methode zum Erzeugen eines zufälligen Passwortes.
      *
