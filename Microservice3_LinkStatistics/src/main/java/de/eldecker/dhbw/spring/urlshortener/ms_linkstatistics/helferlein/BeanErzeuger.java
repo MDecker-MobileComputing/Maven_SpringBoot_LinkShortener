@@ -15,6 +15,8 @@ import java.util.HashMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
+import nl.basjes.parse.useragent.UserAgentAnalyzer;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.KafkaStreamsDefaultConfiguration;
@@ -53,19 +55,37 @@ public class BeanErzeuger {
      * @return Konfiguration für "Kafka Stream"
      */
     @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
-    public KafkaStreamsConfiguration kStreamsConfig() {
+    public KafkaStreamsConfiguration erzeugeKStreamsConfig() {
 
         Map<String, Object> props = new HashMap<>();
 
         props.put(APPLICATION_ID_CONFIG           , "linkstat-to-useragent-stream");
         props.put(BOOTSTRAP_SERVERS_CONFIG        , "localhost:9092");
         props.put(GROUP_ID_CONFIG                 , "die-streaming-gruppe"); // andere Gruppe als Receiver, damit beide parallel laufen können
+        
         /*
         props.put(DEFAULT_KEY_SERDE_CLASS_CONFIG  , MeinSerde.class.getName());
         props.put(DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         */
 
         return new KafkaStreamsConfiguration(props);
+    }
+
+
+    /**
+     * Objekt für " Yauaa: Yet Another UserAgent Analyzer" erzeugen und konfigurieren, siehe auch
+     * <a href="https://yauaa.basjes.nl/using/#using-in-java-applications" target="_blank">hier</a>.
+     *
+     * @return Objekt für Auswertung von User-Agent-Strings (Browser-Kennungen)
+     */
+    @Bean
+    public UserAgentAnalyzer erzeugeUserAgentAnalyzer() {
+
+        return UserAgentAnalyzer
+                .newBuilder()
+                .hideMatcherLoadStats()
+                .withCache(100) // für produktiven Einsatz eher 10000
+                .build();
     }
 
 }

@@ -1,11 +1,17 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.kafka;
 
+import static nl.basjes.parse.useragent.UserAgent.AGENT_NAME;
+import static nl.basjes.parse.useragent.UserAgent.OPERATING_SYSTEM_NAME;
+
+import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.helferlein.BeanErzeuger;
 import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.kafka.serde.MeinSerde;
 
 import static de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.kafka.KafkaTopics.TOPIC_USER_AGENT_STRING;
 import static de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.kafka.KafkaTopics.TOPIC_USAGE_STATISTIKEN;
 
 import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model.KafkaBrowserUserAgentString;
+import nl.basjes.parse.useragent.UserAgent;
+import nl.basjes.parse.useragent.UserAgentAnalyzer;
 
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.Consumed;
@@ -45,13 +51,20 @@ public class UserAgentKafkaStream {
     /**
      * Definiert die Topologie des Kafka-Streams:
      * <pre>
-     * TOPIC_USAGE_STATISTIKEN -> Mapping-Operation -> TOPIC_USER_AGENT_STRING
+     * TOPIC_USAGE_STATISTIKEN → Mapping-Operation → TOPIC_USER_AGENT_STRING
      * </pre>
+     * <br>
+     * User-Agent-String (Browser-Kennung) wird mit "Yauaa" ausgewertet, siehe
+     * <a href="https://yauaa.basjes.nl" target="_blank">hier</a>.
      *
-     * @param streamConfig Konfiguration für den Kafka-Stream
+     * @param streamConfig Konfiguration für den Kafka-Stream, wird erzeugt von 
+     *                     Methode {@link BeanErzeuger#erzeugeKStreamsConfig()}
+     * 
+     * @param userAgentAnalyzer Bean für Auswertung Browser-Kennung, Objekt von Klasse
+     *                          aus Bibliothek "Yauaa"
      */
     @Autowired
-    public UserAgentKafkaStream(KafkaStreamsConfiguration streamConfig) {
+    public UserAgentKafkaStream(KafkaStreamsConfiguration streamConfig, UserAgentAnalyzer userAgentAnalyzer) {
 
         StreamsBuilder streamsBuilder = new StreamsBuilder();
 
@@ -64,8 +77,19 @@ public class UserAgentKafkaStream {
         // stream mapping: extract user agent string from KafkaBrowserUserAgentString object
         _kstream.mapValues( (key, wert) -> {
 
-                LOG.info("User-Agent-String im Stream erhalten: {}", wert.userAgentString());
-                return wert.userAgentString();
+                String userAgentString = wert.userAgentString();                
+                LOG.info("User-Agent-String im Stream erhalten: {}", userAgentString);
+                
+                UserAgent agent = userAgentAnalyzer.parse(userAgentString);
+                String betriebsSystem = agent.getValue(OPERATING_SYSTEM_NAME);
+                String browserName    = agent.getValue(AGENT_NAME);
+                
+                String browserAufBetriebsSystem = String.format("%s %s", betriebsSystem, browserName);
+                // Beispielwerte: "Windows NT Opera", "Windows NT Firefox", "Windows NT Chrome", "Windows NT Edge"
+                                
+                LOG.info("User-Agent-String im Stream wird abgebildet auf: {}", browserAufBetriebsSystem);
+                
+                return browserAufBetriebsSystem;
             })
         .to(TOPIC_USER_AGENT_STRING, outputSerde); // Output-Topic
 

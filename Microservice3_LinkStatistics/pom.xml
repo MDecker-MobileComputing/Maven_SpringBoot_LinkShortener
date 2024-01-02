@@ -81,19 +81,23 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        
+		<dependency>
+		    <groupId>nl.basjes.parse.useragent</groupId>
+		    <artifactId>yauaa</artifactId>
+		    <version>7.24.0</version>
+		</dependency>        
 
 	</dependencies>
 
