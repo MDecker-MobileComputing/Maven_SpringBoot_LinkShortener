@@ -132,10 +132,10 @@ public class UrlDefinitionRestController {
         }
         catch (ShortLinkException ex) {
 
-                LOG.error("Fehler beim Anlegen einer neuen URL-Definition: {}", ex.getMessage());
-                HttpStatusCode status = ex.istInternerFehler() ? INTERNAL_SERVER_ERROR : BAD_REQUEST;
-                ergebnisRecord = baueFehlerRecord( ex.getMessage() );
-                return ResponseEntity.status(status).body(ergebnisRecord);
+            LOG.error("Fehler beim Anlegen einer neuen URL-Definition: {}", ex.getMessage());
+            HttpStatusCode status = ex.istInternerFehler() ? INTERNAL_SERVER_ERROR : BAD_REQUEST;
+            ergebnisRecord = baueFehlerRecord( ex.getMessage() );
+            return ResponseEntity.status(status).body(ergebnisRecord);
         }
     }
 
