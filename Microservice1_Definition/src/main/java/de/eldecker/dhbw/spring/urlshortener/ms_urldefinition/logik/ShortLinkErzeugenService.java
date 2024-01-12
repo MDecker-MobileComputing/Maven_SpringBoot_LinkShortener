@@ -61,6 +61,7 @@ public class ShortLinkErzeugenService {
         final String beschreibungTrimmed = beschreibung.trim();
 
         if (urlLangTrimmed.isBlank()) {
+
             throw new ShortLinkException("Leere URL von Nutzer erhalten.", false);
         }
         if (urlLangTrimmed.length() > 999) {
