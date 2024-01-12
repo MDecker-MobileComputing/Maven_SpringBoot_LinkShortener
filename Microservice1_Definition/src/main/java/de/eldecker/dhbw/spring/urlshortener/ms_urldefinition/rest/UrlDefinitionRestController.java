@@ -121,7 +121,7 @@ public class UrlDefinitionRestController {
         try {
 
             KuerzelUndPasswort kuerzelUndPasswort =
-                               _shortLinkErzeugenService.shortlinkAnlegen(urlLang, beschreibung); // throws ShortLinkException
+                               _shortLinkErzeugenService.shortLinkAnlegen(urlLang, beschreibung); // throws ShortLinkException
 
             ergebnisRecord = baueErfolgRecord( kuerzelUndPasswort.kuerzel(),
                                                kuerzelUndPasswort.passwort() );
