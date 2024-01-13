@@ -20,6 +20,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 /**
+ * Die vorliegende Klasse ist ein sog. Web-Controller, also eine Klasse, deren Methoden 
+ * HTTP-Requests entgegen nehmen und den Namen des anzuzeigenden Views zurückgeben.
+ * Diese Vies sind in unserem Fall Thymeleaf-Templates.
+ * <br><br>
+ * 
  * Die zugehörigen Template-Dateien finden sich im Ordner {@code src/main/resources/templates}.
  * Der Name des anzuzeigenden Template wird von den Methoden dieser Klasse als String zurückgegeben.
  * <br><br>
@@ -28,9 +33,9 @@ import org.springframework.web.bind.annotation.PathVariable;
  * Seite eine Fehlermeldung im Log angezeigt.
  */
 @Controller
-public class ThymeleafViewController {
+public class ThymeleafWebController {
 
-    private Logger LOG = LoggerFactory.getLogger(ThymeleafViewController.class);
+    private Logger LOG = LoggerFactory.getLogger(ThymeleafWebController.class);
 
     /**
      * Instanzname aus Konfigurationsdatei {@code application-PROFILNAME.properties};
@@ -50,7 +55,7 @@ public class ThymeleafViewController {
      * Konstruktor für Dependency Injection.
      */
     @Autowired
-    public ThymeleafViewController(Datenbank datenbank,
+    public ThymeleafWebController(Datenbank datenbank,
                                    KafkaSender kafkaSender) {
 
         _datenbank   = datenbank;
