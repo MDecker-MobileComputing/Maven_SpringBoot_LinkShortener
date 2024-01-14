@@ -24,7 +24,7 @@ import jakarta.persistence.NamedQuery;
  * {@code javax.persistence} nicht mehr verwendet werden durfte.
  * <br><br>
  *
- * Achtung: In den <i>Named Queries</i> (JPQL) müssen die Klassennamen und Attribut-Namen verwendet
+ * <b>Achtung:</b> In den <i>Named Queries</i> (JPQL) müssen die Klassen- und Attributnamen verwendet
  * werden, die in der Entity-Klasse definiert sind, nicht die Namen der Tabellen und Spalten in der
  * Datenbank, also z.B. {@code LinkZugriffEntity} statt {@code LINK_ZUGRIFFE} oder {@code _kuerzel}
  * statt {@code KUERZEL}.
