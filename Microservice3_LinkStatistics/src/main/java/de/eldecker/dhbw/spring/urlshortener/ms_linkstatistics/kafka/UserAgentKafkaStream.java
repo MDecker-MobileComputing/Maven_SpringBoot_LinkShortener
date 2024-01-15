@@ -35,6 +35,10 @@ import org.springframework.stereotype.Component;
  * Kafka-Stream, der den User-Agent-String (Browser-Kennung) aus
  * {@link KafkaBrowserUserAgentString}-Objekt extrahiert und in
  * ein anderes Topic schreibt.
+ * <br><br>
+ * 
+ * Benötigte Abhängigkeit in der {@code pom.x}:
+ * {@code org.apache.kafka:kafka-streams}.
  */
 @Component
 public class UserAgentKafkaStream {
