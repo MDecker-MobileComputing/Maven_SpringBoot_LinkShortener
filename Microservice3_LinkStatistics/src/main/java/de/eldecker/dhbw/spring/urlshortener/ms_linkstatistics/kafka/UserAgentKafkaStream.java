@@ -60,8 +60,8 @@ public class UserAgentKafkaStream {
      * @param streamConfig Konfiguration für den Kafka-Stream, wird erzeugt von 
      *                     Methode {@link BeanErzeuger#erzeugeKStreamsConfig()}
      * 
-     * @param userAgentAnalyzer Bean für Auswertung Browser-Kennung, Objekt von Klasse
-     *                          aus Bibliothek "Yauaa"
+     * @param userAgentAnalyzer Bean für Auswertung Browser-Kennung, Objekt von 
+     *                          Klasse aus Bibliothek "Yauaa"
      */
     @Autowired
     public UserAgentKafkaStream(KafkaStreamsConfiguration streamConfig, UserAgentAnalyzer userAgentAnalyzer) {
@@ -69,8 +69,8 @@ public class UserAgentKafkaStream {
         StreamsBuilder streamsBuilder = new StreamsBuilder();
 
         // Input- und Output-Serdes für den Stream
-        Consumed<String, KafkaBrowserUserAgentString> inputSerde  = Consumed.with(Serdes.String(), new MeinSerde() );
-        Produced<String, String>                      outputSerde = Produced.with(Serdes.String(), Serdes.String() );
+        Consumed<String, KafkaBrowserUserAgentString> inputSerde  = Consumed.with( Serdes.String(), new MeinSerde() );
+        Produced<String, String>                      outputSerde = Produced.with( Serdes.String(), Serdes.String() );
 
         _kstream = streamsBuilder.stream(TOPIC_USAGE_STATISTIKEN, inputSerde); // Input-Topic
 

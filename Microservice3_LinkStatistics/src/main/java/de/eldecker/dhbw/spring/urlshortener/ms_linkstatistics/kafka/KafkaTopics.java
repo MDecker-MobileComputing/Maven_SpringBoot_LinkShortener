@@ -56,8 +56,8 @@ public class KafkaTopics {
 
 
     /**
-     * Erzeugt bei Bedarf Topic für User-Agent-String (Browser-Kennung),
-     * auf das mit Kafka-Stream geschrieben wird.
+     * Erzeugt bei Bedarf Topic für User-Agent-String (Browser-Kennung), auf das 
+     * mit Kafka-Stream geschrieben wird.
      *
      * @return Topic mit unbegrenzter Lebensdauer, 2 Partitionen und 1 Replica.
      */
