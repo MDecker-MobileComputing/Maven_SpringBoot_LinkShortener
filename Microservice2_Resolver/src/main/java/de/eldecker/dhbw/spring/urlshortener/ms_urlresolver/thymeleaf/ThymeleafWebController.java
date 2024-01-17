@@ -56,7 +56,7 @@ public class ThymeleafWebController {
      */
     @Autowired
     public ThymeleafWebController(Datenbank datenbank,
-                                   KafkaSender kafkaSender) {
+                                  KafkaSender kafkaSender) {
 
         _datenbank   = datenbank;
         _kafkaSender = kafkaSender;
@@ -98,9 +98,9 @@ public class ThymeleafWebController {
 
             if (al.istAktiv()) {
 
-                model.addAttribute("gefunden"           , true );
-                model.addAttribute("urlLang"            , al.urlOriginal()    );
-                model.addAttribute("beschreibung"       , al.beschreibung()   );
+                model.addAttribute("gefunden"           , true                    );
+                model.addAttribute("urlLang"            , al.urlOriginal()        );
+                model.addAttribute("beschreibung"       , al.beschreibung()       );
                 model.addAttribute("zeitpunkt_erzeugung", al.zeitpunktErzeugung() );
 
                 String letzteAenderung = "–";
