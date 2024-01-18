@@ -84,6 +84,8 @@ public class ThymeleafWebController {
 
         model.addAttribute("kuerzel"     , kuerzelTrimmed);
         model.addAttribute("instanzname" , _instanzname  );
+        
+        boolean erfolgFuerStat = false;
 
         Optional<AufgeloesterLink> ergebnisOptional = _datenbank.kuerzelAufloesen(kuerzelTrimmed);
         if (ergebnisOptional.isEmpty()) {
@@ -110,6 +112,7 @@ public class ThymeleafWebController {
                 }
 
                 model.addAttribute("zeitpunkt_aenderung", letzteAenderung );
+                erfolgFuerStat = true;
 
             } else {
 
@@ -127,7 +130,7 @@ public class ThymeleafWebController {
         KafkaUsageRecord usageRecord = new KafkaUsageRecord( new Date(),
                                                              kuerzelTrimmed,
                                                              userAgentString,
-                                                             ergebnisOptional.isPresent() );
+                                                             erfolgFuerStat );
         _kafkaSender.sendeUsageRecord(usageRecord);
 
         return "ergebnis";
