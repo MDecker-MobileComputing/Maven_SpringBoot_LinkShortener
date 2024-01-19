@@ -81,11 +81,10 @@ public class BeanErzeuger {
     @Bean
     public UserAgentAnalyzer erzeugeUserAgentAnalyzer() {
 
-        return UserAgentAnalyzer
-                .newBuilder()
-                .hideMatcherLoadStats()
-                .withCache(100) // für produktiven Einsatz eher 10000
-                .build();
+        return UserAgentAnalyzer.newBuilder()                    
+                                .hideMatcherLoadStats()
+                                .withCache(100) // für produktiven Einsatz eher 10000
+                                .build();
     }
 
 }
