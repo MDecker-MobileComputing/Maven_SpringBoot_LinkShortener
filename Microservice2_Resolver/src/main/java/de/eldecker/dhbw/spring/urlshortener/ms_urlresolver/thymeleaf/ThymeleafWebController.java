@@ -20,6 +20,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 /**
+ * Die vorliegende Klasse ist ein sog. Web-Controller, also eine Klasse, deren Methoden 
+ * HTTP-Requests entgegen nehmen und den Namen des anzuzeigenden Views zurückgeben.
+ * Diese Vies sind in unserem Fall Thymeleaf-Templates.
+ * <br><br>
+ * 
  * Die zugehörigen Template-Dateien finden sich im Ordner {@code src/main/resources/templates}.
  * Der Name des anzuzeigenden Template wird von den Methoden dieser Klasse als String zurückgegeben.
  * <br><br>
@@ -28,9 +33,9 @@ import org.springframework.web.bind.annotation.PathVariable;
  * Seite eine Fehlermeldung im Log angezeigt.
  */
 @Controller
-public class ThymeleafViewController {
+public class ThymeleafWebController {
 
-    private Logger LOG = LoggerFactory.getLogger(ThymeleafViewController.class);
+    private Logger LOG = LoggerFactory.getLogger(ThymeleafWebController.class);
 
     /**
      * Instanzname aus Konfigurationsdatei {@code application-PROFILNAME.properties};
@@ -50,8 +55,8 @@ public class ThymeleafViewController {
      * Konstruktor für Dependency Injection.
      */
     @Autowired
-    public ThymeleafViewController(Datenbank datenbank,
-                                   KafkaSender kafkaSender) {
+    public ThymeleafWebController(Datenbank datenbank,
+                                  KafkaSender kafkaSender) {
 
         _datenbank   = datenbank;
         _kafkaSender = kafkaSender;
@@ -79,6 +84,8 @@ public class ThymeleafViewController {
 
         model.addAttribute("kuerzel"     , kuerzelTrimmed);
         model.addAttribute("instanzname" , _instanzname  );
+        
+        boolean erfolgFuerStat = false;
 
         Optional<AufgeloesterLink> ergebnisOptional = _datenbank.kuerzelAufloesen(kuerzelTrimmed);
         if (ergebnisOptional.isEmpty()) {
@@ -93,9 +100,9 @@ public class ThymeleafViewController {
 
             if (al.istAktiv()) {
 
-                model.addAttribute("gefunden"           , true );
-                model.addAttribute("urlLang"            , al.urlOriginal()    );
-                model.addAttribute("beschreibung"       , al.beschreibung()   );
+                model.addAttribute("gefunden"           , true                    );
+                model.addAttribute("urlLang"            , al.urlOriginal()        );
+                model.addAttribute("beschreibung"       , al.beschreibung()       );
                 model.addAttribute("zeitpunkt_erzeugung", al.zeitpunktErzeugung() );
 
                 String letzteAenderung = "–";
@@ -105,6 +112,7 @@ public class ThymeleafViewController {
                 }
 
                 model.addAttribute("zeitpunkt_aenderung", letzteAenderung );
+                erfolgFuerStat = true;
 
             } else {
 
@@ -122,7 +130,7 @@ public class ThymeleafViewController {
         KafkaUsageRecord usageRecord = new KafkaUsageRecord( new Date(),
                                                              kuerzelTrimmed,
                                                              userAgentString,
-                                                             ergebnisOptional.isPresent() );
+                                                             erfolgFuerStat );
         _kafkaSender.sendeUsageRecord(usageRecord);
 
         return "ergebnis";

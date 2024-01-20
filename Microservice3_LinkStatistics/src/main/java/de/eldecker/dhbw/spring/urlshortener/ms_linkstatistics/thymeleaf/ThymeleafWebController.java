@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.PathVariable;
  * Controller, der die Anfragen für die Thymeleaf-Views bearbeitet.
  */
 @Controller
-public class ThymeleafViewController {
+public class ThymeleafWebController {
 
-    private Logger LOG = LoggerFactory.getLogger( ThymeleafViewController.class );
+    private Logger LOG = LoggerFactory.getLogger( ThymeleafWebController.class );
 
     /** Datenbank-Bean, das die DB-Abfragen ausführt. */
     private Datenbank _datenbank;
@@ -31,7 +31,7 @@ public class ThymeleafViewController {
      * Konstruktor, der die Abhängigkeiten injiziert.
      */
     @Autowired
-    public ThymeleafViewController(Datenbank db) {
+    public ThymeleafWebController(Datenbank db) {
 
         _datenbank = db;
     }

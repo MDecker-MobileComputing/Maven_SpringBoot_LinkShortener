@@ -1,8 +1,7 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db;
 
-import static de.eldecker.dhbw.spring.urlshortener.helferlein.DatumHelferlein.berechneHeuteMinusStunden;
+import static de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.helferlein.DatumHelferlein.berechneHeuteMinusStunden;
 
-import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.db.LinkZugriffEntity;
 import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model.ErfolgStatsFuerKuerzel;
 import de.eldecker.dhbw.spring.urlshortener.ms_linkstatistics.model.StatFuerMehrereZeitraeume;
 
@@ -32,7 +31,7 @@ public class Datenbank {
     /**
      * Bean mit API für JPA; wird bei Verwendung von JPA anstelle von {@code JDBCTemplate} benötigt.
      * <br>
-     * <a href="https://jakarta.ee/specifications/platform/9/apidocs/jakarta/persistence/entitymanager">Offizielle Doku</a>
+     * <a href="https://bit.ly/48xmIqp">Offizielle Doku</a>
      */
     private EntityManager _entityManager;
 

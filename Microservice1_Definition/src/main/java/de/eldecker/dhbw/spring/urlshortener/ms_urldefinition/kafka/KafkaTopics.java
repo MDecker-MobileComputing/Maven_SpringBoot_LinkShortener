@@ -1,5 +1,7 @@
 package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.kafka;
 
+import static org.apache.kafka.common.config.TopicConfig.RETENTION_MS_CONFIG;
+
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.common.config.TopicConfig;
 import org.springframework.context.annotation.Bean;
@@ -33,10 +35,10 @@ public class KafkaTopics {
     public NewTopic topicUrlDefinition() {
 
         return TopicBuilder.name(TOPIC_URL_DEFINITION)
-                .partitions(4)
-                .replicas(1)
-                .config(TopicConfig.RETENTION_MS_CONFIG, "-1") // -1=unbegrenzte Lebensdauer der Nachrichten
-                .build();
+                           .partitions(4)
+                           .replicas(1)
+                           .config(RETENTION_MS_CONFIG, "-1") // -1=unbegrenzte Lebensdauer der Nachrichten
+                           .build();
     }
 
 }

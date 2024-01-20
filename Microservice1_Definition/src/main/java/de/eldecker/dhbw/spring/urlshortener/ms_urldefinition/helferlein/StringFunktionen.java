@@ -11,6 +11,7 @@ public class StringFunktionen {
 
     private static Logger LOG = LoggerFactory.getLogger(StringFunktionen.class);
 
+
     /**
      * Methode zum Erzeugen eines zufälligen Passwortes.
      *
@@ -38,6 +39,11 @@ public class StringFunktionen {
     /**
      * Methode wandelt {@code zahl} in eine Zeichenfolge um, die als Kürzel in Kurz-URL
      * verwendet werden kann.
+     * <br><br>
+     * 
+     * Der Zeichenvorrat für den String, auf den {@code zahl} abgebildet wird, umfasst
+     * 58 Zeichen; {@code zahl} wird also "Base58"-kodiert zurückgegeben
+     * (vgl. Base64-Codierung, z.B. für Email-Attachments).
      *
      * @param zahl Zahl echt-größer 0, die in Zeichenfolge umgewandelt werden soll;
      *             nächste ID aus Datenbank-Tabelle {@code URLS}.
@@ -47,7 +53,7 @@ public class StringFunktionen {
     public static String zahlZuString(int zahl) {
 
         // Zeichenvorrat ohne "0"/"O", "l"/"1" und "5"/"S" (wegen Verwechslungsgefahr)
-        final String ZEICHENVORRAT = "abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ23456789";
+        final String ZEICHENVORRAT = "abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ23456789"; 
         final int    ZEICHENVORRAT_LAENGE = ZEICHENVORRAT.length();
 
         if (zahl <= 0) {

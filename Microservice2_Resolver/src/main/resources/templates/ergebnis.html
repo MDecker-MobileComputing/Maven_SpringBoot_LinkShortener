@@ -31,8 +31,11 @@
             <strong>Letzte Änderung:</strong>
             <span th:text="${zeitpunkt_aenderung}"></span>
         </p>
+        <p>
+            <a th:href="@{'http://localhost:8050/ustats/' + ${kuerzel}}" target="_blank">Aufrufstatistiken</a>
+        </p>
 
-    </div>
+    </div><!-- Kürzel gefunden -->
 
     <br>
 

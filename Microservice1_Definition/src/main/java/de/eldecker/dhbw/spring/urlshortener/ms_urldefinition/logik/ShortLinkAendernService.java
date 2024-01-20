@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.apache.commons.validator.routines.UrlValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,7 @@ public class ShortLinkAendernService {
     /**
      * Konstruktor für Dependency Injection.
      */
+    @Autowired
     public ShortLinkAendernService( Datenbank db,
                                     UrlValidator urlValidator,
                                     KafkaSender kafkaSender ) {

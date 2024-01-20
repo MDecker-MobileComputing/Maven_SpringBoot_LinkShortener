@@ -122,9 +122,9 @@ public class Datenbank {
     public boolean aendereUrlDefinition(String kuerzel, String langUrlNeu, String beschreibungNeu, boolean istAktivNeu) {
 
             final String sql =
-                "UPDATE urls " +
-                "SET url_original = ?, beschreibung = ?, ist_aktiv = ?, zeitpunkt_aenderung = ? " +
-                "WHERE url_kuerzel = ?";
+                    "UPDATE urls " +
+                    "SET url_original = ?, beschreibung = ?, ist_aktiv = ?, zeitpunkt_aenderung = ? " +
+                    "WHERE url_kuerzel = ?";
 
             Date datumZeitJetzt = new Date();
 
@@ -178,19 +178,19 @@ public class Datenbank {
                      "WHERE url_kuerzel = ?";
 
         List<UrlDefinition> ergebnisListe = _jdbcTemplate.query(
-            sql,
-            (resultRecord, zeilenNummer) -> new UrlDefinition(
-                resultRecord.getInt("id"),
-                resultRecord.getString("url_original"),
-                resultRecord.getString("url_kuerzel"),
-                resultRecord.getString("beschreibung"),
-                timestamp2Date(resultRecord.getTimestamp("zeitpunkt_erzeugung")),
-                timestamp2Date(resultRecord.getTimestamp("zeitpunkt_aenderung")),
-                resultRecord.getBoolean("ist_aktiv"),
-                resultRecord.getString("passwort")
-            ),
-            kuerzel
-        );
+                                                    sql,
+                                                    (resultRecord, zeilenNummer) -> new UrlDefinition(
+                                                        resultRecord.getInt("id"),
+                                                        resultRecord.getString("url_original"),
+                                                        resultRecord.getString("url_kuerzel"),
+                                                        resultRecord.getString("beschreibung"),
+                                                        timestamp2Date(resultRecord.getTimestamp("zeitpunkt_erzeugung")),
+                                                        timestamp2Date(resultRecord.getTimestamp("zeitpunkt_aenderung")),
+                                                        resultRecord.getBoolean("ist_aktiv"),
+                                                        resultRecord.getString("passwort")
+                                                    ),
+                                                    kuerzel
+                                                );
 
         if (ergebnisListe.size() > 1) {
 
@@ -201,9 +201,9 @@ public class Datenbank {
         if (ergebnisListe.size() == 1) {
 
             return Optional.of(ergebnisListe.get(0));
-        }
-        else {
-
+            
+        } else {
+        
             return Optional.empty();
         }
     }

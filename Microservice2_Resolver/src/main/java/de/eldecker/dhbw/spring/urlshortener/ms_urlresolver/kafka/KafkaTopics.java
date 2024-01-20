@@ -63,9 +63,9 @@ public class KafkaTopics {
      * Diese Methode liefert eine Bean, die das Kafka-Topic für die Weiterleitung von
      * Usage-Statistiken bei Bedarf zu erzeugen.
      *
-     * @return Topic {@link TOPIC_USAGE_STATISTIKEN} mit unbegrenzter Lebenszeit der Nachrichten
-     *         (unlimited retention period), zwei Partitionen (für Parallelität) und 1 "Replikat"
-     *         (damit ein Kafka-Server ausreicht).
+     * @return Topic {@link TOPIC_USAGE_STATISTIKEN} mit unbegrenzter Lebenszeit der
+     *         Nachrichten (unlimited retention period), zwei Partitionen (für Parallelität)
+     *         und 1 "Replikat" (damit ein Kafka-Server ausreicht).
      */
     @Bean
     public NewTopic topicUsageStatistiken() {

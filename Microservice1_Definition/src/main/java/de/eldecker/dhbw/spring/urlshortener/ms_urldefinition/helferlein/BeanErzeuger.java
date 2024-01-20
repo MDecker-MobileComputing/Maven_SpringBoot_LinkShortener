@@ -86,10 +86,10 @@ public class BeanErzeuger {
     public ObjectMapper objectMapper() {
 
         return JsonMapper.builder()
-                .disable(FAIL_ON_UNKNOWN_PROPERTIES) // Ignoriert unbekannte JSON-Felder beim Deserialisieren
-                .disable(WRITE_DATES_AS_TIMESTAMPS) // Schreibt Datum und Zeit im ISO-8601-Format
-                .enable(INDENT_OUTPUT) // Schöne Ausgabe beim Serialisieren von Objekten in JSON
-                .build();
+                         .disable(FAIL_ON_UNKNOWN_PROPERTIES) // Ignoriert unbekannte JSON-Felder beim Deserialisieren
+                         .disable(WRITE_DATES_AS_TIMESTAMPS)  // Schreibt Datum und Zeit im ISO-8601-Format
+                         .enable(INDENT_OUTPUT)               // Schöne Ausgabe beim Serialisieren von Objekten in JSON
+                         .build();
     }
 
 }

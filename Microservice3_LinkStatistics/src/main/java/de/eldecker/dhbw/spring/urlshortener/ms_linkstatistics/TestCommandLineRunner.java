@@ -9,19 +9,21 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 
 @Component
-@Order(1)
-public class TestCommandLineRunner1 implements CommandLineRunner {
+public class TestCommandLineRunner implements CommandLineRunner {
 
-    private Logger LOG = LoggerFactory.getLogger( TestCommandLineRunner1.class );
+    private Logger LOG = LoggerFactory.getLogger( TestCommandLineRunner.class );
 
     @Autowired
     private Datenbank _db;
 
+    /**
+     * Diese Methode fügt Beispiel-Records in die Tabelle ein.
+     * Sie wird unmittelbar nach dem Start der Applikation ausgeführt.
+     */
     @Override
     public void run(String... args) throws Exception {
 

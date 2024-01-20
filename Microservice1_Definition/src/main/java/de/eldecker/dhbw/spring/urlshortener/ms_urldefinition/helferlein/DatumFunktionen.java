@@ -15,4 +15,5 @@ public class DatumFunktionen {
 
         return Date.from( timestamp.toInstant() );
     }
+
 }

@@ -44,6 +44,7 @@ public class ShortLinkErzeugenService {
         _kafkaSender  = kafkaSender;
     }
 
+
     /**
      * Neue ShortLink-Definition auf DB anlegen.
      *
@@ -53,13 +54,14 @@ public class ShortLinkErzeugenService {
      * @throws ShortLinkException Wenn die URL ungültig ist oder ein DB-Fehler aufgetreten ist.
      */
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public KuerzelUndPasswort shortlinkAnlegen(String urlLang,
+    public KuerzelUndPasswort shortLinkAnlegen(String urlLang,
                                                String beschreibung) throws ShortLinkException {
 
         final String urlLangTrimmed      = urlLang.trim();
         final String beschreibungTrimmed = beschreibung.trim();
 
         if (urlLangTrimmed.isBlank()) {
+
             throw new ShortLinkException("Leere URL von Nutzer erhalten.", false);
         }
         if (urlLangTrimmed.length() > 999) {
