@@ -20,6 +20,6 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-    - name: MS1 ${{ microservice_name }} bauen
+    - name: MS1 ${{ matrix.microservice_name }} bauen
       run: ./mvnw --batch-mode clean package
-      working-directory: ${{ microservice_name }}
+      working-directory: ${{ matrix.microservice_name }}
