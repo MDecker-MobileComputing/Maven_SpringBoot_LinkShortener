@@ -5,6 +5,12 @@ on:
 jobs:
   job-build-all-microservices:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        microservice_name: 
+        - Microservice1_Definition
+        - Microservice2_Resolver
+        - Microservice3_LinkStatistics
     steps:
     - name: Git-Repo auschecken
       uses: actions/checkout@v4
@@ -14,12 +20,6 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-    - name: MS1 (Kurz-URL-Definition) bauen
+    - name: MS1 ${{ microservice_name }} bauen
       run: ./mvnw --batch-mode clean package
-      working-directory: ./Microservice1_Definition
-    - name: MS2 (Link-Resolver) bauen
-      run: ./mvnw --batch-mode clean package
-      working-directory: ./Microservice2_Resolver
-    - name: MS3 (Link-Stats) bauen
-      run: ./mvnw --batch-mode clean package
-      working-directory: ./Microservice3_LinkStatistics
+      working-directory: ${{ microservice_name }}
