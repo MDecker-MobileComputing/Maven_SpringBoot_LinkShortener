@@ -27,4 +27,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.microservice_name }}-fatjar
-        path: ${{ matrix.microservice_name }}/target/ms_*snapshot.jar
+        path: ${{ matrix.microservice_name }}/target/*-*-SNAPSHOT.jar
