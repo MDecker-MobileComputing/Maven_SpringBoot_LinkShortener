@@ -1,11 +1,9 @@
 name: Alle Microservices kompilieren
-
 on:
   push:
     branches: [ "master" ]
-
 jobs:
-  job-build-microservice-1:
+  job-build-all-microservices:
     runs-on: ubuntu-latest
     steps:
     - name: Git-Repo auschecken
@@ -19,32 +17,9 @@ jobs:
     - name: MS1 (Kurz-URL-Definition) bauen
       run: ./mvnw --batch-mode clean package
       working-directory: ./Microservice1_Definition
-  job-build-microservice-2:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Git-Repo auschecken
-      uses: actions/checkout@v4
-    - name: JDK 21 einrichten
-      uses: actions/setup-java@v3
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-        cache: maven
     - name: MS2 (Link-Resolver) bauen
       run: ./mvnw --batch-mode clean package
       working-directory: ./Microservice2_Resolver
-  job-build-microservice-3:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Git-Repo auschecken
-      uses: actions/checkout@v4
-    - name: JDK 21 einrichten
-      uses: actions/setup-java@v3
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-        cache: maven
     - name: MS3 (Link-Stats) bauen
       run: ./mvnw --batch-mode clean package
       working-directory: ./Microservice3_LinkStatistics
-
