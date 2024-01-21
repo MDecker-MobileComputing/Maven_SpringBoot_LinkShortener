@@ -23,3 +23,8 @@ jobs:
     - name: MS1 ${{ matrix.microservice_name }} bauen
       run: ./mvnw --batch-mode clean package
       working-directory: ${{ matrix.microservice_name }}
+    - name: FatJar-Datei von MS1 ${{ matrix.microservice_name }} veröffentlichen
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.microservice_name }}-fatjar
+        path: ${{ matrix.microservice_name }}/target/ms_*snapshot.jar
