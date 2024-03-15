@@ -7,6 +7,10 @@ implemented by several Java microservices (Maven and Spring Boot) with an embedd
 
 <br>
 
+For a similar application with Nodejs (but still Microservices and Kafka) can be found [here](https://github.com/MDecker-MobileComputing/Nodejs_Express_LinkShortenerMitKafka).
+
+<br>
+
 ----
 
 ## Overview ##
