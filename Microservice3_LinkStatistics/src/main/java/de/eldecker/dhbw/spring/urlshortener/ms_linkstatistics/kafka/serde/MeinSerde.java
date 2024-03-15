@@ -22,9 +22,9 @@ public class MeinSerde
 
 
     /**
-    * Konstruktor Serialisierer/Deserialisierer für Kafka für Objekte
-    * vom Typ {@link KafkaBrowserUserAgentString}.
-    */
+     * Konstruktor Serialisierer/Deserialisierer für Kafka für Objekte
+     * vom Typ {@link KafkaBrowserUserAgentString}.
+     */
     public MeinSerde() {
 
         _serde = Serdes.serdeFrom(
@@ -35,8 +35,8 @@ public class MeinSerde
 
 
     /**
-    * Getter für den Serialisierer.
-    */
+     * Getter für den Serialisierer.
+     */
     @Override
     public Serializer<KafkaBrowserUserAgentString> serializer() {
 
@@ -45,8 +45,8 @@ public class MeinSerde
 
 
     /**
-    * Getter für den Deserialisierer.
-    */
+     * Getter für den Deserialisierer.
+     */
     @Override
     public Deserializer<KafkaBrowserUserAgentString> deserializer() {
 
@@ -55,8 +55,8 @@ public class MeinSerde
 
 
     /**
-    * Konfiguriert den Serialisierer/Deserialisierer.
-    */
+     * Konfiguriert den Serialisierer/Deserialisierer.
+     */
     @Override
     public void configure(Map<String, ?> configs, boolean isKey) {
 
@@ -65,8 +65,8 @@ public class MeinSerde
 
 
     /**
-    * Schließt den Serialisierer/Deserialisierer.
-    */
+     * Schließt den Serialisierer/Deserialisierer.
+     */
     @Override
     public void close() {
 
