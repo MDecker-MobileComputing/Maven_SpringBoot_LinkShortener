@@ -60,11 +60,11 @@ public class LinkZugriffEntity {
     private String _kuerzel;
 
     /** Zeitpunkt (Datum+Uhrzeit) des Zugriffs. */
-    @Column(name = "zeitpunkt" )
+    @Column(name = "zeitpunkt")
     private Date _zeitpunkt;
 
     /** {@code true} genau dann, wenn die Kurz-URL aufgelöst werden konnte. */
-    @Column(name = "erfolgreich" )
+    @Column(name = "erfolgreich")
     private boolean _erfolgreich;
 
 
