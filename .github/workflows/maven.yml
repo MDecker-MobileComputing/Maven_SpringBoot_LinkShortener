@@ -20,7 +20,7 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-    - name: MS1 ${{ matrix.microservice_name }} bauen
+    - name: ${{ matrix.microservice_name }} bauen
       run: ./mvnw --batch-mode clean package
       working-directory: ${{ matrix.microservice_name }}
     - name: FatJar-Datei von MS1 ${{ matrix.microservice_name }} veröffentlichen
