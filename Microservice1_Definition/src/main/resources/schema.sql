@@ -17,4 +17,5 @@ CREATE TABLE IF NOT EXISTS urls (
 
 -- In der Spalte "passwort" wird das Passwort im Klartext gespeichert.
 -- Das ist natürlich nicht sicher, aber für diese Beispielanwendung ausreichend.
--- In einer echten Anwendung sollte das Passwort gehasht und gesalzen werden.
+-- In einer echten Anwendung sollte nur der Hashwert des Passworts in der Datenbank
+-- gespeichert werden

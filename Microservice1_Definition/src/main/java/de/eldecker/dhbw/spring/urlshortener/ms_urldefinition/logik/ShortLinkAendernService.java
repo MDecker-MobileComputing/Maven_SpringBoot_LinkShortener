@@ -53,11 +53,11 @@ public class ShortLinkAendernService {
      *
      * @param passwort Passwort für Berechtigungsprüfung
      *
-     * @param urlLang Evtl. neue Lang-URL
+     * @param urlLangNeu Evtl. neue Lang-URL
      *
-     * @param beschreibung Evtl. neuer Beschreibungstext
+     * @param beschreibungNeu Evtl. neuer Beschreibungstext
      *
-     * @param istAktiv Evtl. neuer Aktiv-Status
+     * @param istAktivNeu Evtl. neuer Aktiv-Status
      *
      * @throws ShortLinkException Fehler bei Änderung wegen ungültiger Daten oder internem Fehler
      */
