@@ -191,7 +191,6 @@ public class Datenbank {
                                                     ),
                                                     kuerzel
                                                 );
-
         if (ergebnisListe.size() > 1) {
 
             LOG.warn("Mehr als ein Datensatz mit Kuerzel \"{}\" gefunden.", kuerzel);
