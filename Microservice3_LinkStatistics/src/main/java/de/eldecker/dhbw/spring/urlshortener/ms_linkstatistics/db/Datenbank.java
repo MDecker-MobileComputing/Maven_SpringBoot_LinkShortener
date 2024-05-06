@@ -88,8 +88,8 @@ public class Datenbank {
     public ErfolgStatsFuerKuerzel calcErfolgStatsFuerKuerzel( String kuerzel ) {
 
         final TypedQuery<Object[]> query =
-            _entityManager.createNamedQuery( "LinkZugriff.countErfolgByKuerzel", 
-                                             Object[].class );
+                 _entityManager.createNamedQuery( "LinkZugriff.countErfolgByKuerzel", 
+                                                  Object[].class );
 
         query.setParameter( "kuerzel", kuerzel );
 
