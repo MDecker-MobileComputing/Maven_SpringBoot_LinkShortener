@@ -57,11 +57,14 @@ public class Datenbank {
      *
      * @param zeitpunkt Zeitpunkt (Datum+Uhrzeit) des Zugriffs
      */
+    
     @Transactional
     public void speichereLinkZugriff( String kuerzel, boolean erfolgreich, Date zeitpunkt ) {
 
-        final LinkZugriffEntity linkZugriff = new LinkZugriffEntity( kuerzel, zeitpunkt, erfolgreich );
-
+        final LinkZugriffEntity linkZugriff = new LinkZugriffEntity( kuerzel, 
+                                                                     zeitpunkt, 
+                                                                     erfolgreich 
+                                                                   );
         try {
 
             _entityManager.persist( linkZugriff );
@@ -84,15 +87,16 @@ public class Datenbank {
      */
     public ErfolgStatsFuerKuerzel calcErfolgStatsFuerKuerzel( String kuerzel ) {
 
-        TypedQuery<Object[]> query =
-            _entityManager.createNamedQuery( "LinkZugriff.countErfolgByKuerzel", Object[].class );
+        final TypedQuery<Object[]> query =
+            _entityManager.createNamedQuery( "LinkZugriff.countErfolgByKuerzel", 
+                                             Object[].class );
 
         query.setParameter( "kuerzel", kuerzel );
 
         int anzahlErfolg     = 0;
         int anzahlKeinErfolg = 0;
 
-        List<Object[]> results = query.getResultList();
+        final List<Object[]> results = query.getResultList();
 
         for ( Object[] result : results ) {
 
@@ -121,7 +125,7 @@ public class Datenbank {
       */
     public StatFuerMehrereZeitraeume calcStatsFuerZeitraeume( String kuerzel ) {
 
-        TypedQuery<StatFuerMehrereZeitraeume> query =
+        final TypedQuery<StatFuerMehrereZeitraeume> query =
                 _entityManager.createNamedQuery( "LinkZugriff.countByKuerzelAndPeriod",
                                                  StatFuerMehrereZeitraeume.class );
 
