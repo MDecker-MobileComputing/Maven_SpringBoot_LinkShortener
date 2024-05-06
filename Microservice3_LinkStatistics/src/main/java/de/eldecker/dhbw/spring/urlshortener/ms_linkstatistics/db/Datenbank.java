@@ -33,14 +33,14 @@ public class Datenbank {
      * <br>
      * <a href="https://bit.ly/48xmIqp">Offizielle Doku</a>
      */
-    private EntityManager _entityManager;
+    private final EntityManager _entityManager;
 
 
     /**
      * Konstruktor, der die Abhängigkeiten injiziert.
      */
     @Autowired
-    public Datenbank(EntityManager entityManager) {
+    public Datenbank( EntityManager entityManager ) {
 
         _entityManager = entityManager;
     }
@@ -58,18 +58,18 @@ public class Datenbank {
      * @param zeitpunkt Zeitpunkt (Datum+Uhrzeit) des Zugriffs
      */
     @Transactional
-    public void speichereLinkZugriff(String kuerzel, boolean erfolgreich, Date zeitpunkt) {
+    public void speichereLinkZugriff( String kuerzel, boolean erfolgreich, Date zeitpunkt ) {
 
-        LinkZugriffEntity linkZugriff = new LinkZugriffEntity(kuerzel, zeitpunkt, erfolgreich);
+        final LinkZugriffEntity linkZugriff = new LinkZugriffEntity( kuerzel, zeitpunkt, erfolgreich );
 
         try {
 
-            _entityManager.persist(linkZugriff);
+            _entityManager.persist( linkZugriff );
         }
-        catch (PersistenceException | IllegalArgumentException ex) {
+        catch ( PersistenceException | IllegalArgumentException ex ) {
 
-            LOG.error("Fehler beim Speichern der folgenden Entity: {}",
-                      linkZugriff, ex);
+            LOG.error( "Fehler beim Speichern der folgenden Entity: {}",
+                       linkZugriff, ex );
         }
     }
 
@@ -82,24 +82,24 @@ public class Datenbank {
      *
      * @return Anzahl der erfolgreichen und nicht-erfolgreichen Zugriffe für {@code kuerzel}
      */
-    public ErfolgStatsFuerKuerzel calcErfolgStatsFuerKuerzel(String kuerzel) {
+    public ErfolgStatsFuerKuerzel calcErfolgStatsFuerKuerzel( String kuerzel ) {
 
         TypedQuery<Object[]> query =
-            _entityManager.createNamedQuery("LinkZugriff.countErfolgByKuerzel", Object[].class);
+            _entityManager.createNamedQuery( "LinkZugriff.countErfolgByKuerzel", Object[].class );
 
-        query.setParameter("kuerzel", kuerzel);
+        query.setParameter( "kuerzel", kuerzel );
 
         int anzahlErfolg     = 0;
         int anzahlKeinErfolg = 0;
 
         List<Object[]> results = query.getResultList();
 
-        for (Object[] result : results) {
+        for ( Object[] result : results ) {
 
             Boolean erfolgreich = (Boolean) result[0];
             Long    count       = (Long)    result[1];
 
-            if (erfolgreich) {
+            if ( erfolgreich ) {
 
                 anzahlErfolg = count.intValue();
 
@@ -109,7 +109,7 @@ public class Datenbank {
             }
         }
 
-        return new ErfolgStatsFuerKuerzel(kuerzel, anzahlErfolg, anzahlKeinErfolg);
+        return new ErfolgStatsFuerKuerzel( kuerzel, anzahlErfolg, anzahlKeinErfolg );
     }
 
 
@@ -119,16 +119,16 @@ public class Datenbank {
       *
       * @param kuerzel URL-Kürzel, z.B. "ab3"
       */
-    public StatFuerMehrereZeitraeume calcStatsFuerZeitraeume(String kuerzel) {
+    public StatFuerMehrereZeitraeume calcStatsFuerZeitraeume( String kuerzel ) {
 
         TypedQuery<StatFuerMehrereZeitraeume> query =
-                _entityManager.createNamedQuery("LinkZugriff.countByKuerzelAndPeriod",
-                                                StatFuerMehrereZeitraeume.class);
+                _entityManager.createNamedQuery( "LinkZugriff.countByKuerzelAndPeriod",
+                                                 StatFuerMehrereZeitraeume.class );
 
-        query.setParameter("kuerzel"      , kuerzel);
-        query.setParameter("oneDayAgo"    , berechneHeuteMinusStunden(  1*24 ));
-        query.setParameter("sevenDaysAgo" , berechneHeuteMinusStunden(  7*24 ));
-        query.setParameter("thirtyDaysAgo", berechneHeuteMinusStunden( 30*24 ));
+        query.setParameter( "kuerzel"      , kuerzel                            );
+        query.setParameter( "oneDayAgo"    , berechneHeuteMinusStunden(  1*24 ) );
+        query.setParameter( "sevenDaysAgo" , berechneHeuteMinusStunden(  7*24 ) );
+        query.setParameter( "thirtyDaysAgo", berechneHeuteMinusStunden( 30*24 ) );
 
         return query.getSingleResult();
     }
