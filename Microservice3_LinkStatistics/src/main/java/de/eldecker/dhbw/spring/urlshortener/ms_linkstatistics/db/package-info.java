@@ -2,7 +2,7 @@
  * Dieses Paket enthält den Code für die Datenbank.
  * <br><br>
  *
- * Es wird die <i>Java Persistence API (JPA)</i> verwendet, die standardmäßig Hinbernate für das
+ * Es wird die <i>Java Persistence API (JPA)</i> verwendet, die standardmäßig Hibernate für das
  * <i>Objekt-Relationale Mapping (ORM)</i> verwendet (es gibt z.B. auch noch EclipseLink).
  * <br><br>
  *
