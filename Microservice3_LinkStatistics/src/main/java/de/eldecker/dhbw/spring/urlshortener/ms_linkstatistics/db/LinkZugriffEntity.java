@@ -24,9 +24,11 @@ import jakarta.persistence.NamedQuery;
  * {@code javax.persistence} nicht mehr verwendet werden durfte.
  * <br><br>
  *
- * <b>Achtung:</b> In den <i>Named Queries</i> (JPQL) müssen die Klassen- und Attributnamen verwendet
- * werden, die in der Entity-Klasse definiert sind, nicht die Namen der Tabellen und Spalten in der
- * Datenbank, also z.B. {@code LinkZugriffEntity} statt {@code LINK_ZUGRIFFE} oder {@code _kuerzel}
+ * <b>Achtung:</b>
+ * Die <i>Named Queries</i> müssen mit <b>JPQL</b> (Java Persistence Query Language) formuliert werden, nicht
+ * mit SQL (Structured Query Language). Es müssen also die Klasse- und Attributnamen verwendet werden,
+ * die in der Entity-Klasse definiert sind, nicht die Namen der Tabellen und Spalten in der Datenbank,
+ * also z.B. {@code LinkZugriffEntity} statt {@code LINK_ZUGRIFFE} oder {@code _kuerzel}
  * statt {@code KUERZEL}.
  */
 @Entity
@@ -157,6 +159,7 @@ public class LinkZugriffEntity {
 
         return _erfolgreich;
     }
+
 
     /**
      * Setter für Flag, das genau dann {@code true} ist, wenn die Kurz-URL aufgelöst
