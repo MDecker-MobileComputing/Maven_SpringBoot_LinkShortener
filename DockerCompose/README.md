@@ -47,14 +47,14 @@ kafka-topics.sh --list --bootstrap-server localhost:9092
 
 Mit dem folgenden Befehl kann man sich die Details zum Topic `url_definition` anzeigen lassen:
 ```
-kafka-configs --bootstrap-server localhost:9092 --entity-type topics --entity-name url_definition --describe
+kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name url_definition --describe
 ```
 
 <br>
 
 Man kann sich auch alle Nachrichten auf dem Topic anzeigen lassen:
 ```
-kafka-console-consumer --bootstrap-server localhost:9092 --topic url_definition --from-beginning
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic url_definition --from-beginning
 ```
 Wenn man bei diesem Befehl das Argument `--from-beginning` weglässt, dann werden nur aktuelle Nachrichten angezeigt,
 also Nachrichten, die nach dem Start des Befehls auf dem Topic eingegangen sind.
@@ -63,7 +63,7 @@ also Nachrichten, die nach dem Start des Befehls auf dem Topic eingegangen sind.
 
 Es gibt auch einen Befehl, mit dem man das Topic löschen kann (Achtung: dabei gehen alle Nachrichten verloren!):
 ```
-kafka-topics --delete --bootstrap-server localhost:9092 --topic url_definition
+kafka-topics.sh --delete --bootstrap-server localhost:9092 --topic url_definition
 ```
 
 <br>
