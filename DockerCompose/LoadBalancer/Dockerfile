@@ -1,5 +1,5 @@
 # Offizielles Base Image für Webserver "nginx", siehe https://hub.docker.com/_/nginx/
-FROM nginx:1.25.3-alpine3.18
+FROM nginx:alpine
 
 COPY nginx.conf /etc/nginx/nginx.conf
 

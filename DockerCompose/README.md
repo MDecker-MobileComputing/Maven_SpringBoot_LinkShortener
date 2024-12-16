@@ -7,7 +7,8 @@ mit der ein lokaler Kafka-Server in einem Docker-Container gestartet werden kann
 Auch ein einzelner Kafka-Server benötigt eine laufende ZooKeeper-Instanz, welche
 auch in dieser Datei definiert ist.
 Zusätzlich zum Kafka-Server wird auch noch ein Container mit einem als *Load Balancer*
-für Microservice 2 (Resolver) konfigurierten Web-Server "nginx" gestartet.
+für Microservice 2 (Resolver) konfigurierten Web-Server "nginx" gestartet;
+dieses Image muss zuvor lokal gebaut worden sein, siehe [diesen Unterordner](LoadBalancer/).
 
 <br>
 
@@ -55,7 +56,8 @@ Man kann sich auch alle Nachrichten auf dem Topic anzeigen lassen:
 ```
 kafka-console-consumer --bootstrap-server localhost:9092 --topic url_definition --from-beginning
 ```
-Wenn man bei diesem Befehl das Argument `--from-beginning` weglässt, dann werden nur aktuelle Nachrichten angezeigt, also Nachrichten, die nach dem Start des Befehls auf dem Topic eingegangen sind.
+Wenn man bei diesem Befehl das Argument `--from-beginning` weglässt, dann werden nur aktuelle Nachrichten angezeigt,
+also Nachrichten, die nach dem Start des Befehls auf dem Topic eingegangen sind.
 
 <br>
 

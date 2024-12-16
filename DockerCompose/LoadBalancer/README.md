@@ -9,10 +9,10 @@ As load balancer [nginx](https://nginx.org/en/) is used, therefore the base imag
 
 <br>
 
-Command to build a image based on this `Dockerfile`:
+Command to build an image according to this `Dockerfile`:
 
 ```
-docker build --tag loadbalancer-linkshortener:1.0.1 .
+docker build --tag loadbalancer-linkshortener:1.0.2 .
 ```
 
 <br>
