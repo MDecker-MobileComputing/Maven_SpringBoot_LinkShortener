@@ -40,7 +40,7 @@ Wenn man eine Terminalverbindung zum Docker-Container mit Kafka aufbaut,
 dann kann man den folgenden Befehl eingeben, um alle Topics angezeigt zu
 bekommen:
 ```
-kafka-topics --list --bootstrap-server localhost:9092
+kafka-topics.sh --list --bootstrap-server localhost:9092
 ```
 
 <br>
