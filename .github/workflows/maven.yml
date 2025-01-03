@@ -20,6 +20,8 @@ jobs:
         java-version: '23'
         distribution: 'temurin'
         cache: maven
+    - name: Permission-Bit für Maven Wrapper setzen
+      run: chmod +x ./${{ matrix.microservice_name }}/mvnw
     - name: ${{ matrix.microservice_name }} bauen
       run: ./mvnw --batch-mode clean package
       working-directory: ${{ matrix.microservice_name }}
