@@ -35,7 +35,7 @@ public class BrowserKennungSerializer implements Serializer<KafkaBrowserUserAgen
      *
      * @param topic Name des Topics, für das serialisiert wird (wird nicht ausgewertet)
      *
-     * @param object Objekt, das serialisiert werden soll
+     * @param objekt Objekt, das serialisiert werden soll
      */
     @Override
     public byte[] serialize(String topic, KafkaBrowserUserAgentString objekt) {
