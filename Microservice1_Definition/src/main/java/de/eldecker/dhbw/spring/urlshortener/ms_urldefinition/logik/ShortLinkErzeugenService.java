@@ -2,20 +2,20 @@ package de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.logik;
 
 import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein.StringFunktionen.erzeugePasswort;
 import static de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.helferlein.StringFunktionen.zahlZuString;
-
-import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.db.Datenbank;
-import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.kafka.KafkaSender;
-import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.KafkaUrlDefinition;
-import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.KuerzelUndPasswort;
-import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.ShortLinkException;
+import static org.springframework.transaction.annotation.Isolation.SERIALIZABLE;
 
 import java.util.Date;
 
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.db.Datenbank;
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.kafka.KafkaSender;
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.KafkaUrlDefinition;
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.KuerzelUndPasswort;
+import de.eldecker.dhbw.spring.urlshortener.ms_urldefinition.model.ShortLinkException;
 
 
 /**
@@ -58,7 +58,7 @@ public class ShortLinkErzeugenService {
      * 
      * @throws ShortLinkException Wenn die URL ungültig ist oder ein DB-Fehler aufgetreten ist.
      */
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(isolation = SERIALIZABLE)
     public KuerzelUndPasswort shortLinkAnlegen( String urlLang,
                                                 String beschreibung ) throws ShortLinkException {
 
@@ -96,12 +96,15 @@ public class ShortLinkErzeugenService {
                                                          beschreibungTrimmed,
                                                          datumZeitJetzt,
                                                          datumZeitJetzt,
-                                                         true 
-                                                       );
+                                                         true );                                                        
         _kafkaSender.sendeUrlDefinition( kud );
 
         // URL-Definition in eigener Datenbank anlegen
-        boolean warErfolgreich = _datenbank.neueKurzUrl( urlLangTrimmed, kuerzel, beschreibungTrimmed, passwort, datumZeitJetzt);
+        boolean warErfolgreich = _datenbank.neueKurzUrl( urlLangTrimmed, 
+        		                                         kuerzel, 
+        		                                         beschreibungTrimmed, 
+        		                                         passwort, 
+        		                                         datumZeitJetzt );
         if ( warErfolgreich ) {
 
             return new KuerzelUndPasswort( kuerzel, passwort );
